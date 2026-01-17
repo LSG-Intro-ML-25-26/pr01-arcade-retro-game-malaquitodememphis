@@ -108,32 +108,36 @@ def spawn_enemies(number_of_enemies: number):
     Genera una llista d'enemics en posicions aleatòries
     """
     # Bucle per generar 'n' enemics
-    enemy = sprites.create(img("""
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . 2 2 2 2 . . . . . .
-    . . . . . 2 2 2 2 2 2 . . . . .
-    . . . . . 2 2 2 2 2 2 . . . . .
-    . . . . . 2 2 2 2 2 2 . . . . .
-    . . . . . . 2 2 2 2 . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    """), SpriteKind.enemy)
+    for i in range(number_of_enemies):
+        # Creem l'enemic
+        enemy = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . 2 2 2 2 . . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . . 2 2 2 2 . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        """), SpriteKind.enemy)
 
-    #Posició aleatòria dins de la pantalla
-    # Pendent d'actualitzar quan sapiguem tamany real total del mapa
-    enemy.x = randint(10, 150)
-    enemy.y = randint(10, 110)
+        #Posició aleatòria dins de la pantalla
+        # Pendent d'actualitzar quan sapiguem tamany real total del mapa
+        enemy.x = randint(10, 140)
+        enemy.y = randint(10, 100)
 
-    # "IA" per perseguir al jugador
-    enemy.follow(my_player, enemy_speed)
+        # "IA" per perseguir al jugador
+        enemy.follow(my_player, enemy_speed)
+
+        pause(200)
 
 # GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 def on_projectile_hit_enemy(projectile, enemy):
