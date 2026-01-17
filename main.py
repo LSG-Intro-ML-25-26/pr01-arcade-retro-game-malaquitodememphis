@@ -135,6 +135,25 @@ def spawn_enemies(number_of_enemies: number):
     # "IA" per perseguir al jugador
     enemy.follow(my_player, enemy_speed)
 
+# GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
+def on_projectile_hit_enemy(projectile, enemy):
+    """
+    Gestiona quan un projectil xoca contra un enemicç
+    """
+    # Destruïm el projectil
+    projectile.destroy()
+
+    # Destruïm l'enemic (amb FX)
+    enemy.destroy(effects.disintegrate, 500)
+
+    # Sumar punts ? (a veure si es desenvolupa en el futur)
+    info.change_score_by(100)
+
+# Registrem l'esdeveniment
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_projectile_hit_enemy)
+
+
+
 # EXECUCIÓ
 setup_player()
 
