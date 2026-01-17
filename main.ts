@@ -1,5 +1,10 @@
 //  VARIABLES GLOBALS
+//  Sprites
 let my_player : Sprite = null
+let Boss = SpriteKind.create()
+//  Creem categoria
+let boss_sprite : Sprite = null
+let boss_statusbar : StatusBarSprite = null
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -128,6 +133,87 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_enemy_hit_pla
     //  Feedback visual (sacsejar càmera)
     scene.cameraShake(4, 500)
 })
+//  FUNCIONS DEL "FINAL BOSS"
+function spawn_boss() {
+    /** Invoca el "Kernel Corrupte" */
+    
+    boss_sprite = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . f f f f f f f f . . . .
+    . . . f f 2 2 2 2 2 2 f f . . .
+    . . . f 2 2 7 7 7 7 2 2 f . . .
+    . . . f 2 7 f f f f 7 2 f . . .
+    . . . f 2 7 f 2 2 f 7 2 f . . .
+    . . . f 2 7 f 2 2 f 7 2 f . . .
+    . . . f 2 7 f f f f 7 2 f . . .
+    . . . f 2 2 7 7 7 7 2 2 f . . .
+    . . . f f 2 2 2 2 2 2 f f . . .
+    . . . . f f f f f f f f . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, Boss)
+    //  El col·loquem al centre
+    boss_sprite.x = 80
+    boss_sprite.y = 30
+    //  Li donem vida (extensió de "status-bar")
+    boss_statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+    boss_statusbar.max = 20
+    boss_statusbar.value = 20
+    boss_statusbar.setColor(7, 2)
+    boss_statusbar.attachToSprite(boss_sprite)
+    //  "IA" del "boss"
+    game.onUpdateInterval(2000, function boss_shooting_pattern() {
+        let boss_projectile: Sprite;
+        /** Funció executada periòdicament perquè el "boss" dispari */
+        
+        //  Només disparem si ambdós sprites existeixen
+        if (boss_sprite && my_player) {
+            //  Creem el projectil enemic
+            boss_projectile = sprites.createProjectileFromSprite(img`
+        . . . 2 . . .
+        . . 2 2 2 . .
+        . 2 2 2 2 2 .
+        . . 2 2 2 . .
+        . . . 2 . . .
+        `, boss_sprite, 0, 0)
+            //  Apunta el projectil cap el jugador
+            boss_projectile.follow(my_player, 80)
+        }
+        
+    })
+}
+
+//  COL·LISIONS DEL "FINAL BOSS"
+//  Registrem l'esdeveniment
+sprites.onOverlap(SpriteKind.Projectile, Boss, function on_projectile_hit_boss(projectile: Sprite, boss_sprite: Sprite) {
+    projectile.destroy()
+    //  Si hi ha statusbar, li restem 1
+    if (boss_statusbar) {
+        boss_statusbar.value -= 1
+    }
+    
+    //  FX
+    boss_sprite.startEffect(effects.ashes, 200)
+})
+//  Registrem l'esdeveniment
+sprites.onOverlap(SpriteKind.Player, Boss, function on_boss_hit_player(player: Sprite, boss: Sprite) {
+    info.changeLifeBy(-1)
+    scene.cameraShake(4, 500)
+    //  Empenyem el jugador cap enrere
+    player.y += 10
+})
+//  Registrem l'esdeveniment
+statusbars.onZero(StatusBarKind.EnemyHealth, function on_boss_death(status: StatusBarSprite) {
+    if (boss_sprite) {
+        boss_sprite.destroy(effects.disintegrate, 1000)
+        game.showLongText("SERVIDOR RESTAURAT! HAS GUANYAT!", DialogLayout.Bottom)
+        game.over(true)
+    }
+    
+})
 //  EXECUCIÓ
 setup_player()
 //  Vinculem al botó A la funció shoot_projectile
@@ -162,4 +248,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     
 })
 //  Generem 5 enemics per començar
-spawn_enemies(5)
+//  spawn_enemies(5)
+//  Generació del "final boss"
+spawn_boss()
