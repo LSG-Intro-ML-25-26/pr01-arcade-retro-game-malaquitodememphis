@@ -138,7 +138,7 @@ def spawn_enemies(number_of_enemies: number):
 # GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 def on_projectile_hit_enemy(projectile, enemy):
     """
-    Gestiona quan un projectil xoca contra un enemicç
+    Gestiona quan un projectil xoca contra un enemic
     """
     # Destruïm el projectil
     projectile.destroy()
@@ -152,7 +152,21 @@ def on_projectile_hit_enemy(projectile, enemy):
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_projectile_hit_enemy)
 
+def on_enemy_hit_player(player, enemy):
+    """
+    Gestiona quan un enemic xoca contra el jugador
+    """
+    # Restem una vida
+    info.change_life_by(-1)
 
+    # Destruïm l'enemic
+    enemy.destroy(effects.fire, 500)
+
+    # Feedback visual (sacsejar càmera)
+    scene.camera_shake(4, 500)
+
+# Registrem l'esdeveniment
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_enemy_hit_player)
 
 # EXECUCIÓ
 setup_player()

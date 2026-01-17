@@ -105,13 +105,23 @@ function spawn_enemies(number_of_enemies: number) {
 //  GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
-    /** Gestiona quan un projectil xoca contra un enemicç */
+    /** Gestiona quan un projectil xoca contra un enemic */
     //  Destruïm el projectil
     projectile.destroy()
     //  Destruïm l'enemic (amb FX)
     enemy.destroy(effects.disintegrate, 500)
     //  Sumar punts ? (a veure si es desenvolupa en el futur)
     info.changeScoreBy(100)
+})
+//  Registrem l'esdeveniment
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_enemy_hit_player(player: Sprite, enemy: Sprite) {
+    /** Gestiona quan un enemic xoca contra el jugador */
+    //  Restem una vida
+    info.changeLifeBy(-1)
+    //  Destruïm l'enemic
+    enemy.destroy(effects.fire, 500)
+    //  Feedback visual (sacsejar càmera)
+    scene.cameraShake(4, 500)
 })
 //  EXECUCIÓ
 setup_player()
