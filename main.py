@@ -2,6 +2,7 @@
 # Sprites
 my_player: Sprite = None
 Boss = SpriteKind.create() # Creem categoria
+EnemyProjectile = SpriteKind.create()
 boss_sprite: Sprite = None
 boss_statusbar: StatusBarSprite = None
 
@@ -233,6 +234,8 @@ def boss_shooting_pattern():
         . . . 2 . . .
         """), boss_sprite, 0, 0)
 
+        boss_projectile.set_kind(EnemyProjectile)
+
         # Apunta el projectil cap el jugador
         boss_projectile.follow(my_player, 80)
 
@@ -267,6 +270,19 @@ def on_boss_death(status):
 
 # Registrem l'esdeveniment
 statusbars.on_zero(StatusBarKind.enemy_health, on_boss_death)
+
+def on_enemy_projectile_hit_player(player, projectile):
+    # Restem vida al jugador
+    info.change_life_by(-1)
+
+    # Destruïm el projectil
+    projectile.destroy()
+
+    # Efecte visual
+    scene.camera_shake(4, 200)
+
+# Registrem l'esdeveniment
+sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
 
 # EXECUCIÓ
 setup_player()

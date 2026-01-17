@@ -3,6 +3,7 @@
 let my_player : Sprite = null
 let Boss = SpriteKind.create()
 //  Creem categoria
+let EnemyProjectile = SpriteKind.create()
 let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables d'estat de d'apuntament (dreta per defecte)
@@ -179,6 +180,7 @@ function spawn_boss() {
         . . 2 2 2 . .
         . . . 2 . . .
         `, boss_sprite, 0, 0)
+            boss_projectile.setKind(EnemyProjectile)
             //  Apunta el projectil cap el jugador
             boss_projectile.follow(my_player, 80)
         }
@@ -213,6 +215,15 @@ statusbars.onZero(StatusBarKind.EnemyHealth, function on_boss_death(status: Stat
         game.over(true)
     }
     
+})
+//  Registrem l'esdeveniment
+sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projectile_hit_player(player: Sprite, projectile: Sprite) {
+    //  Restem vida al jugador
+    info.changeLifeBy(-1)
+    //  Destruïm el projectil
+    projectile.destroy()
+    //  Efecte visual
+    scene.cameraShake(4, 200)
 })
 //  EXECUCIÓ
 setup_player()
