@@ -1,5 +1,5 @@
 {
-    "name": "MakeCode-Arcade-Template",
+    "name": "Cyber-Druid: El Reinicio",
     "description": "",
     "dependencies": {
         "device": "*"
@@ -23,5 +23,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "pyprj"
 }
