@@ -6,6 +6,8 @@ let Boss = SpriteKind.create()
 let EnemyProjectile = SpriteKind.create()
 let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
+//  Variables
+let inventory_list : string[] = []
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -225,6 +227,50 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
     //  Efecte visual
     scene.cameraShake(4, 200)
 })
+//  SISTEMA D'INVENTARI
+function spawn_key() {
+    /** Crea un objecte recol·lectable (Clau Mestre) */
+    let key_sprite = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . 5 5 5 5 5 . . . . . .
+    . . . . 5 5 . . . 5 5 . . . . .
+    . . . . 5 . . . . . 5 . . . . .
+    . . . . 5 . . . . . 5 . . . . .
+    . . . . . 5 5 5 5 5 . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . 5 5 5 . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, SpriteKind.Food)
+    //  Usem "food" per objectes recol·lectables
+    key_sprite.x = 100
+    key_sprite.y = 50
+    //  FX
+    key_sprite.startEffect(effects.halo, 2000)
+}
+
+//  Si tenim la clau, podríem invocar al Boss (o obrir la porta)
+//  if "Master Key" in inventory_list:
+//      game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
+//      spawn_boss()
+//  Registrem l'esdeveniment
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_player_collect_key(player: Sprite, key_sprite: Sprite) {
+    /** Gestió de l'inventari */
+    
+    //  Afegim l'element a la llista
+    inventory_list.push("Master Key")
+    //  Feedback visual
+    key_sprite.destroy(effects.confetti, 500)
+    music.baDing.play()
+    //  Mostrem l'inventari per pantalla
+    my_player.sayText("Tinc: " + ("" + inventory_list.length) + " ítems", 3000)
+})
 //  EXECUCIÓ
 setup_player()
 //  Vinculem al botó A la funció shoot_projectile
@@ -258,3 +304,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     }
     
 })
+//  Generem 5 enemics per començar
+//  spawn_enemies(5)
+//  Generació del "final boss"
+//  spawn_boss()
+//  Generació de la clau
+spawn_key()

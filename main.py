@@ -6,6 +6,9 @@ EnemyProjectile = SpriteKind.create()
 boss_sprite: Sprite = None
 boss_statusbar: StatusBarSprite = None
 
+# Variables
+inventory_list: List[str] = []
+
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
 facing_y: number = 0
@@ -284,6 +287,60 @@ def on_enemy_projectile_hit_player(player, projectile):
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
 
+# SISTEMA D'INVENTARI
+def spawn_key():
+    """
+    Crea un objecte recol·lectable (Clau Mestre)
+    """
+    key_sprite = sprites.create(img("""
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . 5 5 5 5 5 . . . . . .
+    . . . . 5 5 . . . 5 5 . . . . .
+    . . . . 5 . . . . . 5 . . . . .
+    . . . . 5 . . . . . 5 . . . . .
+    . . . . . 5 5 5 5 5 . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . 5 5 5 . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    """), SpriteKind.food) # Usem "food" per objectes recol·lectables
+
+    key_sprite.x = 100
+    key_sprite.y = 50
+
+    # FX
+    key_sprite.start_effect(effects.halo, 2000)
+
+def on_player_collect_key(player, key_sprite):
+    """
+    Gestió de l'inventari
+    """
+    global inventory_list
+
+    # Afegim l'element a la llista
+    inventory_list.append("Master Key")
+
+    # Feedback visual
+    key_sprite.destroy(effects.confetti, 500)
+    music.ba_ding.play()
+
+    # Mostrem l'inventari per pantalla
+    my_player.say_text(("Tinc: " + str(len(inventory_list)) + " ítems"), 3000)
+
+    # Si tenim la clau, podríem invocar al Boss (o obrir la porta)
+    # if "Master Key" in inventory_list:
+    #     game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
+    #     spawn_boss()
+
+# Registrem l'esdeveniment
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
+
 # EXECUCIÓ
 setup_player()
 
@@ -295,3 +352,6 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 # Generació del "final boss"
 # spawn_boss()
+
+# Generació de la clau
+spawn_key()
