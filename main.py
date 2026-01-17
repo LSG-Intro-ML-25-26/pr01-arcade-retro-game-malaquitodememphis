@@ -294,4 +294,4 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 # spawn_enemies(5)
 
 # Generació del "final boss"
-spawn_boss()
+# spawn_boss()

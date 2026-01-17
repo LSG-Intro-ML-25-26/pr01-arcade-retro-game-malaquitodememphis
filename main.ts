@@ -258,7 +258,3 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     }
     
 })
-//  Generem 5 enemics per començar
-//  spawn_enemies(5)
-//  Generació del "final boss"
-spawn_boss()
