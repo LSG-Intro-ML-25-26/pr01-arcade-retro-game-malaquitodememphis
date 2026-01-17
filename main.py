@@ -5,8 +5,9 @@ my_player: Sprite = None
 facing_x: number = 1
 facing_y: number = 0
 
-# Constant de velociat del projectil
+# Constants
 projectile_speed = 200
+enemy_speed = 50
 
 # FUNCIÓ DE CONFIGURACIÓ
 def setup_player():
@@ -101,9 +102,45 @@ def shoot_projectile():
         # Destruïm el projectil un cop surt de la pantalla
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
 
+# GENERACIÓ D'ENEMICS
+def spawn_enemies(number_of_enemies: number):
+    """
+    Genera una llista d'enemics en posicions aleatòries
+    """
+    # Bucle per generar 'n' enemics
+    enemy = sprites.create(img("""
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . 2 2 2 2 . . . . . .
+    . . . . . 2 2 2 2 2 2 . . . . .
+    . . . . . 2 2 2 2 2 2 . . . . .
+    . . . . . 2 2 2 2 2 2 . . . . .
+    . . . . . . 2 2 2 2 . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    """), SpriteKind.enemy)
+
+    #Posició aleatòria dins de la pantalla
+    # Pendent d'actualitzar quan sapiguem tamany real total del mapa
+    enemy.x = randint(10, 150)
+    enemy.y = randint(10, 110)
+
+    # "IA" per perseguir al jugador
+    enemy.follow(my_player, enemy_speed)
+
 # EXECUCIÓ
 setup_player()
 
 # Vinculem al botó A la funció shoot_projectile
 controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+
+# Generem 5 enemics per començar
+spawn_enemies(5)
 

@@ -3,8 +3,9 @@ let my_player : Sprite = null
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
-//  Constant de velociat del projectil
+//  Constants
 let projectile_speed = 200
+let enemy_speed = 50
 //  FUNCIÓ DE CONFIGURACIÓ
 function setup_player() {
     /** Crea el sprite del jugador, defineix les seves físiques i estableix vides. */
@@ -71,6 +72,36 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
+//  GENERACIÓ D'ENEMICS
+function spawn_enemies(number_of_enemies: number) {
+    /** Genera una llista d'enemics en posicions aleatòries */
+    //  Bucle per generar 'n' enemics
+    let enemy = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . 2 2 2 2 . . . . . .
+    . . . . . 2 2 2 2 2 2 . . . . .
+    . . . . . 2 2 2 2 2 2 . . . . .
+    . . . . . 2 2 2 2 2 2 . . . . .
+    . . . . . . 2 2 2 2 . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, SpriteKind.Enemy)
+    // Posició aleatòria dins de la pantalla
+    //  Pendent d'actualitzar quan sapiguem tamany real total del mapa
+    enemy.x = randint(10, 150)
+    enemy.y = randint(10, 110)
+    //  "IA" per perseguir al jugador
+    enemy.follow(my_player, enemy_speed)
+}
+
 //  EXECUCIÓ
 setup_player()
 //  Vinculem al botó A la funció shoot_projectile
@@ -104,3 +135,5 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     }
     
 })
+//  Generem 5 enemics per començar
+spawn_enemies(5)
