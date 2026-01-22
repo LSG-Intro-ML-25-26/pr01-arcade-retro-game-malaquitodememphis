@@ -1,9 +1,10 @@
 //  VARIABLES GLOBALS
 //  Sprites
-let my_player : Sprite = null
 let Boss = SpriteKind.create()
-//  Creem categoria
 let EnemyProjectile = SpriteKind.create()
+let Chest = SpriteKind.create()
+let NPC = SpriteKind.create()
+let my_player : Sprite = null
 let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables
@@ -290,8 +291,37 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
         }
         
     }
-    game.showLongText("INVENTARI:\n\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
+    game.showLongText("INVENTARI:\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
 })
+//  FUNCIÓ D'OBJECTE: COFRE
+function spawn_chest(x_pos: number, y_pos: number) {
+    /** Crea un cofre en una Posició */
+    let chest = sprites.create(img`
+        . . b b b b b b b b b b . . . .
+        . b e 4 4 4 4 4 4 4 4 e b . . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e e 4 4 4 4 4 4 4 4 e e b . .
+        b e e e e e e e e e e e e b . .
+        . b b b b b b b b b b b b . . .
+        . . . . . . . . . . . . . . . .
+    `, Chest)
+    chest.x = x_pos
+    chest.y = y_pos
+}
+
+function on_open_chest(player: any, chest: any) {
+    
+    if (!has_weapon) {
+        has_weapon = true
+        inventory_list.push("Cyber Gun")
+        game.showLongText(`Has trobat l'ARMA DE PLASMA!
+Ara prem A per disparar.`, DialogLayout.Bottom)
+    }
+    
+}
+
 //  EXECUCIÓ
 setup_player()
 //  Vinculem al botó A la funció shoot_projectile
@@ -327,9 +357,3 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     }
     
 })
-//  Generem 5 enemics per començar
-//  spawn_enemies(5)
-//  Generació del "final boss"
-//  spawn_boss()
-//  Generació de la clau
-spawn_key()

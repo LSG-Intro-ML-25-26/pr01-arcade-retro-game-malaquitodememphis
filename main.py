@@ -1,8 +1,10 @@
 # VARIABLES GLOBALS
 # Sprites
-my_player: Sprite = None
-Boss = SpriteKind.create() # Creem categoria
+Boss = SpriteKind.create()
 EnemyProjectile = SpriteKind.create()
+Chest = SpriteKind.create()
+NPC = SpriteKind.create()
+my_player: Sprite = None
 boss_sprite: Sprite = None
 boss_statusbar: StatusBarSprite = None
 
@@ -363,7 +365,7 @@ def show_inventory():
             keys_count += 1
     
     game.show_long_text(
-            "INVENTARI:\n\n" +
+            "INVENTARI:\n" +
             "- Arma: " + weapon + "\n" +
             "- Targetes d'Accés: " + str(keys_count) + "/3",
             DialogLayout.CENTER
@@ -372,6 +374,37 @@ def show_inventory():
 # Registrem l'esdeveniment al botó "B"
 controller.B.on_event(ControllerButtonEvent.PRESSED, show_inventory)
     
+# FUNCIÓ D'OBJECTE: COFRE
+def spawn_chest(x_pos, y_pos):
+    """
+    Crea un cofre en una Posició
+    """
+    chest = sprites.create(img("""
+        . . b b b b b b b b b b . . . .
+        . b e 4 4 4 4 4 4 4 4 e b . . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e e 4 4 4 4 4 4 4 4 e e b . .
+        b e e e e e e e e e e e e b . .
+        . b b b b b b b b b b b b . . .
+        . . . . . . . . . . . . . . . .
+    """), Chest)
+    chest.x = x_pos
+    chest.y = y_pos
+
+def on_open_chest(player, chest):
+    global has_weapon, inventory_list
+
+    if not has_weapon:
+        has_weapon = True
+        inventory_list.append("Cyber Gun")
+
+        game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
+
+        chest.destroy(effects.confetti, 500)
+        music.power_up.play()
+
 
 # EXECUCIÓ
 setup_player()
@@ -386,4 +419,4 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 # spawn_boss()
 
 # Generació de la clau
-spawn_key()
+# spawn_key()
