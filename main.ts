@@ -272,6 +272,26 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_player_collect
     //  Mostrem l'inventari per pantalla
     my_player.sayText("Tinc: " + ("" + inventory_list.length) + " ítems", 3000)
 })
+//  Registrem l'esdeveniment al botó "B"
+controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
+    /** Mostra una finestra amb l'inventari */
+    
+    //  Variables amb valors per defecte
+    let weapon = "No"
+    let keys_count = 0
+    if (has_weapon) {
+        weapon = "Cyber Gun"
+    }
+    
+    //  Comptem les claus de l'inventari
+    for (let item of inventory_list) {
+        if (item == "Key Card") {
+            keys_count += 1
+        }
+        
+    }
+    game.showLongText("INVENTARI:\n\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
+})
 //  EXECUCIÓ
 setup_player()
 //  Vinculem al botó A la funció shoot_projectile

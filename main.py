@@ -344,6 +344,35 @@ def on_player_collect_key(player, key_sprite):
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
 
+def show_inventory():
+    """
+    Mostra una finestra amb l'inventari
+    """
+    global inventory_list, has_weapon
+
+    # Variables amb valors per defecte
+    weapon = "No"
+    keys_count = 0
+
+    if has_weapon:
+        weapon = "Cyber Gun"
+    
+    # Comptem les claus de l'inventari
+    for item in inventory_list:
+        if item == "Key Card":
+            keys_count += 1
+    
+    game.show_long_text(
+            "INVENTARI:\n\n" +
+            "- Arma: " + weapon + "\n" +
+            "- Targetes d'Accés: " + str(keys_count) + "/3",
+            DialogLayout.CENTER
+        )
+
+# Registrem l'esdeveniment al botó "B"
+controller.B.on_event(ControllerButtonEvent.PRESSED, show_inventory)
+    
+
 # EXECUCIÓ
 setup_player()
 
