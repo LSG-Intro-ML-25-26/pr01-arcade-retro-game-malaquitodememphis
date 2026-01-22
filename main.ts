@@ -8,6 +8,7 @@ let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
+let has_weapon = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -279,7 +280,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     /** Genera un projectil desde la possició del jugador */
     
     //  Només disparem si el jugador existeix
-    if (my_player) {
+    if (my_player && has_weapon) {
         //  Creem el projectil (placeholder momentani)
         projectile = sprites.createProjectileFromSprite(img`
         . . . . .
@@ -301,6 +302,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
         
         //  Destruïm el projectil un cop surt de la pantalla
         projectile.setFlag(SpriteFlag.DestroyOnWall, true)
+    } else if (my_player && !has_weapon) {
+        music.thump.play()
     }
     
 })

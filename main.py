@@ -8,6 +8,7 @@ boss_statusbar: StatusBarSprite = None
 
 # Variables
 inventory_list: List[str] = []
+has_weapon: bool = False
 
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
@@ -86,10 +87,10 @@ def shoot_projectile():
     """
     Genera un projectil desde la possició del jugador
     """
-    global my_player, facing_x, facing_y
+    global my_player, facing_x, facing_y, has_weapon
 
     # Només disparem si el jugador existeix
-    if my_player:
+    if my_player and has_weapon:
         # Creem el projectil (placeholder momentani)
         projectile = sprites.create_projectile_from_sprite(img("""
         . . . . .
@@ -109,6 +110,8 @@ def shoot_projectile():
         
         # Destruïm el projectil un cop surt de la pantalla
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
+    elif my_player and not has_weapon:
+        music.thump.play()
 
 # GENERACIÓ D'ENEMICS
 def spawn_enemies(number_of_enemies: number):
