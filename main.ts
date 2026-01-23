@@ -8,6 +8,9 @@ let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
+//  Variables para niveles
+let current_level_num = 1
+let has_key = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -310,3 +313,39 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
 //  spawn_boss()
 //  Generació de la clau
 spawn_key()
+//  Función paaraa gestionar niveles
+function load_level(level: number) {
+    
+    //  Reiniciar el nivel entero
+    has_key = false
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Food)
+    //  Selecciona el mapa
+    if (level == 1) {
+        tiles.setTilemap(assets.tilemap`level1`)
+        game.splash("NIVEL 1", "Entrenamiento")
+    } else if (level == 2) {
+        tiles.setTilemap(assets.tilemap`level2`)
+        game.splash("NIVEL 2", "Zona Corrupta")
+    } else if (level == 3) {
+        tiles.setTilemap(assets.tilemap`level3`)
+        game.splash("NIVEL 3", "Boss Final")
+    }
+    
+    //  Spawn del jugador
+    let player_spawns = tiles.getTilesByType(assets.tile`spawn_player_base_floor`)
+    //  Devuelve el tile a la normalidad (borra el spawn)
+    if (player_spawns.length > 0) {
+        tiles.placeOnTile(my_player, player_spawns[0])
+        tiles.setTileAt(player_spawns[0], assets.tile`base_floor`)
+    }
+    
+}
+
+//  Función para iniciar el juego
+function start_game() {
+    setup_player()
+    load_level(current_level_num)
+}
+
+start_game()

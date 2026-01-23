@@ -9,6 +9,10 @@ boss_statusbar: StatusBarSprite = None
 # Variables
 inventory_list: List[str] = []
 
+# Variables para niveles
+current_level_num = 1
+has_key = False
+
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
 facing_y: number = 0
@@ -355,3 +359,39 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 # Generació de la clau
 spawn_key()
+
+# Función paaraa gestionar niveles
+def load_level(level: number):
+    global my_player, has_key
+    
+    # Reiniciar el nivel entero
+    has_key = False
+    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.food)
+
+    # Selecciona el mapa
+    if level == 1:
+        tiles.set_tilemap(assets.tilemap("level1"))
+        game.splash("NIVEL 1", "Entrenamiento")
+    elif level == 2:
+        tiles.set_tilemap(assets.tilemap("level2"))
+        game.splash("NIVEL 2", "Zona Corrupta")
+    elif level == 3:
+        tiles.set_tilemap(assets.tilemap("level3"))
+        game.splash("NIVEL 3", "Boss Final")
+
+    # Spawn del jugador
+    player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))
+    
+    # Devuelve el tile a la normalidad (borra el spawn)
+    if len(player_spawns) > 0:
+        tiles.place_on_tile(my_player, player_spawns[0])
+        tiles.set_tile_at(player_spawns[0], assets.tile("base_floor"))
+
+# Función para iniciar el juego
+def start_game():
+    setup_player()
+    load_level(current_level_num)
+
+
+start_game()
