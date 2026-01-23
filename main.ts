@@ -84,7 +84,7 @@ game.onUpdate(function on_game_update() {
 })
 //  SISTEMA DE COMBAT
 //  GENERACIÓ D'ENEMICS
-function spawn_enemies(number_of_enemies: number) {
+function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
     let enemy: Sprite;
     /** Genera una llista d'enemics en posicions aleatòries */
     //  Bucle per generar 'n' enemics
@@ -108,12 +108,9 @@ function spawn_enemies(number_of_enemies: number) {
         . . . . . . . . . . . . . . . .
         . . . . . . . . . . . . . . . .
         `, SpriteKind.Enemy)
-        // Posició aleatòria dins de la pantalla
-        //  Pendent d'actualitzar quan sapiguem tamany real total del mapa
-        enemy.x = randint(10, 140)
-        enemy.y = randint(10, 100)
+        tiles.placeOnTile(enemy, location)
         //  "IA" per perseguir al jugador
-        enemy.follow(my_player, enemy_speed)
+        enemy.follow(my_player, 30)
         pause(200)
     }
 }
@@ -231,7 +228,7 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
     scene.cameraShake(4, 200)
 })
 //  SISTEMA D'INVENTARI
-function spawn_key() {
+function spawn_key(location: tiles.Location) {
     /** Crea un objecte recol·lectable (Clau Mestre) */
     let key_sprite = sprites.create(img`
     . . . . . . . . . . . . . . . .
@@ -252,8 +249,7 @@ function spawn_key() {
     . . . . . . . . . . . . . . . .
     `, SpriteKind.Food)
     //  Usem "food" per objectes recol·lectables
-    key_sprite.x = 100
-    key_sprite.y = 50
+    tiles.placeOnTile(key_sprite, location)
     //  FX
     key_sprite.startEffect(effects.halo, 2000)
 }
@@ -312,7 +308,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
 //  Generació del "final boss"
 //  spawn_boss()
 //  Generació de la clau
-spawn_key()
 //  Función paaraa gestionar niveles
 function load_level(level: number) {
     
@@ -340,6 +335,24 @@ function load_level(level: number) {
         tiles.setTileAt(player_spawns[0], assets.tile`base_floor`)
     }
     
+    // Hacemos spawnear todos los objetos y enemigos
+    spawn_objects_from_tiles()
+}
+
+//  Función para generar objetos y enemigos
+function spawn_objects_from_tiles() {
+    //  Genera enemigos en el spawn
+    let enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_way_floor`)
+    for (let loc_enemy of enemy_spawns) {
+        spawn_enemies(loc_enemy, 1)
+        tiles.setTileAt(loc_enemy, assets.tile`way_floor`)
+    }
+    //  Genera la llave en su spawn
+    let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
+    for (let loc_key of key_spawns) {
+        spawn_key(loc_key)
+        tiles.setTileAt(loc_key, assets.tile`base_floor`)
+    }
 }
 
 //  Función para iniciar el juego

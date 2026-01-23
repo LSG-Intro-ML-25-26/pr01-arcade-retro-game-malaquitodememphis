@@ -115,7 +115,7 @@ def shoot_projectile():
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
 
 # GENERACIÓ D'ENEMICS
-def spawn_enemies(number_of_enemies: number):
+def spawn_enemies(location: tiles.Location, number_of_enemies: number):
     """
     Genera una llista d'enemics en posicions aleatòries
     """
@@ -141,13 +141,10 @@ def spawn_enemies(number_of_enemies: number):
         . . . . . . . . . . . . . . . .
         """), SpriteKind.enemy)
 
-        #Posició aleatòria dins de la pantalla
-        # Pendent d'actualitzar quan sapiguem tamany real total del mapa
-        enemy.x = randint(10, 140)
-        enemy.y = randint(10, 100)
+        tiles.place_on_tile(enemy, location)
 
         # "IA" per perseguir al jugador
-        enemy.follow(my_player, enemy_speed)
+        enemy.follow(my_player, 30)
 
         pause(200)
 
@@ -292,7 +289,7 @@ def on_enemy_projectile_hit_player(player, projectile):
 sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
 
 # SISTEMA D'INVENTARI
-def spawn_key():
+def spawn_key(location: tiles.Location):
     """
     Crea un objecte recol·lectable (Clau Mestre)
     """
@@ -315,8 +312,7 @@ def spawn_key():
     . . . . . . . . . . . . . . . .
     """), SpriteKind.food) # Usem "food" per objectes recol·lectables
 
-    key_sprite.x = 100
-    key_sprite.y = 50
+    tiles.place_on_tile(key_sprite, location)
 
     # FX
     key_sprite.start_effect(effects.halo, 2000)
@@ -358,7 +354,7 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 # spawn_boss()
 
 # Generació de la clau
-spawn_key()
+
 
 # Función paaraa gestionar niveles
 def load_level(level: number):
@@ -382,11 +378,27 @@ def load_level(level: number):
 
     # Spawn del jugador
     player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))
-    
     # Devuelve el tile a la normalidad (borra el spawn)
     if len(player_spawns) > 0:
         tiles.place_on_tile(my_player, player_spawns[0])
         tiles.set_tile_at(player_spawns[0], assets.tile("base_floor"))
+    
+    #Hacemos spawnear todos los objetos y enemigos
+    spawn_objects_from_tiles()
+
+# Función para generar objetos y enemigos
+def spawn_objects_from_tiles():
+    # Genera enemigos en el spawn
+    enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_way_floor"))
+    for loc_enemy in enemy_spawns:
+        spawn_enemies(loc_enemy, 1)
+        tiles.set_tile_at(loc_enemy, assets.tile("way_floor"))
+
+    # Genera la llave en su spawn
+    key_spawns = tiles.get_tiles_by_type(assets.tile("access_card_base_floor"))
+    for loc_key in key_spawns:
+        spawn_key(loc_key)
+        tiles.set_tile_at(loc_key, assets.tile("base_floor"))
 
 # Función para iniciar el juego
 def start_game():
