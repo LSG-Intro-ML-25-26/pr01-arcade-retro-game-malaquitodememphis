@@ -115,7 +115,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     
 })
 //  GENERACIÓ D'ENEMICS
-function spawn_enemies(number_of_enemies: number) {
+function spawn_enemies(number_of_enemies: any, x_pos: number, y_pos: number) {
     let enemy: Sprite;
     /** Genera una llista d'enemics en posicions aleatòries */
     //  Bucle per generar 'n' enemics
@@ -141,8 +141,8 @@ function spawn_enemies(number_of_enemies: number) {
         `, SpriteKind.Enemy)
         // Posició aleatòria dins de la pantalla
         //  Pendent d'actualitzar quan sapiguem tamany real total del mapa
-        enemy.x = randint(10, 140)
-        enemy.y = randint(10, 100)
+        enemy.x = x_pos
+        enemy.y = y_pos
         //  "IA" per perseguir al jugador
         enemy.follow(my_player, enemy_speed)
         pause(200)
@@ -171,7 +171,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_enemy_hit_pla
     scene.cameraShake(4, 500)
 })
 //  FUNCIONS DEL "FINAL BOSS"
-function spawn_boss() {
+function spawn_boss(x_pos: number, y_pos: number) {
     /** Invoca el "Kernel Corrupte" */
     
     boss_sprite = sprites.create(img`
@@ -193,8 +193,8 @@ function spawn_boss() {
     . . . . . . . . . . . . . . . .
     `, Boss)
     //  El col·loquem al centre
-    boss_sprite.x = 80
-    boss_sprite.y = 30
+    boss_sprite.x = x_pos
+    boss_sprite.y = y_pos
     //  Li donem vida (extensió de "status-bar")
     boss_statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
     boss_statusbar.max = 20
@@ -262,7 +262,7 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
     scene.cameraShake(4, 200)
 })
 //  SISTEMA D'INVENTARI
-function spawn_key() {
+function spawn_key(x_pos: number, y_pos: number) {
     /** Crea un objecte recol·lectable (Clau Mestre) */
     let key_sprite = sprites.create(img`
     . . . . . . . . . . . . . . . .
@@ -283,16 +283,12 @@ function spawn_key() {
     . . . . . . . . . . . . . . . .
     `, SpriteKind.Food)
     //  Usem "food" per objectes recol·lectables
-    key_sprite.x = 100
-    key_sprite.y = 50
+    key_sprite.x = x_pos
+    key_sprite.y = y_pos
     //  FX
     key_sprite.startEffect(effects.halo, 2000)
 }
 
-//  Si tenim la clau, podríem invocar al Boss (o obrir la porta)
-//  if "Master Key" in inventory_list:
-//      game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
-//      spawn_boss()
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_player_collect_key(player: Sprite, key_sprite: Sprite) {
     /** Gestió de l'inventari */
@@ -378,4 +374,5 @@ sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, m
     player.y += 10
 })
 //  EXECUCIÓ
+//  Mostrem el jugador
 setup_player()

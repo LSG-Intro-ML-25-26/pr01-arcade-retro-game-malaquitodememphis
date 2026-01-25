@@ -119,7 +119,7 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 
 # GENERACIÓ D'ENEMICS
-def spawn_enemies(number_of_enemies: number):
+def spawn_enemies(number_of_enemies, x_pos, y_pos):
     """
     Genera una llista d'enemics en posicions aleatòries
     """
@@ -147,8 +147,8 @@ def spawn_enemies(number_of_enemies: number):
 
         #Posició aleatòria dins de la pantalla
         # Pendent d'actualitzar quan sapiguem tamany real total del mapa
-        enemy.x = randint(10, 140)
-        enemy.y = randint(10, 100)
+        enemy.x = x_pos
+        enemy.y = y_pos
 
         # "IA" per perseguir al jugador
         enemy.follow(my_player, enemy_speed)
@@ -189,7 +189,7 @@ def on_enemy_hit_player(player, enemy):
 sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_enemy_hit_player)
 
 # FUNCIONS DEL "FINAL BOSS"
-def spawn_boss():
+def spawn_boss(x_pos, y_pos):
     """
     Invoca el "Kernel Corrupte"
     """
@@ -215,8 +215,8 @@ def spawn_boss():
     """), Boss)
 
     # El col·loquem al centre
-    boss_sprite.x = 80
-    boss_sprite.y = 30
+    boss_sprite.x = x_pos
+    boss_sprite.y = y_pos
 
     # Li donem vida (extensió de "status-bar")
     boss_statusbar = statusbars.create(20, 4, StatusBarKind.enemy_health)
@@ -296,7 +296,7 @@ def on_enemy_projectile_hit_player(player, projectile):
 sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
 
 # SISTEMA D'INVENTARI
-def spawn_key():
+def spawn_key(x_pos, y_pos):
     """
     Crea un objecte recol·lectable (Clau Mestre)
     """
@@ -319,8 +319,8 @@ def spawn_key():
     . . . . . . . . . . . . . . . .
     """), SpriteKind.food) # Usem "food" per objectes recol·lectables
 
-    key_sprite.x = 100
-    key_sprite.y = 50
+    key_sprite.x = x_pos
+    key_sprite.y = y_pos
 
     # FX
     key_sprite.start_effect(effects.halo, 2000)
@@ -340,11 +340,6 @@ def on_player_collect_key(player, key_sprite):
 
     # Mostrem l'inventari per pantalla
     my_player.say_text(("Tinc: " + str(len(inventory_list)) + " ítems"), 3000)
-
-    # Si tenim la clau, podríem invocar al Boss (o obrir la porta)
-    # if "Master Key" in inventory_list:
-    #     game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
-    #     spawn_boss()
 
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
@@ -436,19 +431,20 @@ def on_talk_npc(player, monitor):
 sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
 
 # EXECUCIÓ
+# Mostrem el jugador
 setup_player()
 
-# Mostrem cofre
+# Mostrem cofre(x,y)
 # spawn_chest(120, 60)
 
-# Mostrem monitor
+# Mostrem monitor(x,y)
 # spawn_lore_monitor(40, 60)
 
-# Generem 5 enemics per començar
-# spawn_enemies(5)
+# Generem 5 enemics per començar(num_of_enemies,x,y)
+# spawn_enemies(5, 100, 50)
 
-# Generació del "final boss"
-# spawn_boss()
+# Generació del "final boss"(x,y)
+# spawn_boss(100, 50)
 
-# Generació de la clau
-# spawn_key()
+# Generació de la clau(x,y)
+# spawn_key(100, 50)
