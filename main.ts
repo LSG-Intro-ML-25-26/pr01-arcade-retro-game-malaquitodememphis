@@ -308,7 +308,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
 //  Generació del "final boss"
 //  spawn_boss()
 //  Generació de la clau
-//  Función paaraa gestionar niveles
+//  Función para gestionar niveles
 function load_level(level: number) {
     
     //  Reiniciar el nivel entero

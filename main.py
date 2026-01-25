@@ -356,7 +356,7 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 # Generació de la clau
 
 
-# Función paaraa gestionar niveles
+# Función para gestionar niveles
 def load_level(level: number):
     global my_player, has_key
     
