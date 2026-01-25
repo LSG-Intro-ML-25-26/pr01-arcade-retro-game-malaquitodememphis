@@ -115,6 +115,9 @@ def shoot_projectile():
     elif my_player and not has_weapon:
         music.thump.play()
 
+controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+
+
 # GENERACIÓ D'ENEMICS
 def spawn_enemies(number_of_enemies: number):
     """
@@ -405,12 +408,41 @@ def on_open_chest(player, chest):
         chest.destroy(effects.confetti, 500)
         music.power_up.play()
 
+sprites.on_overlap(SpriteKind.player, Chest, on_open_chest)
+
+# FUNCIONS MONITOR NPC
+def spawn_lore_monitor(x_pos, y_pos):
+    monitor = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    """), NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+
+def on_talk_npc(player, monitor):
+    game.show_long_text(
+        "LORE", DialogLayout.BOTTOM
+    )
+    player.y += 10
+
+sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
 
 # EXECUCIÓ
 setup_player()
 
-# Vinculem al botó A la funció shoot_projectile
-controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+# Mostrem cofre
+# spawn_chest(120, 60)
+
+# Mostrem monitor
+# spawn_lore_monitor(40, 60)
 
 # Generem 5 enemics per començar
 # spawn_enemies(5)

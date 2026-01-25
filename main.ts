@@ -82,6 +82,38 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
+controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
+    let projectile: Sprite;
+    /** Genera un projectil desde la possició del jugador */
+    
+    //  Només disparem si el jugador existeix
+    if (my_player && has_weapon) {
+        //  Creem el projectil (placeholder momentani)
+        projectile = sprites.createProjectileFromSprite(img`
+        . . . . .
+        . . 5 . .
+        . 5 5 5 .
+        . . 5 . .
+        . . . . .
+        `, my_player, 0, 0)
+        //  Velocitat inicial: 0
+        //  Lògica per disparar cap on mirem
+        if (facing_x == 0 && facing_y == 0) {
+            projectile.vx = projectile_speed
+        } else {
+            //  direcció projectil per defecte: dreta
+            //  Velocitat del projectil segons velocitat del jugador
+            projectile.vx = facing_x * projectile_speed
+            projectile.vy = facing_y * projectile_speed
+        }
+        
+        //  Destruïm el projectil un cop surt de la pantalla
+        projectile.setFlag(SpriteFlag.DestroyOnWall, true)
+    } else if (my_player && !has_weapon) {
+        music.thump.play()
+    }
+    
+})
 //  GENERACIÓ D'ENEMICS
 function spawn_enemies(number_of_enemies: number) {
     let enemy: Sprite;
@@ -311,49 +343,39 @@ function spawn_chest(x_pos: number, y_pos: number) {
     chest.y = y_pos
 }
 
-function on_open_chest(player: any, chest: any) {
+sprites.onOverlap(SpriteKind.Player, Chest, function on_open_chest(player: Sprite, chest: Sprite) {
     
     if (!has_weapon) {
         has_weapon = true
         inventory_list.push("Cyber Gun")
         game.showLongText(`Has trobat l'ARMA DE PLASMA!
 Ara prem A per disparar.`, DialogLayout.Bottom)
-    }
-    
-}
-
-//  EXECUCIÓ
-setup_player()
-//  Vinculem al botó A la funció shoot_projectile
-controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
-    let projectile: Sprite;
-    /** Genera un projectil desde la possició del jugador */
-    
-    //  Només disparem si el jugador existeix
-    if (my_player && has_weapon) {
-        //  Creem el projectil (placeholder momentani)
-        projectile = sprites.createProjectileFromSprite(img`
-        . . . . .
-        . . 5 . .
-        . 5 5 5 .
-        . . 5 . .
-        . . . . .
-        `, my_player, 0, 0)
-        //  Velocitat inicial: 0
-        //  Lògica per disparar cap on mirem
-        if (facing_x == 0 && facing_y == 0) {
-            projectile.vx = projectile_speed
-        } else {
-            //  direcció projectil per defecte: dreta
-            //  Velocitat del projectil segons velocitat del jugador
-            projectile.vx = facing_x * projectile_speed
-            projectile.vy = facing_y * projectile_speed
-        }
-        
-        //  Destruïm el projectil un cop surt de la pantalla
-        projectile.setFlag(SpriteFlag.DestroyOnWall, true)
-    } else if (my_player && !has_weapon) {
-        music.thump.play()
+        chest.destroy(effects.confetti, 500)
+        music.powerUp.play()
     }
     
 })
+//  FUNCIONS MONITOR NPC
+function spawn_lore_monitor(x_pos: number, y_pos: number) {
+    let monitor = sprites.create(img`
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    `, NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+}
+
+sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, monitor: Sprite) {
+    game.showLongText("LORE", DialogLayout.Bottom)
+    player.y += 10
+})
+//  EXECUCIÓ
+setup_player()
