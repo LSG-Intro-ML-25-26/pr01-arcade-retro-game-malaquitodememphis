@@ -254,22 +254,32 @@ function spawn_key(location: tiles.Location) {
     key_sprite.startEffect(effects.halo, 2000)
 }
 
-//  Si tenim la clau, podríem invocar al Boss (o obrir la porta)
-//  if "Master Key" in inventory_list:
-//      game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
-//      spawn_boss()
-//  Registrem l'esdeveniment
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_player_collect_key(player: Sprite, key_sprite: Sprite) {
-    /** Gestió de l'inventari */
+/** 
+def on_player_collect_key(player, key_sprite):
     
-    //  Afegim l'element a la llista
-    inventory_list.push("Master Key")
-    //  Feedback visual
+    Gestió de l'inventari
+    
+    global inventory_list
+
+    # Afegim l'element a la llista
+    inventory_list.append("Master Key")
+
+    # Feedback visual
     key_sprite.destroy(effects.confetti, 500)
-    music.baDing.play()
-    //  Mostrem l'inventari per pantalla
-    my_player.sayText("Tinc: " + ("" + inventory_list.length) + " ítems", 3000)
-})
+    music.ba_ding.play()
+
+    # Mostrem l'inventari per pantalla
+    my_player.say_text(("Tinc: " + str(len(inventory_list)) + " ítems"), 3000)
+
+    # Si tenim la clau, podríem invocar al Boss (o obrir la porta)
+    # if "Master Key" in inventory_list:
+    #     game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
+    #     spawn_boss()
+
+# Registrem l'esdeveniment
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
+
+ */
 //  EXECUCIÓ
 setup_player()
 //  Vinculem al botó A la funció shoot_projectile
@@ -361,4 +371,52 @@ function start_game() {
     load_level(current_level_num)
 }
 
+//  Funcion para recoger la llave
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(player: Sprite, item: Sprite) {
+    
+    has_key = true
+    //  Añade la llave al inventario
+    
+    inventory_list.push("Master Key")
+    item.destroy(effects.fire, 500)
+    music.baDing.play()
+    player.sayText("¡Tengo la llave!", 1000)
+})
+//  Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, location: tiles.Location) {
+    
+    if (tiles.tileAtLocationEquals(location, assets.tile`acces_doors`)) {
+        // Pasa de nivel si tiene llave
+        if (has_key) {
+            music.powerUp.play()
+            player.sayText("¡Abriendo!", 1000)
+            pause(1000)
+            current_level_num += 1
+            load_level(current_level_num)
+        } else {
+            // Sin llave choca con la puerta y rebota 
+            player.sayText("¡Cerrado!", 500)
+            scene.cameraShake(2, 200)
+            // Rebote del jugador
+            if (player.vx > 0) {
+                player.x -= 5
+            }
+            
+            if (player.vx < 0) {
+                player.x += 5
+            }
+            
+            if (player.vy > 0) {
+                player.y -= 5
+            }
+            
+            if (player.vy < 0) {
+                player.y += 5
+            }
+            
+        }
+        
+    }
+    
+})
 start_game()

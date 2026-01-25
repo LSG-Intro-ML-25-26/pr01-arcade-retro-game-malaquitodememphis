@@ -317,10 +317,11 @@ def spawn_key(location: tiles.Location):
     # FX
     key_sprite.start_effect(effects.halo, 2000)
 
+"""
 def on_player_collect_key(player, key_sprite):
-    """
+    
     Gestió de l'inventari
-    """
+    
     global inventory_list
 
     # Afegim l'element a la llista
@@ -340,7 +341,7 @@ def on_player_collect_key(player, key_sprite):
 
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
-
+"""
 # EXECUCIÓ
 setup_player()
 
@@ -405,5 +406,42 @@ def start_game():
     setup_player()
     load_level(current_level_num)
 
+# Funcion para recoger la llave
+def on_collect_key(player, item):
+    global has_key
+    has_key = True
+    # Añade la llave al inventario
+    global inventory_list
+    inventory_list.append("Master Key")
+
+    item.destroy(effects.fire, 500)
+    music.ba_ding.play()
+    player.say_text("¡Tengo la llave!", 1000)
+
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
+
+# Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+def on_hit_door_wall(player, location):
+    global current_level_num
+    
+    if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
+        #Pasa de nivel si tiene llave
+        if has_key:
+            music.power_up.play()
+            player.say_text("¡Abriendo!", 1000)
+            pause(1000)
+            current_level_num += 1
+            load_level(current_level_num)
+        #Sin llave choca con la puerta y rebota 
+        else:
+            player.say_text("¡Cerrado!", 500)
+            scene.camera_shake(2, 200)
+            #Rebote del jugador
+            if player.vx > 0: player.x -= 5
+            if player.vx < 0: player.x += 5
+            if player.vy > 0: player.y -= 5
+            if player.vy < 0: player.y += 5
+
+scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
 start_game()
