@@ -1,13 +1,16 @@
 # VARIABLES GLOBALS
 # Sprites
-my_player: Sprite = None
-Boss = SpriteKind.create() # Creem categoria
+Boss = SpriteKind.create()
 EnemyProjectile = SpriteKind.create()
+Chest = SpriteKind.create()
+NPC = SpriteKind.create()
+my_player: Sprite = None
 boss_sprite: Sprite = None
 boss_statusbar: StatusBarSprite = None
 
 # Variables
 inventory_list: List[str] = []
+has_weapon: bool = False
 
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
@@ -86,10 +89,10 @@ def shoot_projectile():
     """
     Genera un projectil desde la possició del jugador
     """
-    global my_player, facing_x, facing_y
+    global my_player, facing_x, facing_y, has_weapon
 
     # Només disparem si el jugador existeix
-    if my_player:
+    if my_player and has_weapon:
         # Creem el projectil (placeholder momentani)
         projectile = sprites.create_projectile_from_sprite(img("""
         . . . . .
@@ -109,6 +112,11 @@ def shoot_projectile():
         
         # Destruïm el projectil un cop surt de la pantalla
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
+    elif my_player and not has_weapon:
+        music.thump.play()
+
+controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+
 
 # GENERACIÓ D'ENEMICS
 def spawn_enemies(number_of_enemies: number):
@@ -341,11 +349,100 @@ def on_player_collect_key(player, key_sprite):
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
 
+def show_inventory():
+    """
+    Mostra una finestra amb l'inventari
+    """
+    global inventory_list, has_weapon
+
+    # Variables amb valors per defecte
+    weapon = "No"
+    keys_count = 0
+
+    if has_weapon:
+        weapon = "Cyber Gun"
+    
+    # Comptem les claus de l'inventari
+    for item in inventory_list:
+        if item == "Key Card":
+            keys_count += 1
+    
+    game.show_long_text(
+            "INVENTARI:\n" +
+            "- Arma: " + weapon + "\n" +
+            "- Targetes d'Accés: " + str(keys_count) + "/3",
+            DialogLayout.CENTER
+        )
+
+# Registrem l'esdeveniment al botó "B"
+controller.B.on_event(ControllerButtonEvent.PRESSED, show_inventory)
+    
+# FUNCIÓ D'OBJECTE: COFRE
+def spawn_chest(x_pos, y_pos):
+    """
+    Crea un cofre en una Posició
+    """
+    chest = sprites.create(img("""
+        . . b b b b b b b b b b . . . .
+        . b e 4 4 4 4 4 4 4 4 e b . . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e e 4 4 4 4 4 4 4 4 e e b . .
+        b e e e e e e e e e e e e b . .
+        . b b b b b b b b b b b b . . .
+        . . . . . . . . . . . . . . . .
+    """), Chest)
+    chest.x = x_pos
+    chest.y = y_pos
+
+def on_open_chest(player, chest):
+    global has_weapon, inventory_list
+
+    if not has_weapon:
+        has_weapon = True
+        inventory_list.append("Cyber Gun")
+
+        game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
+
+        chest.destroy(effects.confetti, 500)
+        music.power_up.play()
+
+sprites.on_overlap(SpriteKind.player, Chest, on_open_chest)
+
+# FUNCIONS MONITOR NPC
+def spawn_lore_monitor(x_pos, y_pos):
+    monitor = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    """), NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+
+def on_talk_npc(player, monitor):
+    game.show_long_text(
+        "LORE", DialogLayout.BOTTOM
+    )
+    player.y += 10
+
+sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
+
 # EXECUCIÓ
 setup_player()
 
-# Vinculem al botó A la funció shoot_projectile
-controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+# Mostrem cofre
+# spawn_chest(120, 60)
+
+# Mostrem monitor
+# spawn_lore_monitor(40, 60)
 
 # Generem 5 enemics per començar
 # spawn_enemies(5)
@@ -354,4 +451,4 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 # spawn_boss()
 
 # Generació de la clau
-spawn_key()
+# spawn_key()

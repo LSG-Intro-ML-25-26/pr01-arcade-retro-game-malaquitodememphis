@@ -1,13 +1,15 @@
 //  VARIABLES GLOBALS
 //  Sprites
-let my_player : Sprite = null
 let Boss = SpriteKind.create()
-//  Creem categoria
 let EnemyProjectile = SpriteKind.create()
+let Chest = SpriteKind.create()
+let NPC = SpriteKind.create()
+let my_player : Sprite = null
 let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
+let has_weapon = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -80,6 +82,38 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
+controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
+    let projectile: Sprite;
+    /** Genera un projectil desde la possició del jugador */
+    
+    //  Només disparem si el jugador existeix
+    if (my_player && has_weapon) {
+        //  Creem el projectil (placeholder momentani)
+        projectile = sprites.createProjectileFromSprite(img`
+        . . . . .
+        . . 5 . .
+        . 5 5 5 .
+        . . 5 . .
+        . . . . .
+        `, my_player, 0, 0)
+        //  Velocitat inicial: 0
+        //  Lògica per disparar cap on mirem
+        if (facing_x == 0 && facing_y == 0) {
+            projectile.vx = projectile_speed
+        } else {
+            //  direcció projectil per defecte: dreta
+            //  Velocitat del projectil segons velocitat del jugador
+            projectile.vx = facing_x * projectile_speed
+            projectile.vy = facing_y * projectile_speed
+        }
+        
+        //  Destruïm el projectil un cop surt de la pantalla
+        projectile.setFlag(SpriteFlag.DestroyOnWall, true)
+    } else if (my_player && !has_weapon) {
+        music.thump.play()
+    }
+    
+})
 //  GENERACIÓ D'ENEMICS
 function spawn_enemies(number_of_enemies: number) {
     let enemy: Sprite;
@@ -271,42 +305,77 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_player_collect
     //  Mostrem l'inventari per pantalla
     my_player.sayText("Tinc: " + ("" + inventory_list.length) + " ítems", 3000)
 })
-//  EXECUCIÓ
-setup_player()
-//  Vinculem al botó A la funció shoot_projectile
-controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
-    let projectile: Sprite;
-    /** Genera un projectil desde la possició del jugador */
+//  Registrem l'esdeveniment al botó "B"
+controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
+    /** Mostra una finestra amb l'inventari */
     
-    //  Només disparem si el jugador existeix
-    if (my_player) {
-        //  Creem el projectil (placeholder momentani)
-        projectile = sprites.createProjectileFromSprite(img`
-        . . . . .
-        . . 5 . .
-        . 5 5 5 .
-        . . 5 . .
-        . . . . .
-        `, my_player, 0, 0)
-        //  Velocitat inicial: 0
-        //  Lògica per disparar cap on mirem
-        if (facing_x == 0 && facing_y == 0) {
-            projectile.vx = projectile_speed
-        } else {
-            //  direcció projectil per defecte: dreta
-            //  Velocitat del projectil segons velocitat del jugador
-            projectile.vx = facing_x * projectile_speed
-            projectile.vy = facing_y * projectile_speed
+    //  Variables amb valors per defecte
+    let weapon = "No"
+    let keys_count = 0
+    if (has_weapon) {
+        weapon = "Cyber Gun"
+    }
+    
+    //  Comptem les claus de l'inventari
+    for (let item of inventory_list) {
+        if (item == "Key Card") {
+            keys_count += 1
         }
         
-        //  Destruïm el projectil un cop surt de la pantalla
-        projectile.setFlag(SpriteFlag.DestroyOnWall, true)
+    }
+    game.showLongText("INVENTARI:\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
+})
+//  FUNCIÓ D'OBJECTE: COFRE
+function spawn_chest(x_pos: number, y_pos: number) {
+    /** Crea un cofre en una Posició */
+    let chest = sprites.create(img`
+        . . b b b b b b b b b b . . . .
+        . b e 4 4 4 4 4 4 4 4 e b . . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e e 4 4 4 4 4 4 4 4 e e b . .
+        b e e e e e e e e e e e e b . .
+        . b b b b b b b b b b b b . . .
+        . . . . . . . . . . . . . . . .
+    `, Chest)
+    chest.x = x_pos
+    chest.y = y_pos
+}
+
+sprites.onOverlap(SpriteKind.Player, Chest, function on_open_chest(player: Sprite, chest: Sprite) {
+    
+    if (!has_weapon) {
+        has_weapon = true
+        inventory_list.push("Cyber Gun")
+        game.showLongText(`Has trobat l'ARMA DE PLASMA!
+Ara prem A per disparar.`, DialogLayout.Bottom)
+        chest.destroy(effects.confetti, 500)
+        music.powerUp.play()
     }
     
 })
-//  Generem 5 enemics per començar
-//  spawn_enemies(5)
-//  Generació del "final boss"
-//  spawn_boss()
-//  Generació de la clau
-spawn_key()
+//  FUNCIONS MONITOR NPC
+function spawn_lore_monitor(x_pos: number, y_pos: number) {
+    let monitor = sprites.create(img`
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    `, NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+}
+
+sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, monitor: Sprite) {
+    game.showLongText("LORE", DialogLayout.Bottom)
+    player.y += 10
+})
+//  EXECUCIÓ
+setup_player()
