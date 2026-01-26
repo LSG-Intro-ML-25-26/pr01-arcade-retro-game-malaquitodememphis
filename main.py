@@ -390,6 +390,7 @@ def load_level(level: number):
     has_key = False
     sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
     sprites.destroy_all_sprites_of_kind(SpriteKind.food)
+    sprites.destroy_all_sprites_of_kind(NPC)
 
     # Selecciona el mapa
     if level == 1:

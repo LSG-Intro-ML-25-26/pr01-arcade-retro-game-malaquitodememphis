@@ -341,6 +341,7 @@ function load_level(level: number) {
     has_key = false
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.Food)
+    sprites.destroyAllSpritesOfKind(NPC)
     //  Selecciona el mapa
     if (level == 1) {
         tiles.setTilemap(assets.tilemap`level1`)
