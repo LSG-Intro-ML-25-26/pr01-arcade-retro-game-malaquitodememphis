@@ -115,40 +115,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     
 })
 //  GENERACIÓ D'ENEMICS
-function spawn_enemies(number_of_enemies: any, x_pos: number, y_pos: number) {
-    let enemy: Sprite;
-    /** Genera una llista d'enemics en posicions aleatòries */
-    //  Bucle per generar 'n' enemics
-    for (let i = 0; i < number_of_enemies; i++) {
-        //  Creem l'enemic
-        enemy = sprites.create(img`
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        `, SpriteKind.Enemy)
-        // Posició aleatòria dins de la pantalla
-        //  Pendent d'actualitzar quan sapiguem tamany real total del mapa
-        enemy.x = x_pos
-        enemy.y = y_pos
-        //  "IA" per perseguir al jugador
-        enemy.follow(my_player, enemy_speed)
-        pause(200)
-    }
-}
-
 //  GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
@@ -264,45 +230,6 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
     scene.cameraShake(4, 200)
 })
 //  SISTEMA D'INVENTARI
-function spawn_key(x_pos: number, y_pos: number) {
-    /** Crea un objecte recol·lectable (Clau Mestre) */
-    let key_sprite = sprites.create(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . 5 5 . . . 5 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . 5 5 5 . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    `, SpriteKind.Food)
-    //  Usem "food" per objectes recol·lectables
-    key_sprite.x = x_pos
-    key_sprite.y = y_pos
-    //  FX
-    key_sprite.startEffect(effects.halo, 2000)
-}
-
-//  Registrem l'esdeveniment
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_player_collect_key(player: Sprite, key_sprite: Sprite) {
-    /** Gestió de l'inventari */
-    
-    //  Afegim l'element a la llista
-    inventory_list.push("Master Key")
-    //  Feedback visual
-    key_sprite.destroy(effects.confetti, 500)
-    music.baDing.play()
-    //  Mostrem l'inventari per pantalla
-    my_player.sayText("Tinc: " + ("" + inventory_list.length) + " ítems", 3000)
-})
 //  Registrem l'esdeveniment al botó "B"
 controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
     /** Mostra una finestra amb l'inventari */

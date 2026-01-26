@@ -119,41 +119,7 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 
 # GENERACIÓ D'ENEMICS
-def spawn_enemies(number_of_enemies, x_pos, y_pos):
-    """
-    Genera una llista d'enemics en posicions aleatòries
-    """
-    # Bucle per generar 'n' enemics
-    for i in range(number_of_enemies):
-        # Creem l'enemic
-        enemy = sprites.create(img("""
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        """), SpriteKind.enemy)
 
-        #Posició aleatòria dins de la pantalla
-        # Pendent d'actualitzar quan sapiguem tamany real total del mapa
-        enemy.x = x_pos
-        enemy.y = y_pos
-
-        # "IA" per perseguir al jugador
-        enemy.follow(my_player, enemy_speed)
-
-        pause(200)
 
 # GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 def on_projectile_hit_enemy(projectile, enemy):
@@ -299,53 +265,6 @@ def on_enemy_projectile_hit_player(player, projectile):
 sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
 
 # SISTEMA D'INVENTARI
-def spawn_key(x_pos, y_pos):
-    """
-    Crea un objecte recol·lectable (Clau Mestre)
-    """
-    key_sprite = sprites.create(img("""
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . 5 5 . . . 5 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . 5 5 5 . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    """), SpriteKind.food) # Usem "food" per objectes recol·lectables
-
-    key_sprite.x = x_pos
-    key_sprite.y = y_pos
-
-    # FX
-    key_sprite.start_effect(effects.halo, 2000)
-
-def on_player_collect_key(player, key_sprite):
-    """
-    Gestió de l'inventari
-    """
-    global inventory_list
-
-    # Afegim l'element a la llista
-    inventory_list.append("Master Key")
-
-    # Feedback visual
-    key_sprite.destroy(effects.confetti, 500)
-    music.ba_ding.play()
-
-    # Mostrem l'inventari per pantalla
-    my_player.say_text(("Tinc: " + str(len(inventory_list)) + " ítems"), 3000)
-
-# Registrem l'esdeveniment
-sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
 
 def show_inventory():
     """
@@ -448,6 +367,3 @@ setup_player()
 
 # Generació del "final boss"(x,y)
 # spawn_boss(100, 50)
-
-# Generació de la clau(x,y)
-# spawn_key(100, 50)
