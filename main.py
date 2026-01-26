@@ -459,6 +459,11 @@ def spawn_objects_from_tiles():
         spawn_enemies(loc_enemy, 1)
         tiles.set_tile_at(loc_enemy, assets.tile("way_floor"))
 
+    enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_base_floor"))
+    for loc2_enemy in enemy_spawns:
+        spawn_enemies(loc2_enemy, 1)
+        tiles.set_tile_at(loc2_enemy, assets.tile("base_floor"))
+
     # Genera la llave en su spawn
     key_spawns = tiles.get_tiles_by_type(assets.tile("access_card_base_floor"))
     for loc_key in key_spawns:

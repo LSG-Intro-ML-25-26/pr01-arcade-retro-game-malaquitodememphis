@@ -425,6 +425,11 @@ function spawn_objects_from_tiles() {
         spawn_enemies(loc_enemy, 1)
         tiles.setTileAt(loc_enemy, assets.tile`way_floor`)
     }
+    enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_base_floor`)
+    for (let loc2_enemy of enemy_spawns) {
+        spawn_enemies(loc2_enemy, 1)
+        tiles.setTileAt(loc2_enemy, assets.tile`base_floor`)
+    }
     //  Genera la llave en su spawn
     let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
     for (let loc_key of key_spawns) {
