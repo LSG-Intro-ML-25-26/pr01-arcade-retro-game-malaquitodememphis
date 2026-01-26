@@ -5,8 +5,6 @@ namespace myTiles {
     //% fixedInstance jres blockIdentity=images._tile
     export const transparency16 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
-    export const tile2 = image.ofBuffer(hex``);
-    //% fixedInstance jres blockIdentity=images._tile
     export const tile3 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile4 = image.ofBuffer(hex``);
@@ -40,6 +38,8 @@ namespace myTiles {
     export const tile18 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile19 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile2 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
@@ -176,8 +176,6 @@ namespace myTiles {
             case "test_fix":
             case "tile1":return tile1;
             case "transparency16":return transparency16;
-            case "base_floor":
-            case "tile2":return tile2;
             case "way_floor":
             case "tile3":return tile3;
             case "top_wall":
@@ -212,6 +210,8 @@ namespace myTiles {
             case "tile18":return tile18;
             case "access_card_base_floor":
             case "tile19":return tile19;
+            case "base_floor":
+            case "tile2":return tile2;
         }
         return null;
     })

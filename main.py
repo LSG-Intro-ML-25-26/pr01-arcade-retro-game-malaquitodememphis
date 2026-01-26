@@ -114,6 +114,9 @@ def shoot_projectile():
         # Destruïm el projectil un cop surt de la pantalla
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
 
+# Vinculem al botó A la funció shoot_projectile
+controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+
 # GENERACIÓ D'ENEMICS
 def spawn_enemies(location: tiles.Location, number_of_enemies: number):
     """
@@ -317,45 +320,21 @@ def spawn_key(location: tiles.Location):
     # FX
     key_sprite.start_effect(effects.halo, 2000)
 
-"""
-def on_player_collect_key(player, key_sprite):
-    
-    Gestió de l'inventari
-    
+# Funcion para recoger la llave
+def on_collect_key(player, item):
+    global has_key
+    has_key = True
+    # Añade la llave al inventario
     global inventory_list
+    inventory_list.append("Key Card")
 
-    # Afegim l'element a la llista
-    inventory_list.append("Master Key")
-
-    # Feedback visual
-    key_sprite.destroy(effects.confetti, 500)
+    item.destroy(effects.fire, 500)
     music.ba_ding.play()
+    player.say_text("¡Tengo la llave!", 1000)
 
-    # Mostrem l'inventari per pantalla
-    my_player.say_text(("Tinc: " + str(len(inventory_list)) + " ítems"), 3000)
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
 
-    # Si tenim la clau, podríem invocar al Boss (o obrir la porta)
-    # if "Master Key" in inventory_list:
-    #     game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
-    #     spawn_boss()
-
-# Registrem l'esdeveniment
-sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
-"""
-# EXECUCIÓ
-setup_player()
-
-# Vinculem al botó A la funció shoot_projectile
-controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
-
-# Generem 5 enemics per començar
-# spawn_enemies(5)
-
-# Generació del "final boss"
-# spawn_boss()
-
-# Generació de la clau
-
+# GESTIÓN DE NIVELES
 
 # Función para gestionar niveles
 def load_level(level: number):
@@ -387,6 +366,32 @@ def load_level(level: number):
     #Hacemos spawnear todos los objetos y enemigos
     spawn_objects_from_tiles()
 
+# Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+def on_hit_door_wall(player, location):
+    global current_level_num
+    
+    if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
+        #Pasa de nivel si tiene llave
+        if has_key:
+            music.power_up.play()
+            player.say_text("¡Abriendo!", 1000)
+            pause(1000)
+            current_level_num += 1
+            load_level(current_level_num)
+        #Sin llave choca con la puerta y rebota
+        else:
+            player.say_text("¡Cerrado!", 500)
+            scene.camera_shake(2, 200)
+            #Rebote del jugador
+            if player.vx > 0: player.x -= 5
+            if player.vx < 0: player.x += 5
+            if player.vy > 0: player.y -= 5
+            if player.vy < 0: player.y += 5
+
+scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
+
+# GENERACIÓN DE SPRITES
+
 # Función para generar objetos y enemigos
 def spawn_objects_from_tiles():
     # Genera enemigos en el spawn
@@ -401,47 +406,14 @@ def spawn_objects_from_tiles():
         spawn_key(loc_key)
         tiles.set_tile_at(loc_key, assets.tile("base_floor"))
 
+# EXECUCIÓ
 # Función para iniciar el juego
 def start_game():
     setup_player()
     load_level(current_level_num)
-
-# Funcion para recoger la llave
-def on_collect_key(player, item):
-    global has_key
-    has_key = True
-    # Añade la llave al inventario
-    global inventory_list
-    inventory_list.append("Master Key")
-
-    item.destroy(effects.fire, 500)
-    music.ba_ding.play()
-    player.say_text("¡Tengo la llave!", 1000)
-
-sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
-
-# Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
-def on_hit_door_wall(player, location):
-    global current_level_num
     
-    if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
-        #Pasa de nivel si tiene llave
-        if has_key:
-            music.power_up.play()
-            player.say_text("¡Abriendo!", 1000)
-            pause(1000)
-            current_level_num += 1
-            load_level(current_level_num)
-        #Sin llave choca con la puerta y rebota 
-        else:
-            player.say_text("¡Cerrado!", 500)
-            scene.camera_shake(2, 200)
-            #Rebote del jugador
-            if player.vx > 0: player.x -= 5
-            if player.vx < 0: player.x += 5
-            if player.vy > 0: player.y -= 5
-            if player.vy < 0: player.y += 5
-
-scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
-
 start_game()
+
+# Generació del "final boss"
+# spawn_boss()
+

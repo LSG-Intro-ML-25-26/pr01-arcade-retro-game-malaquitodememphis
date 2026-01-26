@@ -10,12 +10,6 @@
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true
     },
-    "tile2": {
-        "data": "hwQQABAAAAC7y7u8u7vLu8vMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzMzMzMy8y8zMzMzMzLzLzMzMzMzMvMvMzMzMzMy8zMzMzMzMzMzLzMzMzMzMvMvMzMzMzMy8y8zMzMzMzLy7u8u7u8u7uw==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "base_floor"
-    },
     "tile3": {
         "data": "hwQQABAAAADd3d3d3d3d3b27u7u7u7vbvby7u7u7y9u9u7u7u7u7y727u7u7u7vLvbu7u7u7u8u9u7u7u7u7y727u7u7u7vLvbu7u7u7u8u9u7u7u7u7y727u7u7u7vLvbu7u7u7u8u9u7u7u7u7y728u7u7u8vLvbu7u7u7u8vdzMzMzMzMzA==",
         "mimeType": "image/x-mkcd-f4",
@@ -117,6 +111,12 @@
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true,
         "displayName": "access_card_base_floor"
+    },
+    "tile2": {
+        "data": "hwQQABAAAAC7y7u8u7vLu8vMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzMzMzMy8y8zMzMzMzLzLzMzMzMzMvMvMzMzMzMy8zMzMzMzMzMzLzMzMzMzMvMvMzMzMzMy8y8zMzMzMzLy7u8u7u8u7uw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "base_floor"
     },
     "lev_fix1": {
         "id": "lev_fix1",

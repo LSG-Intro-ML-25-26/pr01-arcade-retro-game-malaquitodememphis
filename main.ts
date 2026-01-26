@@ -83,6 +83,37 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
+//  Vinculem al botó A la funció shoot_projectile
+controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
+    let projectile: Sprite;
+    /** Genera un projectil desde la possició del jugador */
+    
+    //  Només disparem si el jugador existeix
+    if (my_player) {
+        //  Creem el projectil (placeholder momentani)
+        projectile = sprites.createProjectileFromSprite(img`
+        . . . . .
+        . . 5 . .
+        . 5 5 5 .
+        . . 5 . .
+        . . . . .
+        `, my_player, 0, 0)
+        //  Velocitat inicial: 0
+        //  Lògica per disparar cap on mirem
+        if (facing_x == 0 && facing_y == 0) {
+            projectile.vx = projectile_speed
+        } else {
+            //  direcció projectil per defecte: dreta
+            //  Velocitat del projectil segons velocitat del jugador
+            projectile.vx = facing_x * projectile_speed
+            projectile.vy = facing_y * projectile_speed
+        }
+        
+        //  Destruïm el projectil un cop surt de la pantalla
+        projectile.setFlag(SpriteFlag.DestroyOnWall, true)
+    }
+    
+})
 //  GENERACIÓ D'ENEMICS
 function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
     let enemy: Sprite;
@@ -254,70 +285,18 @@ function spawn_key(location: tiles.Location) {
     key_sprite.startEffect(effects.halo, 2000)
 }
 
-/** 
-def on_player_collect_key(player, key_sprite):
+//  Funcion para recoger la llave
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(player: Sprite, item: Sprite) {
     
-    Gestió de l'inventari
+    has_key = true
+    //  Añade la llave al inventario
     
-    global inventory_list
-
-    # Afegim l'element a la llista
-    inventory_list.append("Master Key")
-
-    # Feedback visual
-    key_sprite.destroy(effects.confetti, 500)
-    music.ba_ding.play()
-
-    # Mostrem l'inventari per pantalla
-    my_player.say_text(("Tinc: " + str(len(inventory_list)) + " ítems"), 3000)
-
-    # Si tenim la clau, podríem invocar al Boss (o obrir la porta)
-    # if "Master Key" in inventory_list:
-    #     game.show_long_text("Clau trobada! El Boss ha despertat...", DialogLayout.BOTTOM)
-    #     spawn_boss()
-
-# Registrem l'esdeveniment
-sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_player_collect_key)
-
- */
-//  EXECUCIÓ
-setup_player()
-//  Vinculem al botó A la funció shoot_projectile
-controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
-    let projectile: Sprite;
-    /** Genera un projectil desde la possició del jugador */
-    
-    //  Només disparem si el jugador existeix
-    if (my_player) {
-        //  Creem el projectil (placeholder momentani)
-        projectile = sprites.createProjectileFromSprite(img`
-        . . . . .
-        . . 5 . .
-        . 5 5 5 .
-        . . 5 . .
-        . . . . .
-        `, my_player, 0, 0)
-        //  Velocitat inicial: 0
-        //  Lògica per disparar cap on mirem
-        if (facing_x == 0 && facing_y == 0) {
-            projectile.vx = projectile_speed
-        } else {
-            //  direcció projectil per defecte: dreta
-            //  Velocitat del projectil segons velocitat del jugador
-            projectile.vx = facing_x * projectile_speed
-            projectile.vy = facing_y * projectile_speed
-        }
-        
-        //  Destruïm el projectil un cop surt de la pantalla
-        projectile.setFlag(SpriteFlag.DestroyOnWall, true)
-    }
-    
+    inventory_list.push("Key Card")
+    item.destroy(effects.fire, 500)
+    music.baDing.play()
+    player.sayText("¡Tengo la llave!", 1000)
 })
-//  Generem 5 enemics per començar
-//  spawn_enemies(5)
-//  Generació del "final boss"
-//  spawn_boss()
-//  Generació de la clau
+//  GESTIÓN DE NIVELES
 //  Función para gestionar niveles
 function load_level(level: number) {
     
@@ -349,39 +328,6 @@ function load_level(level: number) {
     spawn_objects_from_tiles()
 }
 
-//  Función para generar objetos y enemigos
-function spawn_objects_from_tiles() {
-    //  Genera enemigos en el spawn
-    let enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_way_floor`)
-    for (let loc_enemy of enemy_spawns) {
-        spawn_enemies(loc_enemy, 1)
-        tiles.setTileAt(loc_enemy, assets.tile`way_floor`)
-    }
-    //  Genera la llave en su spawn
-    let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
-    for (let loc_key of key_spawns) {
-        spawn_key(loc_key)
-        tiles.setTileAt(loc_key, assets.tile`base_floor`)
-    }
-}
-
-//  Función para iniciar el juego
-function start_game() {
-    setup_player()
-    load_level(current_level_num)
-}
-
-//  Funcion para recoger la llave
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(player: Sprite, item: Sprite) {
-    
-    has_key = true
-    //  Añade la llave al inventario
-    
-    inventory_list.push("Master Key")
-    item.destroy(effects.fire, 500)
-    music.baDing.play()
-    player.sayText("¡Tengo la llave!", 1000)
-})
 //  Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
 scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, location: tiles.Location) {
     
@@ -394,7 +340,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
             current_level_num += 1
             load_level(current_level_num)
         } else {
-            // Sin llave choca con la puerta y rebota 
+            // Sin llave choca con la puerta y rebota
             player.sayText("¡Cerrado!", 500)
             scene.cameraShake(2, 200)
             // Rebote del jugador
@@ -419,4 +365,28 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
     }
     
 })
+//  GENERACIÓN DE SPRITES
+//  Función para generar objetos y enemigos
+function spawn_objects_from_tiles() {
+    //  Genera enemigos en el spawn
+    let enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_way_floor`)
+    for (let loc_enemy of enemy_spawns) {
+        spawn_enemies(loc_enemy, 1)
+        tiles.setTileAt(loc_enemy, assets.tile`way_floor`)
+    }
+    //  Genera la llave en su spawn
+    let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
+    for (let loc_key of key_spawns) {
+        spawn_key(loc_key)
+        tiles.setTileAt(loc_key, assets.tile`base_floor`)
+    }
+}
+
+//  EXECUCIÓ
+//  Función para iniciar el juego
+function start_game() {
+    setup_player()
+    load_level(current_level_num)
+}
+
 start_game()
