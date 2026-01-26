@@ -8,6 +8,7 @@ my_player: Sprite = None
 boss_sprite: Sprite = None
 boss_statusbar: StatusBarSprite = None
 
+
 # Variables
 inventory_list: List[str] = []
 has_weapon: bool = False
@@ -304,6 +305,25 @@ sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_p
 
 # SISTEMA D'INVENTARI
 def spawn_key(location: tiles.Location):
+    key_sprite = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . f f f f f f f f . . . .
+        . . . f f 2 2 2 2 2 2 f f . . .
+        . . . f 2 2 7 7 7 7 2 2 f . . .
+        . . . f 2 7 f f f f 7 2 f . . .
+        . . . f 2 7 f 2 2 f 7 2 f . . .
+        . . . f 2 7 f 2 2 f 7 2 f . . .
+        . . . f 2 7 f f f f 7 2 f . . .
+        . . . f 2 2 7 7 7 7 2 2 f . . .
+        . . . f f 2 2 2 2 2 2 f f . . .
+        . . . . f f f f f f f f . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    """), SpriteKind.food)
+    
     tiles.place_on_tile(key_sprite, location)
 
     # FX

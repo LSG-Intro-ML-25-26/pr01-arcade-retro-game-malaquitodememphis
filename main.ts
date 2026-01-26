@@ -9,10 +9,10 @@ let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
+let has_weapon = false
 //  Variables para niveles
 let current_level_num = 1
 let has_key = false
-let has_weapon = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -85,8 +85,7 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
-//  Vinculem al botó A la funció shoot_projectile
-controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
+function shoot_projectile() {
     let projectile: Sprite;
     /** Genera un projectil desde la possició del jugador */
     
@@ -110,12 +109,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
             projectile.vx = facing_x * projectile_speed
             projectile.vy = facing_y * projectile_speed
         }
-        //  Destruïm el projectil un cop surt de la pantalla
+        
+        //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
         projectile.setFlag(SpriteFlag.DestroyOnWall, true)
     } else if (my_player && !has_weapon) {
         music.thump.play()
-})
+    }
+    
+}
 
+//  Vinculem al botó A la funció shoot_projectile
+controller.A.onEvent(ControllerButtonEvent.Pressed, shoot_projectile)
 //  GENERACIÓ D'ENEMICS
 function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
     let enemy: Sprite;
@@ -144,11 +148,11 @@ function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
         tiles.placeOnTile(enemy, location)
         //  "IA" per perseguir al jugador
         enemy.follow(my_player, 30)
-        pause(200)
     }
-    
-})
+}
 
+controller.A.onEvent(ControllerButtonEvent.Pressed, shoot_projectile)
+//  GENERACIÓ D'ENEMICS
 //  GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
@@ -265,26 +269,24 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
 })
 //  SISTEMA D'INVENTARI
 function spawn_key(location: tiles.Location) {
-    /** Crea un objecte recol·lectable (Clau Mestre) */
     let key_sprite = sprites.create(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . 5 5 . . . 5 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . 5 5 5 . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . f f f f f f f f . . . .
+        . . . f f 2 2 2 2 2 2 f f . . .
+        . . . f 2 2 7 7 7 7 2 2 f . . .
+        . . . f 2 7 f f f f 7 2 f . . .
+        . . . f 2 7 f 2 2 f 7 2 f . . .
+        . . . f 2 7 f 2 2 f 7 2 f . . .
+        . . . f 2 7 f f f f 7 2 f . . .
+        . . . f 2 2 7 7 7 7 2 2 f . . .
+        . . . f f 2 2 2 2 2 2 f f . . .
+        . . . . f f f f f f f f . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
     `, SpriteKind.Food)
-    //  Usem "food" per objectes recol·lectables
     tiles.placeOnTile(key_sprite, location)
     //  FX
     key_sprite.startEffect(effects.halo, 2000)
@@ -300,6 +302,26 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(pl
     item.destroy(effects.fire, 500)
     music.baDing.play()
     player.sayText("¡Tengo la llave!", 1000)
+})
+//  Registrem l'esdeveniment al botó "B"
+controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
+    /** Mostra una finestra amb l'inventari */
+    
+    //  Variables amb valors per defecte
+    let weapon = "No"
+    let keys_count = 0
+    if (has_weapon) {
+        weapon = "Cyber Gun"
+    }
+    
+    //  Comptem les claus de l'inventari
+    for (let item of inventory_list) {
+        if (item == "Key Card") {
+            keys_count += 1
+        }
+        
+    }
+    game.showLongText("INVENTARI:\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
 })
 //  GESTIÓN DE NIVELES
 //  Función para gestionar niveles
@@ -387,26 +409,6 @@ function spawn_objects_from_tiles() {
     }
 }
 
-//  Registrem l'esdeveniment al botó "B"
-controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
-    /** Mostra una finestra amb l'inventari */
-    
-    //  Variables amb valors per defecte
-    let weapon = "No"
-    let keys_count = 0
-    if (has_weapon) {
-        weapon = "Cyber Gun"
-    }
-    
-    //  Comptem les claus de l'inventari
-    for (let item of inventory_list) {
-        if (item == "Key Card") {
-            keys_count += 1
-        }
-        
-    }
-    game.showLongText("INVENTARI:\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
-})
 //  FUNCIÓ D'OBJECTE: COFRE
 function spawn_chest(x_pos: number, y_pos: number) {
     /** Crea un cofre en una Posició */
@@ -459,7 +461,6 @@ sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, m
     game.showLongText("LORE", DialogLayout.Bottom)
     player.y += 10
 })
-
 //  EXECUCIÓ
 //  Función para iniciar el juego
 function start_game() {
