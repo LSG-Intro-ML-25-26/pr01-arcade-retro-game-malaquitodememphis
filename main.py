@@ -110,7 +110,7 @@ def shoot_projectile():
             projectile.vx = facing_x * projectile_speed
             projectile.vy = facing_y * projectile_speed
         
-        # Destruïm el projectil un cop surt de la pantalla
+        # Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
     elif my_player and not has_weapon:
         music.thump.play()
@@ -249,6 +249,9 @@ def boss_shooting_pattern():
 
         # Apunta el projectil cap el jugador
         boss_projectile.follow(my_player, 80)
+
+        # Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
+        boss_projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
 
 # COL·LISIONS DEL "FINAL BOSS"
 def on_projectile_hit_boss(projectile, boss_sprite):

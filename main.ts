@@ -107,7 +107,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
             projectile.vy = facing_y * projectile_speed
         }
         
-        //  Destruïm el projectil un cop surt de la pantalla
+        //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
         projectile.setFlag(SpriteFlag.DestroyOnWall, true)
     } else if (my_player && !has_weapon) {
         music.thump.play()
@@ -219,6 +219,8 @@ function spawn_boss(x_pos: number, y_pos: number) {
             boss_projectile.setKind(EnemyProjectile)
             //  Apunta el projectil cap el jugador
             boss_projectile.follow(my_player, 80)
+            //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
+            boss_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
         }
         
     })
