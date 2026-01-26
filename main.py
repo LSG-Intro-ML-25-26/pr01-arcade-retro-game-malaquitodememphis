@@ -370,6 +370,42 @@ def show_inventory():
 # Registrem l'esdeveniment al botó "B"
 controller.B.on_event(ControllerButtonEvent.PRESSED, show_inventory)
 
+# FUNCIÓ D'OBJECTE: COFRE
+def spawn_chest(location):
+    """
+    Crea un cofre en una Posició
+    """
+    chest = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    """), Chest)
+    tiles.place_on_tile(chest, location)
+
+# FUNCIONS MONITOR NPC
+def spawn_lore_monitor(x_pos, y_pos):
+    monitor = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    """), NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+
+def on_talk_npc(player, monitor):
+    game.show_long_text(
+        "LORE", DialogLayout.BOTTOM
+    )
+    player.y += 10
+
+sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
+
 # GESTIÓN DE NIVELES
 
 # Función para gestionar niveles
@@ -423,11 +459,19 @@ def on_hit_door_wall(player, location):
             if player.vx < 0: player.x += 5
             if player.vy > 0: player.y -= 5
             if player.vy < 0: player.y += 5
+    elif tiles.tile_at_location_equals(location, assets.tile("close_chest")):
+        global has_weapon, inventory_list
+        if not has_weapon:
+            has_weapon = True
+            inventory_list.append("Cyber Gun")
+            music.power_up.play()
+            game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
+            tiles.set_tile_at(location, assets.tile("open_chest"))
 
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
-# GENERACIÓN DE SPRITES
 
+# GENERACIÓN DE SPRITES
 # Función para generar objetos y enemigos
 def spawn_objects_from_tiles():
     # Genera enemigos en el spawn
@@ -442,63 +486,9 @@ def spawn_objects_from_tiles():
         spawn_key(loc_key)
         tiles.set_tile_at(loc_key, assets.tile("base_floor"))
 
-# FUNCIÓ D'OBJECTE: COFRE
-def spawn_chest(x_pos, y_pos):
-    """
-    Crea un cofre en una Posició
-    """
-    chest = sprites.create(img("""
-        . . b b b b b b b b b b . . . .
-        . b e 4 4 4 4 4 4 4 4 e b . . .
-        b e 4 4 4 4 4 4 4 4 4 4 e b . .
-        b e 4 4 4 4 4 4 4 4 4 4 e b . .
-        b e 4 4 4 4 4 4 4 4 4 4 e b . .
-        b e e 4 4 4 4 4 4 4 4 e e b . .
-        b e e e e e e e e e e e e b . .
-        . b b b b b b b b b b b b . . .
-        . . . . . . . . . . . . . . . .
-    """), Chest)
-    chest.x = x_pos
-    chest.y = y_pos
-
-def on_open_chest(player, chest):
-    global has_weapon, inventory_list
-
-    if not has_weapon:
-        has_weapon = True
-        inventory_list.append("Cyber Gun")
-
-        game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
-
-        chest.destroy(effects.confetti, 500)
-        music.power_up.play()
-
-sprites.on_overlap(SpriteKind.player, Chest, on_open_chest)
-
-# FUNCIONS MONITOR NPC
-def spawn_lore_monitor(x_pos, y_pos):
-    monitor = sprites.create(img("""
-        . . . . . . . . . . . . . . . .
-        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-        . . 5 b b b b b b b b b b 5 . .
-        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
-        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
-        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
-        . . 5 b b b b b b b b b b 5 . .
-        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-        . . . . . . 5 5 . . . . . . . .
-        . . . . . 5 5 5 5 . . . . . . .
-    """), NPC)
-    monitor.x = x_pos
-    monitor.y = y_pos
-
-def on_talk_npc(player, monitor):
-    game.show_long_text(
-        "LORE", DialogLayout.BOTTOM
-    )
-    player.y += 10
-
-sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
+    chest_spawn = tiles.get_tiles_by_type(assets.tile("close_chest"))
+    for loc_chest in chest_spawn:
+        spawn_chest(loc_chest)
 
 # EXECUCIÓ
 # Función para iniciar el juego

@@ -323,6 +323,38 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
     }
     game.showLongText("INVENTARI:\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
 })
+//  FUNCIÓ D'OBJECTE: COFRE
+function spawn_chest(location: any) {
+    /** Crea un cofre en una Posició */
+    let chest = sprites.create(img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    `, Chest)
+    tiles.placeOnTile(chest, location)
+}
+
+//  FUNCIONS MONITOR NPC
+function spawn_lore_monitor(x_pos: number, y_pos: number) {
+    let monitor = sprites.create(img`
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    `, NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+}
+
+sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, monitor: Sprite) {
+    game.showLongText("LORE", DialogLayout.Bottom)
+    player.y += 10
+})
 //  GESTIÓN DE NIVELES
 //  Función para gestionar niveles
 function load_level(level: number) {
@@ -389,6 +421,17 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
             
         }
         
+    } else if (tiles.tileAtLocationEquals(location, assets.tile`close_chest`)) {
+        
+        if (!has_weapon) {
+            has_weapon = true
+            inventory_list.push("Cyber Gun")
+            music.powerUp.play()
+            game.showLongText(`Has trobat l'ARMA DE PLASMA!
+Ara prem A per disparar.`, DialogLayout.Bottom)
+            tiles.setTileAt(location, assets.tile`open_chest`)
+        }
+        
     }
     
 })
@@ -407,60 +450,12 @@ function spawn_objects_from_tiles() {
         spawn_key(loc_key)
         tiles.setTileAt(loc_key, assets.tile`base_floor`)
     }
-}
-
-//  FUNCIÓ D'OBJECTE: COFRE
-function spawn_chest(x_pos: number, y_pos: number) {
-    /** Crea un cofre en una Posició */
-    let chest = sprites.create(img`
-        . . b b b b b b b b b b . . . .
-        . b e 4 4 4 4 4 4 4 4 e b . . .
-        b e 4 4 4 4 4 4 4 4 4 4 e b . .
-        b e 4 4 4 4 4 4 4 4 4 4 e b . .
-        b e 4 4 4 4 4 4 4 4 4 4 e b . .
-        b e e 4 4 4 4 4 4 4 4 e e b . .
-        b e e e e e e e e e e e e b . .
-        . b b b b b b b b b b b b . . .
-        . . . . . . . . . . . . . . . .
-    `, Chest)
-    chest.x = x_pos
-    chest.y = y_pos
-}
-
-sprites.onOverlap(SpriteKind.Player, Chest, function on_open_chest(player: Sprite, chest: Sprite) {
-    
-    if (!has_weapon) {
-        has_weapon = true
-        inventory_list.push("Cyber Gun")
-        game.showLongText(`Has trobat l'ARMA DE PLASMA!
-Ara prem A per disparar.`, DialogLayout.Bottom)
-        chest.destroy(effects.confetti, 500)
-        music.powerUp.play()
+    let chest_spawn = tiles.getTilesByType(assets.tile`close_chest`)
+    for (let loc_chest of chest_spawn) {
+        spawn_chest(loc_chest)
     }
-    
-})
-//  FUNCIONS MONITOR NPC
-function spawn_lore_monitor(x_pos: number, y_pos: number) {
-    let monitor = sprites.create(img`
-        . . . . . . . . . . . . . . . .
-        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-        . . 5 b b b b b b b b b b 5 . .
-        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
-        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
-        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
-        . . 5 b b b b b b b b b b 5 . .
-        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-        . . . . . . 5 5 . . . . . . . .
-        . . . . . 5 5 5 5 . . . . . . .
-    `, NPC)
-    monitor.x = x_pos
-    monitor.y = y_pos
 }
 
-sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, monitor: Sprite) {
-    game.showLongText("LORE", DialogLayout.Bottom)
-    player.y += 10
-})
 //  EXECUCIÓ
 //  Función para iniciar el juego
 function start_game() {
