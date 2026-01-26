@@ -382,7 +382,7 @@ def spawn_chest(location):
     tiles.place_on_tile(chest, location)
 
 # FUNCIONS MONITOR NPC
-def spawn_lore_monitor(x_pos, y_pos):
+def spawn_lore_monitor(location):
     monitor = sprites.create(img("""
         . . . . . . . . . . . . . . . .
         . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
@@ -392,19 +392,10 @@ def spawn_lore_monitor(x_pos, y_pos):
         . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
         . . 5 b b b b b b b b b b 5 . .
         . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-        . . . . . . 5 5 . . . . . . . .
-        . . . . . 5 5 5 5 . . . . . . .
+        . . . . . . . 5 5 . . . . . . .
+        . . . . . . 5 5 5 5 . . . . . .
     """), NPC)
-    monitor.x = x_pos
-    monitor.y = y_pos
-
-def on_talk_npc(player, monitor):
-    game.show_long_text(
-        "LORE", DialogLayout.BOTTOM
-    )
-    player.y += 10
-
-sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
+    tiles.place_on_tile(monitor, location)
 
 # GESTIÓN DE NIVELES
 
@@ -464,9 +455,14 @@ def on_hit_door_wall(player, location):
         if not has_weapon:
             has_weapon = True
             inventory_list.append("Cyber Gun")
-            music.power_up.play()
+            music.power_up.play(500)
             game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
             tiles.set_tile_at(location, assets.tile("open_chest"))
+    elif tiles.tile_at_location_equals(location, assets.tile("spawn_npc_base_floor")):
+        game.show_long_text(
+                "LORE", DialogLayout.BOTTOM
+            )
+        player.y += 10
 
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
@@ -489,6 +485,10 @@ def spawn_objects_from_tiles():
     chest_spawn = tiles.get_tiles_by_type(assets.tile("close_chest"))
     for loc_chest in chest_spawn:
         spawn_chest(loc_chest)
+
+    monitor_spawn = tiles.get_tiles_by_type(assets.tile("spawn_npc_base_floor"))
+    for loc_monitor in monitor_spawn:
+        spawn_lore_monitor(loc_monitor)
 
 # EXECUCIÓ
 # Función para iniciar el juego

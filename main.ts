@@ -334,7 +334,7 @@ function spawn_chest(location: any) {
 }
 
 //  FUNCIONS MONITOR NPC
-function spawn_lore_monitor(x_pos: number, y_pos: number) {
+function spawn_lore_monitor(location: any) {
     let monitor = sprites.create(img`
         . . . . . . . . . . . . . . . .
         . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
@@ -344,17 +344,12 @@ function spawn_lore_monitor(x_pos: number, y_pos: number) {
         . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
         . . 5 b b b b b b b b b b 5 . .
         . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
-        . . . . . . 5 5 . . . . . . . .
-        . . . . . 5 5 5 5 . . . . . . .
+        . . . . . . . 5 5 . . . . . . .
+        . . . . . . 5 5 5 5 . . . . . .
     `, NPC)
-    monitor.x = x_pos
-    monitor.y = y_pos
+    tiles.placeOnTile(monitor, location)
 }
 
-sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, monitor: Sprite) {
-    game.showLongText("LORE", DialogLayout.Bottom)
-    player.y += 10
-})
 //  GESTIÓN DE NIVELES
 //  Función para gestionar niveles
 function load_level(level: number) {
@@ -426,12 +421,15 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
         if (!has_weapon) {
             has_weapon = true
             inventory_list.push("Cyber Gun")
-            music.powerUp.play()
+            music.powerUp.play(500)
             game.showLongText(`Has trobat l'ARMA DE PLASMA!
 Ara prem A per disparar.`, DialogLayout.Bottom)
             tiles.setTileAt(location, assets.tile`open_chest`)
         }
         
+    } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {
+        game.showLongText("LORE", DialogLayout.Bottom)
+        player.y += 10
     }
     
 })
@@ -453,6 +451,10 @@ function spawn_objects_from_tiles() {
     let chest_spawn = tiles.getTilesByType(assets.tile`close_chest`)
     for (let loc_chest of chest_spawn) {
         spawn_chest(loc_chest)
+    }
+    let monitor_spawn = tiles.getTilesByType(assets.tile`spawn_npc_base_floor`)
+    for (let loc_monitor of monitor_spawn) {
+        spawn_lore_monitor(loc_monitor)
     }
 }
 
