@@ -12,6 +12,10 @@ boss_statusbar: StatusBarSprite = None
 inventory_list: List[str] = []
 has_weapon: bool = False
 
+# Variables para niveles
+current_level_num = 1
+has_key = False
+
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
 facing_y: number = 0
@@ -115,6 +119,40 @@ def shoot_projectile():
     elif my_player and not has_weapon:
         music.thump.play()
 
+# Vinculem al botó A la funció shoot_projectile
+controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
+
+# GENERACIÓ D'ENEMICS
+def spawn_enemies(location: tiles.Location, number_of_enemies: number):
+    """
+    Genera una llista d'enemics en posicions aleatòries
+    """
+    # Bucle per generar 'n' enemics
+    for i in range(number_of_enemies):
+        # Creem l'enemic
+        enemy = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . 2 2 2 2 . . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . . 2 2 2 2 . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        """), SpriteKind.enemy)
+
+        tiles.place_on_tile(enemy, location)
+
+        # "IA" per perseguir al jugador
+        enemy.follow(my_player, 30)
 controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 
@@ -265,13 +303,31 @@ def on_enemy_projectile_hit_player(player, projectile):
 sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
 
 # SISTEMA D'INVENTARI
+def spawn_key(location: tiles.Location):
+    tiles.place_on_tile(key_sprite, location)
+
+    # FX
+    key_sprite.start_effect(effects.halo, 2000)
+
+# Funcion para recoger la llave
+def on_collect_key(player, item):
+    global has_key
+    has_key = True
+    # Añade la llave al inventario
+    global inventory_list
+    inventory_list.append("Key Card")
+
+    item.destroy(effects.fire, 500)
+    music.ba_ding.play()
+    player.say_text("¡Tengo la llave!", 1000)
+
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
 
 def show_inventory():
     """
     Mostra una finestra amb l'inventari
     """
     global inventory_list, has_weapon
-
     # Variables amb valors per defecte
     weapon = "No"
     keys_count = 0
@@ -293,7 +349,79 @@ def show_inventory():
 
 # Registrem l'esdeveniment al botó "B"
 controller.B.on_event(ControllerButtonEvent.PRESSED, show_inventory)
+
+# GESTIÓN DE NIVELES
+
+# Función para gestionar niveles
+def load_level(level: number):
+    global my_player, has_key
     
+    # Reiniciar el nivel entero
+    has_key = False
+    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.food)
+
+    # Selecciona el mapa
+    if level == 1:
+        tiles.set_tilemap(assets.tilemap("level1"))
+        game.splash("NIVEL 1", "Entrenamiento")
+    elif level == 2:
+        tiles.set_tilemap(assets.tilemap("level2"))
+        game.splash("NIVEL 2", "Zona Corrupta")
+    elif level == 3:
+        tiles.set_tilemap(assets.tilemap("level3"))
+        game.splash("NIVEL 3", "Boss Final")
+
+    # Spawn del jugador
+    player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))
+    # Devuelve el tile a la normalidad (borra el spawn)
+    if len(player_spawns) > 0:
+        tiles.place_on_tile(my_player, player_spawns[0])
+        tiles.set_tile_at(player_spawns[0], assets.tile("base_floor"))
+    
+    #Hacemos spawnear todos los objetos y enemigos
+    spawn_objects_from_tiles()
+
+# Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+def on_hit_door_wall(player, location):
+    global current_level_num
+    
+    if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
+        #Pasa de nivel si tiene llave
+        if has_key:
+            music.power_up.play()
+            player.say_text("¡Abriendo!", 1000)
+            pause(1000)
+            current_level_num += 1
+            load_level(current_level_num)
+        #Sin llave choca con la puerta y rebota
+        else:
+            player.say_text("¡Cerrado!", 500)
+            scene.camera_shake(2, 200)
+            #Rebote del jugador
+            if player.vx > 0: player.x -= 5
+            if player.vx < 0: player.x += 5
+            if player.vy > 0: player.y -= 5
+            if player.vy < 0: player.y += 5
+
+scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
+
+# GENERACIÓN DE SPRITES
+
+# Función para generar objetos y enemigos
+def spawn_objects_from_tiles():
+    # Genera enemigos en el spawn
+    enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_way_floor"))
+    for loc_enemy in enemy_spawns:
+        spawn_enemies(loc_enemy, 1)
+        tiles.set_tile_at(loc_enemy, assets.tile("way_floor"))
+
+    # Genera la llave en su spawn
+    key_spawns = tiles.get_tiles_by_type(assets.tile("access_card_base_floor"))
+    for loc_key in key_spawns:
+        spawn_key(loc_key)
+        tiles.set_tile_at(loc_key, assets.tile("base_floor"))
+
 # FUNCIÓ D'OBJECTE: COFRE
 def spawn_chest(x_pos, y_pos):
     """
@@ -353,17 +481,18 @@ def on_talk_npc(player, monitor):
 sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
 
 # EXECUCIÓ
-# Mostrem el jugador
-setup_player()
+# Función para iniciar el juego
+def start_game():
+    setup_player()
+    load_level(current_level_num)
+    
+start_game()
 
 # Mostrem cofre(x,y)
 # spawn_chest(120, 60)
 
 # Mostrem monitor(x,y)
 # spawn_lore_monitor(40, 60)
-
-# Generem 5 enemics per començar(num_of_enemies,x,y)
-# spawn_enemies(5, 100, 50)
 
 # Generació del "final boss"(x,y)
 # spawn_boss(100, 50)

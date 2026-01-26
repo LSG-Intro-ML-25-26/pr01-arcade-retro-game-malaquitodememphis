@@ -9,6 +9,9 @@ let boss_sprite : Sprite = null
 let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
+//  Variables para niveles
+let current_level_num = 1
+let has_key = false
 let has_weapon = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
@@ -82,6 +85,7 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
+//  Vinculem al botó A la funció shoot_projectile
 controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
     let projectile: Sprite;
     /** Genera un projectil desde la possició del jugador */
@@ -106,15 +110,45 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
             projectile.vx = facing_x * projectile_speed
             projectile.vy = facing_y * projectile_speed
         }
-        
-        //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
+        //  Destruïm el projectil un cop surt de la pantalla
         projectile.setFlag(SpriteFlag.DestroyOnWall, true)
     } else if (my_player && !has_weapon) {
         music.thump.play()
+})
+
+//  GENERACIÓ D'ENEMICS
+function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
+    let enemy: Sprite;
+    /** Genera una llista d'enemics en posicions aleatòries */
+    //  Bucle per generar 'n' enemics
+    for (let i = 0; i < number_of_enemies; i++) {
+        //  Creem l'enemic
+        enemy = sprites.create(img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . 2 2 2 2 . . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        . . . . . . 2 2 2 2 . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        `, SpriteKind.Enemy)
+        tiles.placeOnTile(enemy, location)
+        //  "IA" per perseguir al jugador
+        enemy.follow(my_player, 30)
+        pause(200)
     }
     
 })
-//  GENERACIÓ D'ENEMICS
+
 //  GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
@@ -230,6 +264,129 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
     scene.cameraShake(4, 200)
 })
 //  SISTEMA D'INVENTARI
+function spawn_key(location: tiles.Location) {
+    /** Crea un objecte recol·lectable (Clau Mestre) */
+    let key_sprite = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . 5 5 5 5 5 . . . . . .
+    . . . . 5 5 . . . 5 5 . . . . .
+    . . . . 5 . . . . . 5 . . . . .
+    . . . . 5 . . . . . 5 . . . . .
+    . . . . . 5 5 5 5 5 . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . . 5 . . . . . . . .
+    . . . . . . 5 5 5 . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, SpriteKind.Food)
+    //  Usem "food" per objectes recol·lectables
+    tiles.placeOnTile(key_sprite, location)
+    //  FX
+    key_sprite.startEffect(effects.halo, 2000)
+}
+
+//  Funcion para recoger la llave
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(player: Sprite, item: Sprite) {
+    
+    has_key = true
+    //  Añade la llave al inventario
+    
+    inventory_list.push("Key Card")
+    item.destroy(effects.fire, 500)
+    music.baDing.play()
+    player.sayText("¡Tengo la llave!", 1000)
+})
+//  GESTIÓN DE NIVELES
+//  Función para gestionar niveles
+function load_level(level: number) {
+    
+    //  Reiniciar el nivel entero
+    has_key = false
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Food)
+    //  Selecciona el mapa
+    if (level == 1) {
+        tiles.setTilemap(assets.tilemap`level1`)
+        game.splash("NIVEL 1", "Entrenamiento")
+    } else if (level == 2) {
+        tiles.setTilemap(assets.tilemap`level2`)
+        game.splash("NIVEL 2", "Zona Corrupta")
+    } else if (level == 3) {
+        tiles.setTilemap(assets.tilemap`level3`)
+        game.splash("NIVEL 3", "Boss Final")
+    }
+    
+    //  Spawn del jugador
+    let player_spawns = tiles.getTilesByType(assets.tile`spawn_player_base_floor`)
+    //  Devuelve el tile a la normalidad (borra el spawn)
+    if (player_spawns.length > 0) {
+        tiles.placeOnTile(my_player, player_spawns[0])
+        tiles.setTileAt(player_spawns[0], assets.tile`base_floor`)
+    }
+    
+    // Hacemos spawnear todos los objetos y enemigos
+    spawn_objects_from_tiles()
+}
+
+//  Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, location: tiles.Location) {
+    
+    if (tiles.tileAtLocationEquals(location, assets.tile`acces_doors`)) {
+        // Pasa de nivel si tiene llave
+        if (has_key) {
+            music.powerUp.play()
+            player.sayText("¡Abriendo!", 1000)
+            pause(1000)
+            current_level_num += 1
+            load_level(current_level_num)
+        } else {
+            // Sin llave choca con la puerta y rebota
+            player.sayText("¡Cerrado!", 500)
+            scene.cameraShake(2, 200)
+            // Rebote del jugador
+            if (player.vx > 0) {
+                player.x -= 5
+            }
+            
+            if (player.vx < 0) {
+                player.x += 5
+            }
+            
+            if (player.vy > 0) {
+                player.y -= 5
+            }
+            
+            if (player.vy < 0) {
+                player.y += 5
+            }
+            
+        }
+        
+    }
+    
+})
+//  GENERACIÓN DE SPRITES
+//  Función para generar objetos y enemigos
+function spawn_objects_from_tiles() {
+    //  Genera enemigos en el spawn
+    let enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_way_floor`)
+    for (let loc_enemy of enemy_spawns) {
+        spawn_enemies(loc_enemy, 1)
+        tiles.setTileAt(loc_enemy, assets.tile`way_floor`)
+    }
+    //  Genera la llave en su spawn
+    let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
+    for (let loc_key of key_spawns) {
+        spawn_key(loc_key)
+        tiles.setTileAt(loc_key, assets.tile`base_floor`)
+    }
+}
+
 //  Registrem l'esdeveniment al botó "B"
 controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
     /** Mostra una finestra amb l'inventari */
@@ -302,6 +459,12 @@ sprites.onOverlap(SpriteKind.Player, NPC, function on_talk_npc(player: Sprite, m
     game.showLongText("LORE", DialogLayout.Bottom)
     player.y += 10
 })
+
 //  EXECUCIÓ
-//  Mostrem el jugador
-setup_player()
+//  Función para iniciar el juego
+function start_game() {
+    setup_player()
+    load_level(current_level_num)
+}
+
+start_game()
