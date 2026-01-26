@@ -1,13 +1,16 @@
 # VARIABLES GLOBALS
 # Sprites
-my_player: Sprite = None
-Boss = SpriteKind.create() # Creem categoria
+Boss = SpriteKind.create()
 EnemyProjectile = SpriteKind.create()
+Chest = SpriteKind.create()
+NPC = SpriteKind.create()
+my_player: Sprite = None
 boss_sprite: Sprite = None
 boss_statusbar: StatusBarSprite = None
 
 # Variables
 inventory_list: List[str] = []
+has_weapon: bool = False
 
 # Variables para niveles
 current_level_num = 1
@@ -90,10 +93,10 @@ def shoot_projectile():
     """
     Genera un projectil desde la possició del jugador
     """
-    global my_player, facing_x, facing_y
+    global my_player, facing_x, facing_y, has_weapon
 
     # Només disparem si el jugador existeix
-    if my_player:
+    if my_player and has_weapon:
         # Creem el projectil (placeholder momentani)
         projectile = sprites.create_projectile_from_sprite(img("""
         . . . . .
@@ -111,8 +114,10 @@ def shoot_projectile():
             projectile.vx = facing_x * projectile_speed
             projectile.vy = facing_y * projectile_speed
         
-        # Destruïm el projectil un cop surt de la pantalla
+        # Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
+    elif my_player and not has_weapon:
+        music.thump.play()
 
 # Vinculem al botó A la funció shoot_projectile
 controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
@@ -148,8 +153,11 @@ def spawn_enemies(location: tiles.Location, number_of_enemies: number):
 
         # "IA" per perseguir al jugador
         enemy.follow(my_player, 30)
+controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
-        pause(200)
+
+# GENERACIÓ D'ENEMICS
+
 
 # GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
 def on_projectile_hit_enemy(projectile, enemy):
@@ -185,7 +193,7 @@ def on_enemy_hit_player(player, enemy):
 sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_enemy_hit_player)
 
 # FUNCIONS DEL "FINAL BOSS"
-def spawn_boss():
+def spawn_boss(x_pos, y_pos):
     """
     Invoca el "Kernel Corrupte"
     """
@@ -211,8 +219,8 @@ def spawn_boss():
     """), Boss)
 
     # El col·loquem al centre
-    boss_sprite.x = 80
-    boss_sprite.y = 30
+    boss_sprite.x = x_pos
+    boss_sprite.y = y_pos
 
     # Li donem vida (extensió de "status-bar")
     boss_statusbar = statusbars.create(20, 4, StatusBarKind.enemy_health)
@@ -245,6 +253,9 @@ def boss_shooting_pattern():
 
         # Apunta el projectil cap el jugador
         boss_projectile.follow(my_player, 80)
+
+        # Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
+        boss_projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
 
 # COL·LISIONS DEL "FINAL BOSS"
 def on_projectile_hit_boss(projectile, boss_sprite):
@@ -293,28 +304,6 @@ sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_p
 
 # SISTEMA D'INVENTARI
 def spawn_key(location: tiles.Location):
-    """
-    Crea un objecte recol·lectable (Clau Mestre)
-    """
-    key_sprite = sprites.create(img("""
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . 5 5 . . . 5 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . 5 . . . . . 5 . . . . .
-    . . . . . 5 5 5 5 5 . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . . 5 . . . . . . . .
-    . . . . . . 5 5 5 . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    """), SpriteKind.food) # Usem "food" per objectes recol·lectables
-
     tiles.place_on_tile(key_sprite, location)
 
     # FX
@@ -333,6 +322,33 @@ def on_collect_key(player, item):
     player.say_text("¡Tengo la llave!", 1000)
 
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
+
+def show_inventory():
+    """
+    Mostra una finestra amb l'inventari
+    """
+    global inventory_list, has_weapon
+    # Variables amb valors per defecte
+    weapon = "No"
+    keys_count = 0
+
+    if has_weapon:
+        weapon = "Cyber Gun"
+    
+    # Comptem les claus de l'inventari
+    for item in inventory_list:
+        if item == "Key Card":
+            keys_count += 1
+    
+    game.show_long_text(
+            "INVENTARI:\n" +
+            "- Arma: " + weapon + "\n" +
+            "- Targetes d'Accés: " + str(keys_count) + "/3",
+            DialogLayout.CENTER
+        )
+
+# Registrem l'esdeveniment al botó "B"
+controller.B.on_event(ControllerButtonEvent.PRESSED, show_inventory)
 
 # GESTIÓN DE NIVELES
 
@@ -406,6 +422,64 @@ def spawn_objects_from_tiles():
         spawn_key(loc_key)
         tiles.set_tile_at(loc_key, assets.tile("base_floor"))
 
+# FUNCIÓ D'OBJECTE: COFRE
+def spawn_chest(x_pos, y_pos):
+    """
+    Crea un cofre en una Posició
+    """
+    chest = sprites.create(img("""
+        . . b b b b b b b b b b . . . .
+        . b e 4 4 4 4 4 4 4 4 e b . . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e 4 4 4 4 4 4 4 4 4 4 e b . .
+        b e e 4 4 4 4 4 4 4 4 e e b . .
+        b e e e e e e e e e e e e b . .
+        . b b b b b b b b b b b b . . .
+        . . . . . . . . . . . . . . . .
+    """), Chest)
+    chest.x = x_pos
+    chest.y = y_pos
+
+def on_open_chest(player, chest):
+    global has_weapon, inventory_list
+
+    if not has_weapon:
+        has_weapon = True
+        inventory_list.append("Cyber Gun")
+
+        game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
+
+        chest.destroy(effects.confetti, 500)
+        music.power_up.play()
+
+sprites.on_overlap(SpriteKind.player, Chest, on_open_chest)
+
+# FUNCIONS MONITOR NPC
+def spawn_lore_monitor(x_pos, y_pos):
+    monitor = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b 1 1 1 1 1 1 1 1 b 5 . .
+        . . 5 b b b b b b b b b b 5 . .
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . .
+        . . . . . . 5 5 . . . . . . . .
+        . . . . . 5 5 5 5 . . . . . . .
+    """), NPC)
+    monitor.x = x_pos
+    monitor.y = y_pos
+
+def on_talk_npc(player, monitor):
+    game.show_long_text(
+        "LORE", DialogLayout.BOTTOM
+    )
+    player.y += 10
+
+sprites.on_overlap(SpriteKind.player, NPC, on_talk_npc)
+
 # EXECUCIÓ
 # Función para iniciar el juego
 def start_game():
@@ -414,6 +488,11 @@ def start_game():
     
 start_game()
 
-# Generació del "final boss"
-# spawn_boss()
+# Mostrem cofre(x,y)
+# spawn_chest(120, 60)
 
+# Mostrem monitor(x,y)
+# spawn_lore_monitor(40, 60)
+
+# Generació del "final boss"(x,y)
+# spawn_boss(100, 50)
