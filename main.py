@@ -413,10 +413,10 @@ def load_level(level: number):
         tiles.set_tilemap(assets.tilemap("level1"))
         game.splash("NIVEL 1", "Entrenamiento")
     elif level == 2:
-        tiles.set_tilemap(assets.tilemap("level2"))
+        tiles.set_tilemap(assets.tilemap("level4"))
         game.splash("NIVEL 2", "Zona Corrupta")
     elif level == 3:
-        tiles.set_tilemap(assets.tilemap("level3"))
+        tiles.set_tilemap(assets.tilemap("level5"))
         game.splash("NIVEL 3", "Boss Final")
 
     # Spawn del jugador

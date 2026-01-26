@@ -363,10 +363,10 @@ function load_level(level: number) {
         tiles.setTilemap(assets.tilemap`level1`)
         game.splash("NIVEL 1", "Entrenamiento")
     } else if (level == 2) {
-        tiles.setTilemap(assets.tilemap`level2`)
+        tiles.setTilemap(assets.tilemap`level4`)
         game.splash("NIVEL 2", "Zona Corrupta")
     } else if (level == 3) {
-        tiles.setTilemap(assets.tilemap`level3`)
+        tiles.setTilemap(assets.tilemap`level5`)
         game.splash("NIVEL 3", "Boss Final")
     }
     
