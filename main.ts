@@ -312,6 +312,20 @@ function spawn_chest(location: any) {
     let chest = sprites.create(img`
         . . . . . . . . . . . . . . . .
         . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
     `, Chest)
     tiles.placeOnTile(chest, location)
 }
@@ -418,6 +432,13 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
     
 })
 //  GENERACIÓN DE SPRITES
+scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
+    game.showLongText("LORE: Aquí encontraste datos corruptos...", DialogLayout.Bottom)
+    let all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
+    for (let loc of all_lore_locations) {
+        tiles.setTileAt(loc, assets.tile`base_floor`)
+    }
+})
 //  Función para generar objetos y enemigos
 function spawn_objects_from_tiles() {
     //  Genera enemigos en el spawn
@@ -445,6 +466,7 @@ function spawn_objects_from_tiles() {
     for (let loc_monitor of monitor_spawn) {
         spawn_lore_monitor(loc_monitor)
     }
+    let lorepoint_spawn = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
 }
 
 //  EXECUCIÓ

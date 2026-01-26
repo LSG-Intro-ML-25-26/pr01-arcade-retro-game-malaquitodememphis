@@ -361,6 +361,20 @@ def spawn_chest(location):
     chest = sprites.create(img("""
         . . . . . . . . . . . . . . . .
         . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
     """), Chest)
     tiles.place_on_tile(chest, location)
 
@@ -450,8 +464,16 @@ def on_hit_door_wall(player, location):
 
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
-
 # GENERACIÓN DE SPRITES
+def on_player_step_on_lore(player, location):
+    game.show_long_text("LORE: Aquí encontraste datos corruptos...", DialogLayout.BOTTOM)
+    
+    all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
+    
+    for loc in all_lore_locations:
+        tiles.set_tile_at(loc, assets.tile("base_floor"))
+scene.on_overlap_tile(SpriteKind.player, assets.tile("lore_point_base_floor"), on_player_step_on_lore)
+
 # Función para generar objetos y enemigos
 def spawn_objects_from_tiles():
     # Genera enemigos en el spawn
@@ -478,6 +500,8 @@ def spawn_objects_from_tiles():
     monitor_spawn = tiles.get_tiles_by_type(assets.tile("spawn_npc_base_floor"))
     for loc_monitor in monitor_spawn:
         spawn_lore_monitor(loc_monitor)
+
+    lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
 
 # EXECUCIÓ
 # Función para iniciar el juego
