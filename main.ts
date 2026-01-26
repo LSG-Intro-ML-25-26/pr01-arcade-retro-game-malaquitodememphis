@@ -269,24 +269,7 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
 })
 //  SISTEMA D'INVENTARI
 function spawn_key(location: tiles.Location) {
-    let key_sprite = sprites.create(img`
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . f f f f f f f f . . . .
-        . . . f f 2 2 2 2 2 2 f f . . .
-        . . . f 2 2 7 7 7 7 2 2 f . . .
-        . . . f 2 7 f f f f 7 2 f . . .
-        . . . f 2 7 f 2 2 f 7 2 f . . .
-        . . . f 2 7 f 2 2 f 7 2 f . . .
-        . . . f 2 7 f f f f 7 2 f . . .
-        . . . f 2 2 7 7 7 7 2 2 f . . .
-        . . . f f 2 2 2 2 2 2 f f . . .
-        . . . . f f f f f f f f . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-    `, SpriteKind.Food)
+    let key_sprite = sprites.create(assets.tile`access_card_base_floor`, SpriteKind.Food)
     tiles.placeOnTile(key_sprite, location)
     //  FX
     key_sprite.startEffect(effects.halo, 2000)
