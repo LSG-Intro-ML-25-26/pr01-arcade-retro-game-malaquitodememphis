@@ -118,6 +118,18 @@
         "tilemapTile": true,
         "displayName": "base_floor"
     },
+    "tile20": {
+        "data": "hwQQABAAAAC7y7u8u7vLu8vMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzGzGzMy8y8zMbMbMzLzLzMzMzMzMvMvMzMzMzMy8zMzMzMzMzMzLzMzMzMzMvMvMzMzMzMy8y8zMzMzMzLy7u8u7u8u7uw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "lore_point_base_floor"
+    },
+    "tile21": {
+        "data": "hwQQABAAAAC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7uyIiIiIiIiIiu7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7IiIiIiIiIiK7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7siIiIiIiIiIru7u7u7u7u7u7u7u7u7u7u7u7u7u7u7uw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "laser_block_wall"
+    },
     "lev_fix1": {
         "id": "lev_fix1",
         "mimeType": "application/mkcd-tilemap",
