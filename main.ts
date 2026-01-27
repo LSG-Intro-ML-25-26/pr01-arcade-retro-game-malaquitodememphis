@@ -66,13 +66,15 @@ function setup_player() {
 //  BUCLE D'ACTUALITZACIÓ
 //  Vinculem la funció del bucle al joc
 game.onUpdate(function on_game_update() {
+    let level2_doors_opened: boolean;
     let laser_loc: tiles.Location[];
     let dx: number;
     let dy: number;
     let distance: number;
     /** Aquesta funció s'executa a cada frame del joc */
     
-    if (!level2_doors_opened && current_level_num == 2 && info.score() - score_start_level_2 >= 400) {
+    if (!level2_doors_opened && current_level_num == 2 && info.score() - score_start_level_2 >= 600) {
+        level2_doors_opened = true
         scene.cameraShake(3, 1000)
         music.spooky.play(200)
         my_player.sayText("Les portes s'obren!")
@@ -220,6 +222,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_enemy_hit_pla
     //  Restem una vida
     info.changeLifeBy(-1)
     music.zapped.play(100)
+    info.changeScoreBy(100)
     //  Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
     //  Feedback visual (sacsejar càmera)

@@ -80,7 +80,8 @@ def on_game_update():
     """
     global facing_x, facing_y, my_player, score_start_level_2
 
-    if not level2_doors_opened and current_level_num == 2 and info.score() - score_start_level_2 >= 400:
+    if not level2_doors_opened and current_level_num == 2 and info.score() - score_start_level_2 >= 600:
+        level2_doors_opened = True
         scene.camera_shake(3, 1000)
         music.spooky.play(200)
         my_player.say_text("Les portes s'obren!")
@@ -227,6 +228,7 @@ def on_enemy_hit_player(player, enemy):
     # Restem una vida
     info.change_life_by(-1)
     music.zapped.play(100)
+    info.change_score_by(100)
 
     # Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
