@@ -155,43 +155,11 @@ function spawn_enemies(location: tiles.Location, type_of_enemy: number) {
     let enemy: Sprite;
     /** Genera un enemic en posicions escollides segons tiles */
     if (type_of_enemy == 1) {
-        enemy = sprites.create(img`
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . 2 2 2 2 . . . . . .
-            . . . . . 2 2 2 2 2 2 . . . . .
-            . . . . . 2 2 2 2 2 2 . . . . .
-            . . . . . 2 2 2 2 2 2 . . . . .
-            . . . . . . 2 2 2 2 . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-        `, SpriteKind.Enemy)
+        enemy = sprites.create(assets.animation`inse-glitch_sprite_animation`[0], SpriteKind.Enemy)
+        animation.runImageAnimation(enemy, assets.animation`inse-glitch_sprite_animation`, 200, true)
     } else {
-        enemy = sprites.create(img`
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . 3 3 3 3 . . . . . .
-            . . . . . 3 3 3 3 3 3 . . . . .
-            . . . . . 3 3 3 3 3 3 . . . . .
-            . . . . . 3 3 3 3 3 3 . . . . .
-            . . . . . . 3 3 3 3 . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-        `, SpriteKind.Enemy)
+        enemy = sprites.create(assets.animation`tank_virus_sprite_animation`[0], SpriteKind.Enemy)
+        animation.runImageAnimation(enemy, assets.animation`tank_virus_sprite_animation`, 200, true)
     }
     
     //  El mostrem al tile corresponent
