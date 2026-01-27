@@ -19,6 +19,7 @@ let has_key = false
 let loading_level = false
 let score_start_level_2 = 0
 let level2_doors_opened = false
+let lorepoint_counter = 0
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -74,9 +75,9 @@ game.onUpdate(function on_game_update() {
     
     if (!level2_doors_opened && current_level_num == 2 && info.score() - score_start_level_2 >= 600) {
         level2_doors_opened = true
-        scene.cameraShake(3, 1000)
+        scene.cameraShake(3, 2000)
         music.spooky.play(200)
-        my_player.sayText("Les portes s'obren!")
+        my_player.sayText("Les portes s'obren!", 1500)
         //  Agafem els tiles laser
         laser_loc = tiles.getTilesByType(assets.tile`laser_block_wall`)
         for (let loc of laser_loc) {
@@ -510,13 +511,25 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
     
 })
 function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
+    let all_lore_locations: tiles.Location[];
+    let all_lore_locations2: tiles.Location[];
     /** Gestiona els missatges de lore en trepitjar punts concrets */
+    
+    lorepoint_counter += 1
     music.magicWand.play(100)
     game.showLongText("LORE", DialogLayout.Bottom)
-    let all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
-    for (let loc of all_lore_locations) {
-        tiles.setTileAt(loc, assets.tile`base_floor`)
+    if (lorepoint_counter % 2 != 0) {
+        all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
+        for (let loc of all_lore_locations) {
+            tiles.setTileAt(loc, assets.tile`base_floor`)
+        }
+    } else {
+        all_lore_locations2 = tiles.getTilesByType(assets.tile`lore_point_base_floor2`)
+        for (let loc2 of all_lore_locations2) {
+            tiles.setTileAt(loc2, assets.tile`base_floor`)
+        }
     }
+    
 }
 
 //  Crida de la funció

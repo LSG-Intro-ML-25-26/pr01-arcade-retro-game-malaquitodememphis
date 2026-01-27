@@ -22,6 +22,7 @@ has_key = False
 loading_level = False
 score_start_level_2 = 0
 level2_doors_opened = False
+lorepoint_counter = 0
 
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
@@ -82,9 +83,9 @@ def on_game_update():
 
     if not level2_doors_opened and current_level_num == 2 and info.score() - score_start_level_2 >= 600:
         level2_doors_opened = True
-        scene.camera_shake(3, 1000)
+        scene.camera_shake(3, 2000)
         music.spooky.play(200)
-        my_player.say_text("Les portes s'obren!")
+        my_player.say_text("Les portes s'obren!", 1500)
         # Agafem els tiles laser
         laser_loc = tiles.get_tiles_by_type(assets.tile("laser_block_wall"))
         for loc in laser_loc:
@@ -564,13 +565,20 @@ def on_player_step_on_lore(player, location):
     """
     Gestiona els missatges de lore en trepitjar punts concrets
     """
+    global lorepoint_counter
+    lorepoint_counter += 1
     music.magic_wand.play(100)
     game.show_long_text("LORE", DialogLayout.BOTTOM)
     
-    all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
-    
-    for loc in all_lore_locations:
-        tiles.set_tile_at(loc, assets.tile("base_floor"))
+    if lorepoint_counter % 2 != 0:
+        all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))    
+        for loc in all_lore_locations:
+            tiles.set_tile_at(loc, assets.tile("base_floor"))
+    else:
+        all_lore_locations2 = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor2"))
+        for loc2 in all_lore_locations2:
+            tiles.set_tile_at(loc2, assets.tile("base_floor"))
+
 # Crida de la funció
 scene.on_overlap_tile(SpriteKind.player, assets.tile("lore_point_base_floor"), on_player_step_on_lore)
 scene.on_overlap_tile(SpriteKind.player, assets.tile("lore_point_base_floor2"), on_player_step_on_lore)
