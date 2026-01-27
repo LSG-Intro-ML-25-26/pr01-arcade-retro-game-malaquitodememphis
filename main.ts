@@ -95,7 +95,7 @@ game.onUpdate(function on_game_update() {
         //  Fórmula hipotenusa
         distance = Math.sqrt(dx * dx + dy * dy)
         //  Si enemic i player estan a menys de 100 pixels, l'enemic s'activa
-        if (distance < 60) {
+        if (distance < 75) {
             //  Si l'enemic no s'esta movent (primera vegada que detecta el player)
             if (enemy.vx == 0 && enemy.vy == 0) {
                 music.beamUp.play(100)
@@ -433,6 +433,7 @@ function load_level(level: number) {
     } else if (level == 3) {
         tiles.setTilemap(assets.tilemap`level5`)
         game.splash("NIVELL 3", "Boss Final")
+        spawn_boss(15, 10)
     }
     
     //  Spawn del jugador
@@ -559,6 +560,7 @@ function spawn_objects_from_tiles() {
 //  TRIGGER DEL JOC
 function start_game() {
     /** inicia el joc setejant el jugador i el nivell que pertoqui */
+    scene.setBackgroundImage(null)
     setup_player()
     load_level(current_level_num)
 }
@@ -567,12 +569,11 @@ function start_game() {
 function show_menu() {
     /** Pantalla d'inici del joc */
     //  Fons del menú
+    scene.setBackgroundColor(15)
     scene.setBackgroundImage(assets.image`bg`)
     game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
     start_game()
 }
 
 //  EXECUCIÓ
-//  Generació del "final boss"(x,y)
-//  spawn_boss(15, 10)
 show_menu()

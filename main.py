@@ -102,7 +102,7 @@ def on_game_update():
         distance = Math.sqrt(dx * dx + dy * dy)
 
         # Si enemic i player estan a menys de 100 pixels, l'enemic s'activa
-        if distance < 60:
+        if distance < 75:
             # Si l'enemic no s'esta movent (primera vegada que detecta el player)
             if enemy.vx == 0 and enemy.vy == 0:
                 music.beam_up.play(100)
@@ -494,6 +494,7 @@ def load_level(level: number):
     elif level == 3:
         tiles.set_tilemap(assets.tilemap("level5"))
         game.splash("NIVELL 3", "Boss Final")
+        spawn_boss(15, 10)
 
     # Spawn del jugador
     player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))
@@ -616,6 +617,7 @@ def start_game():
     """
     inicia el joc setejant el jugador i el nivell que pertoqui
     """
+    scene.set_background_image(None)
     setup_player()
     load_level(current_level_num)
 
@@ -625,6 +627,7 @@ def show_menu():
     Pantalla d'inici del joc
     """
     # Fons del menú
+    scene.set_background_color(15)
     scene.set_background_image(assets.image("bg"))
 
     game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
@@ -632,9 +635,6 @@ def show_menu():
     start_game()
 
 # EXECUCIÓ
-
-# Generació del "final boss"(x,y)
-# spawn_boss(15, 10)
 
 show_menu()
 
