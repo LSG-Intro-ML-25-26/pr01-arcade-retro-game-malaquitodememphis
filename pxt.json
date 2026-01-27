@@ -5,7 +5,8 @@
         "device": "*",
         "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
         "color": "*",
-        "Color Fading": "github:jwunderl/pxt-color#v0.2.3"
+        "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0"
     },
     "files": [
         "main.blocks",

@@ -352,7 +352,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
         }
         
     }
-    game.showLongText("===============" + "INVENTARI:\n" + "===============" + "- Arma: " + weapon + "\n" + "- Targetes: " + ("" + keys_count) + "/3", DialogLayout.Center)
+    game.showLongText("==============\n" + "INVENTARI:\n" + "==============\n" + "- Arma: " + weapon + "\n" + "- Targetes: " + ("" + keys_count) + "/3", DialogLayout.Center)
 })
 //  FUNCIÓ D'OBJECTE: COFRE
 function spawn_chest(location: any) {
@@ -439,8 +439,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
         if (has_key && !loading_level) {
             loading_level = true
             music.spooky.play(100)
-            color.startFade(color.originalPalette, color.Black, 2000)
-            pause(2000)
+            pause(500)
             current_level_num += 1
             load_level(current_level_num)
             loading_level = false
@@ -473,9 +472,9 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
             has_weapon = true
             inventory_list.push("Cyber Gun")
             music.baDing.play(100)
+            tiles.setTileAt(location, assets.tile`open_chest`)
             game.showLongText(`Has trobat l'ARMA DE PLASMA!
 Ara prem A per disparar.`, DialogLayout.Bottom)
-            tiles.setTileAt(location, assets.tile`open_chest`)
         }
         
     } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {

@@ -404,9 +404,9 @@ def show_inventory():
             keys_count += 1
     
     game.show_long_text(
-            "===============" +
+            "==============\n" +
             "INVENTARI:\n" +
-            "===============" +
+            "==============\n" +
             "- Arma: " + weapon + "\n" +
             "- Targetes: " + str(keys_count) + "/3",
             DialogLayout.CENTER
@@ -503,15 +503,14 @@ def on_hit_door_wall(player, location):
             loading_level = True
 
             music.spooky.play(100)
+            pause(500)
 
-            color.start_fade(color.original_palette, color.Black, 2000)
-
-            pause(2000)
-            
+                
             current_level_num += 1
             load_level(current_level_num)
-
+            
             loading_level = False
+
         #Sense la clau, xoca amb la porta i rebota
         else:
             player.say_text("Tancat!", 500)
@@ -527,8 +526,8 @@ def on_hit_door_wall(player, location):
             has_weapon = True
             inventory_list.append("Cyber Gun")
             music.ba_ding.play(100)
-            game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
             tiles.set_tile_at(location, assets.tile("open_chest"))
+            game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
     elif tiles.tile_at_location_equals(location, assets.tile("spawn_npc_base_floor")):
         music.magic_wand.play(100)
         game.show_long_text(
