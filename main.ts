@@ -467,7 +467,14 @@ function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
     
     lorepoint_counter += 1
     music.magicWand.play(100)
-    game.showLongText("LORE", DialogLayout.Bottom)
+    if (lorepoint_counter == 1) {
+        game.showLongText("LOREPOINT 1", DialogLayout.Bottom)
+    } else if (lorepoint_counter == 2) {
+        game.showLongText("LOREPOINT 2", DialogLayout.Bottom)
+    } else if (lorepoint_counter == 3) {
+        game.showLongText("LOREPOINT 3", DialogLayout.Bottom)
+    }
+    
     if (lorepoint_counter % 2 != 0) {
         all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
         for (let loc of all_lore_locations) {

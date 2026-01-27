@@ -519,7 +519,12 @@ def on_player_step_on_lore(player, location):
     global lorepoint_counter
     lorepoint_counter += 1
     music.magic_wand.play(100)
-    game.show_long_text("LORE", DialogLayout.BOTTOM)
+    if lorepoint_counter == 1:
+        game.show_long_text("LOREPOINT 1", DialogLayout.BOTTOM)
+    elif lorepoint_counter == 2:
+        game.show_long_text("LOREPOINT 2", DialogLayout.BOTTOM)
+    elif lorepoint_counter == 3:
+        game.show_long_text("LOREPOINT 3", DialogLayout.BOTTOM)
     
     if lorepoint_counter % 2 != 0:
         all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))    
