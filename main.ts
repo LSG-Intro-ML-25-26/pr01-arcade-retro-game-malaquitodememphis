@@ -14,7 +14,7 @@ let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
 let has_weapon = false
-let current_level_num = 0
+let current_level_num = 1
 let has_key = false
 let loading_level = false
 let score_start_level_2 = 0
@@ -567,7 +567,7 @@ function spawn_objects_from_tiles() {
         spawn_enemies(loc2_enemy, 1)
         tiles.setTileAt(loc2_enemy, assets.tile`base_floor`)
     }
-    enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_base_floor`)
+    enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_base_floor2`)
     for (let loc3_enemy of enemy_spawns) {
         spawn_enemies(loc3_enemy, 2)
         tiles.setTileAt(loc3_enemy, assets.tile`base_floor`)

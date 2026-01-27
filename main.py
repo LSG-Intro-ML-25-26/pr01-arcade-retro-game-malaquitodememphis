@@ -17,7 +17,7 @@ boss_statusbar: StatusBarSprite = None
 # Variables
 inventory_list: List[str] = []
 has_weapon: bool = False
-current_level_num = 0
+current_level_num = 1
 has_key = False
 loading_level = False
 score_start_level_2 = 0
@@ -617,7 +617,7 @@ def spawn_objects_from_tiles():
         spawn_enemies(loc2_enemy, 1)
         tiles.set_tile_at(loc2_enemy, assets.tile("base_floor"))
     
-    enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_base_floor"))
+    enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_base_floor2"))
     for loc3_enemy in enemy_spawns:
         spawn_enemies(loc3_enemy, 2)
         tiles.set_tile_at(loc3_enemy, assets.tile("base_floor"))
