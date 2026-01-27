@@ -129,7 +129,8 @@ def shoot_projectile():
     # Només disparem si el jugador existeix
     if my_player and has_weapon:
         # Creem el projectil (placeholder momentani)
-        projectile = sprites.create_projectile_from_sprite(assets.image("shoot_player_sprite"), my_player, 0, 0)
+        projectile = sprites.create_projectile_from_sprite(assets.animation("shoot_player_sprite_animation")[0], my_player, 0, 0)
+        animation.run_image_animation(projectile, assets.animation("shoot_player_sprite_animation"), 50, True)
 
         # Lògica per disparar cap on mirem
         if facing_x == 0 and facing_y == 0:
@@ -237,13 +238,8 @@ def boss_shooting_pattern():
     # Només disparem si ambdós sprites existeixen
     if boss_sprite and my_player:
         # Creem el projectil enemic
-        boss_projectile = sprites.create_projectile_from_sprite(img("""
-        . . . 2 . . .
-        . . 2 2 2 . .
-        . 2 2 2 2 2 .
-        . . 2 2 2 . .
-        . . . 2 . . .
-        """), boss_sprite, 0, 0)
+        boss_projectile = sprites.create_projectile_from_sprite(assets.animation("shoot_finalboss_sprite_animation")[0], boss_sprite, 0, 0)
+        animation.run_image_animation(boss_projectile, assets.animation("shoot_finalboss_sprite_animation"), 50, True)
 
         boss_projectile.set_kind(EnemyProjectile)
 

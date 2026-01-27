@@ -131,7 +131,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     //  Només disparem si el jugador existeix
     if (my_player && has_weapon) {
         //  Creem el projectil (placeholder momentani)
-        projectile = sprites.createProjectileFromSprite(assets.image`shoot_player_sprite`, my_player, 0, 0)
+        projectile = sprites.createProjectileFromSprite(assets.animation`shoot_player_sprite_animation`[0], my_player, 0, 0)
+        animation.runImageAnimation(projectile, assets.animation`shoot_player_sprite_animation`, 50, true)
         //  Lògica per disparar cap on mirem
         if (facing_x == 0 && facing_y == 0) {
             projectile.vx = projectile_speed
@@ -215,13 +216,8 @@ function spawn_boss(x_pos: number, y_pos: number) {
         //  Només disparem si ambdós sprites existeixen
         if (boss_sprite && my_player) {
             //  Creem el projectil enemic
-            boss_projectile = sprites.createProjectileFromSprite(img`
-        . . . 2 . . .
-        . . 2 2 2 . .
-        . 2 2 2 2 2 .
-        . . 2 2 2 . .
-        . . . 2 . . .
-        `, boss_sprite, 0, 0)
+            boss_projectile = sprites.createProjectileFromSprite(assets.animation`shoot_finalboss_sprite_animation`[0], boss_sprite, 0, 0)
+            animation.runImageAnimation(boss_projectile, assets.animation`shoot_finalboss_sprite_animation`, 50, true)
             boss_projectile.setKind(EnemyProjectile)
             //  Apunta el projectil cap el jugador
             boss_projectile.follow(my_player, 80)
