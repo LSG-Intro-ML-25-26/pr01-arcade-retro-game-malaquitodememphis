@@ -10,7 +10,6 @@ let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
 let has_weapon = false
-//  Variables para niveles
 let current_level_num = 1
 let has_key = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
@@ -85,7 +84,8 @@ game.onUpdate(function on_game_update() {
     
 })
 //  SISTEMA DE COMBAT
-function shoot_projectile() {
+//  Vinculem al botó A la funció shoot_projectile
+controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() {
     let projectile: Sprite;
     /** Genera un projectil desde la possició del jugador */
     
@@ -110,20 +110,18 @@ function shoot_projectile() {
             projectile.vy = facing_y * projectile_speed
         }
         
+        music.pewPew.play(100)
         //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
         projectile.setFlag(SpriteFlag.DestroyOnWall, true)
     } else if (my_player && !has_weapon) {
-        music.thump.play()
+        music.thump.play(100)
     }
     
-}
-
-//  Vinculem al botó A la funció shoot_projectile
-controller.A.onEvent(ControllerButtonEvent.Pressed, shoot_projectile)
+})
 //  GENERACIÓ D'ENEMICS
 function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
     let enemy: Sprite;
-    /** Genera una llista d'enemics en posicions aleatòries */
+    /** Genera una llista d'enemics en posicions escollides segons tiles */
     //  Bucle per generar 'n' enemics
     for (let i = 0; i < number_of_enemies; i++) {
         //  Creem l'enemic
@@ -145,23 +143,23 @@ function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
         . . . . . . . . . . . . . . . .
         . . . . . . . . . . . . . . . .
         `, SpriteKind.Enemy)
+        //  Els mostrem als tiles corresponents
         tiles.placeOnTile(enemy, location)
-        //  "IA" per perseguir al jugador
+        //  Perseguim el jugador
         enemy.follow(my_player, 30)
     }
 }
 
-controller.A.onEvent(ControllerButtonEvent.Pressed, shoot_projectile)
-//  GENERACIÓ D'ENEMICS
-//  GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
+//  GESTIÓ DE COL·LISIONS
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
     /** Gestiona quan un projectil xoca contra un enemic */
     //  Destruïm el projectil
     projectile.destroy()
-    //  Destruïm l'enemic (amb FX)
+    //  Destruïm l'enemic
     enemy.destroy(effects.disintegrate, 500)
-    //  Sumar punts ? (a veure si es desenvolupa en el futur)
+    music.smallCrash.play(100)
+    //  Sumem punts
     info.changeScoreBy(100)
 })
 //  Registrem l'esdeveniment
@@ -283,7 +281,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(pl
     
     inventory_list.push("Key Card")
     item.destroy(effects.fire, 500)
-    music.baDing.play()
+    music.baDing.play(100)
     player.sayText("¡Tengo la llave!", 1000)
 })
 //  Registrem l'esdeveniment al botó "B"
@@ -386,7 +384,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
     if (tiles.tileAtLocationEquals(location, assets.tile`acces_doors`)) {
         // Pasa de nivel si tiene llave
         if (has_key) {
-            music.powerUp.play()
+            music.powerUp.play(100)
             player.sayText("¡Abriendo!", 1000)
             pause(1000)
             current_level_num += 1
@@ -419,7 +417,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
         if (!has_weapon) {
             has_weapon = true
             inventory_list.push("Cyber Gun")
-            music.powerUp.play(500)
+            music.baDing.play(100)
             game.showLongText(`Has trobat l'ARMA DE PLASMA!
 Ara prem A per disparar.`, DialogLayout.Bottom)
             tiles.setTileAt(location, assets.tile`open_chest`)
@@ -427,13 +425,12 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
         
     } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {
         game.showLongText("LORE", DialogLayout.Bottom)
-        player.y += 10
     }
     
 })
 //  GENERACIÓN DE SPRITES
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
-    game.showLongText("LORE: Aquí encontraste datos corruptos...", DialogLayout.Bottom)
+    game.showLongText("LORE", DialogLayout.Bottom)
     let all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
     for (let loc of all_lore_locations) {
         tiles.setTileAt(loc, assets.tile`base_floor`)

@@ -12,8 +12,6 @@ boss_statusbar: StatusBarSprite = None
 # Variables
 inventory_list: List[str] = []
 has_weapon: bool = False
-
-# Variables para niveles
 current_level_num = 1
 has_key = False
 
@@ -24,6 +22,7 @@ facing_y: number = 0
 # Constants
 projectile_speed = 200
 enemy_speed = 50
+
 
 # FUNCIÓ DE CONFIGURACIÓ
 def setup_player():
@@ -61,6 +60,7 @@ def setup_player():
     # Sistema de vides
     info.set_life(3)
 
+
 # BUCLE D'ACTUALITZACIÓ
 def on_game_update():
     """
@@ -89,6 +89,7 @@ def on_game_update():
 # Vinculem la funció del bucle al joc
 game.on_update(on_game_update)
 
+
 # SISTEMA DE COMBAT
 def shoot_projectile():
     """
@@ -115,10 +116,12 @@ def shoot_projectile():
             projectile.vx = facing_x * projectile_speed
             projectile.vy = facing_y * projectile_speed
         
+        music.pew_pew.play(100)
+        
         # Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
         projectile.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
     elif my_player and not has_weapon:
-        music.thump.play()
+        music.thump.play(100)
 
 # Vinculem al botó A la funció shoot_projectile
 controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
@@ -126,7 +129,7 @@ controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 # GENERACIÓ D'ENEMICS
 def spawn_enemies(location: tiles.Location, number_of_enemies: number):
     """
-    Genera una llista d'enemics en posicions aleatòries
+    Genera una llista d'enemics en posicions escollides segons tiles
     """
     # Bucle per generar 'n' enemics
     for i in range(number_of_enemies):
@@ -150,17 +153,14 @@ def spawn_enemies(location: tiles.Location, number_of_enemies: number):
         . . . . . . . . . . . . . . . .
         """), SpriteKind.enemy)
 
+        # Els mostrem als tiles corresponents
         tiles.place_on_tile(enemy, location)
 
-        # "IA" per perseguir al jugador
+        # Perseguim el jugador
         enemy.follow(my_player, 30)
-controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 
-# GENERACIÓ D'ENEMICS
-
-
-# GESTIÓ DE COL·LISIONS (projectil-enemic//enemic-jugador)
+# GESTIÓ DE COL·LISIONS
 def on_projectile_hit_enemy(projectile, enemy):
     """
     Gestiona quan un projectil xoca contra un enemic
@@ -168,10 +168,11 @@ def on_projectile_hit_enemy(projectile, enemy):
     # Destruïm el projectil
     projectile.destroy()
 
-    # Destruïm l'enemic (amb FX)
+    # Destruïm l'enemic
     enemy.destroy(effects.disintegrate, 500)
+    music.small_crash.play(100)
 
-    # Sumar punts ? (a veure si es desenvolupa en el futur)
+    # Sumem punts
     info.change_score_by(100)
 
 # Registrem l'esdeveniment
@@ -321,7 +322,7 @@ def on_collect_key(player, item):
     inventory_list.append("Key Card")
 
     item.destroy(effects.fire, 500)
-    music.ba_ding.play()
+    music.ba_ding.play(100)
     player.say_text("¡Tengo la llave!", 1000)
 
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
@@ -434,7 +435,7 @@ def on_hit_door_wall(player, location):
     if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
         #Pasa de nivel si tiene llave
         if has_key:
-            music.power_up.play()
+            music.power_up.play(100)
             player.say_text("¡Abriendo!", 1000)
             pause(1000)
             current_level_num += 1
@@ -453,20 +454,19 @@ def on_hit_door_wall(player, location):
         if not has_weapon:
             has_weapon = True
             inventory_list.append("Cyber Gun")
-            music.power_up.play(500)
+            music.ba_ding.play(100)
             game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
             tiles.set_tile_at(location, assets.tile("open_chest"))
     elif tiles.tile_at_location_equals(location, assets.tile("spawn_npc_base_floor")):
         game.show_long_text(
                 "LORE", DialogLayout.BOTTOM
             )
-        player.y += 10
 
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
 # GENERACIÓN DE SPRITES
 def on_player_step_on_lore(player, location):
-    game.show_long_text("LORE: Aquí encontraste datos corruptos...", DialogLayout.BOTTOM)
+    game.show_long_text("LORE", DialogLayout.BOTTOM)
     
     all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
     
