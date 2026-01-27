@@ -17,7 +17,7 @@ boss_statusbar: StatusBarSprite = None
 # Variables
 inventory_list: List[str] = []
 has_weapon: bool = False
-current_level_num = 3
+current_level_num = 1
 has_key = False
 loading_level = False
 score_start_level_2 = 0

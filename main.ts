@@ -14,7 +14,7 @@ let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
 let has_weapon = false
-let current_level_num = 3
+let current_level_num = 1
 let has_key = false
 let loading_level = false
 let score_start_level_2 = 0
