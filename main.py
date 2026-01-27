@@ -679,21 +679,21 @@ def update_player_animation():
         # Canviem l'estat a quiet
         last_anim_state = "not_moving"
         # Agafem el primer frame de cada animacio per quedarnos mirant cap allà
-        if "front" in current_state:
+        if current_state == "front":
             my_player.set_image(assets.animation("cyberdruida_sprite_front_animation")[0])
-        elif "back" in current_state:
+        elif current_state == "back":
             my_player.set_image(assets.animation("cyberdruida_sprite_back_animation")[0])
-        elif "left" in current_state:
+        elif current_state == "left":
             my_player.set_image(assets.animation("cyberdruida_sprite_site2_animation")[0])
-        elif "right" in current_state:
+        elif current_state == "right":
             my_player.set_image(assets.animation("cyberdruida_sprite_site1_animation")[0])
-        elif "gun_front" in current_state:
-            my_player.set_image(assets.animation("cyberdruida_sprite_front_animation")[0])
-        elif "gun_back" in current_state:
+        elif current_state == "gun_front":
+            my_player.set_image(assets.animation("gun_cyberdruida_sprite_front_animation")[0])
+        elif current_state == "gun_back":
             my_player.set_image(assets.animation("gun_cyberdruida_sprite_back_animation")[0])
-        elif "gun_left" in current_state:
+        elif current_state == "gun_left":
             my_player.set_image(assets.animation("gun_cyberdruida_sprite_site2_animation")[0])
-        elif "gun_right" in current_state:
+        elif current_state == "gun_right":
             my_player.set_image(assets.animation("gun_cyberdruida_sprite_site1_animation")[0])
 
 # TRIGGER DEL JOC

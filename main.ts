@@ -638,21 +638,21 @@ function update_player_animation() {
         //  Canviem l'estat a quiet
         last_anim_state = "not_moving"
         //  Agafem el primer frame de cada animacio per quedarnos mirant cap allà
-        if (current_state.indexOf("front") >= 0) {
+        if (current_state == "front") {
             my_player.setImage(assets.animation`cyberdruida_sprite_front_animation`[0])
-        } else if (current_state.indexOf("back") >= 0) {
+        } else if (current_state == "back") {
             my_player.setImage(assets.animation`cyberdruida_sprite_back_animation`[0])
-        } else if (current_state.indexOf("left") >= 0) {
+        } else if (current_state == "left") {
             my_player.setImage(assets.animation`cyberdruida_sprite_site2_animation`[0])
-        } else if (current_state.indexOf("right") >= 0) {
+        } else if (current_state == "right") {
             my_player.setImage(assets.animation`cyberdruida_sprite_site1_animation`[0])
-        } else if (current_state.indexOf("gun_front") >= 0) {
-            my_player.setImage(assets.animation`cyberdruida_sprite_front_animation`[0])
-        } else if (current_state.indexOf("gun_back") >= 0) {
+        } else if (current_state == "gun_front") {
+            my_player.setImage(assets.animation`gun_cyberdruida_sprite_front_animation`[0])
+        } else if (current_state == "gun_back") {
             my_player.setImage(assets.animation`gun_cyberdruida_sprite_back_animation`[0])
-        } else if (current_state.indexOf("gun_left") >= 0) {
+        } else if (current_state == "gun_left") {
             my_player.setImage(assets.animation`gun_cyberdruida_sprite_site2_animation`[0])
-        } else if (current_state.indexOf("gun_right") >= 0) {
+        } else if (current_state == "gun_right") {
             my_player.setImage(assets.animation`gun_cyberdruida_sprite_site1_animation`[0])
         }
         
