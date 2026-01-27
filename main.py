@@ -171,37 +171,54 @@ def shoot_projectile():
 controller.A.on_event(ControllerButtonEvent.PRESSED, shoot_projectile)
 
 # GENERACIÓ D'ENEMICS
-def spawn_enemies(location: tiles.Location, number_of_enemies: number):
+def spawn_enemies(location: tiles.Location, type_of_enemy: number):
     """
-    Genera una llista d'enemics en posicions escollides segons tiles
+    Genera un enemic en posicions escollides segons tiles
     """
-    # Bucle per generar 'n' enemics
-    for i in range(number_of_enemies):
-        # Creem l'enemic
+    if type_of_enemy == 1:
         enemy = sprites.create(img("""
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . 2 2 2 2 . . . . . .
+            . . . . . 2 2 2 2 2 2 . . . . .
+            . . . . . 2 2 2 2 2 2 . . . . .
+            . . . . . 2 2 2 2 2 2 . . . . .
+            . . . . . . 2 2 2 2 . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+        """), SpriteKind.enemy)
+    else:
+        enemy = sprites.create(img("""
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . 3 3 3 3 . . . . . .
+            . . . . . 3 3 3 3 3 3 . . . . .
+            . . . . . 3 3 3 3 3 3 . . . . .
+            . . . . . 3 3 3 3 3 3 . . . . .
+            . . . . . . 3 3 3 3 . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
         """), SpriteKind.enemy)
 
-        # Els mostrem als tiles corresponents
-        tiles.place_on_tile(enemy, location)
+    # El mostrem al tile corresponent
+    tiles.place_on_tile(enemy, location)
 
-        # Comencen dormits
-        enemy.start_effect(effects.bubbles)
+    # Comencen dormits
+    enemy.start_effect(effects.bubbles)
 
 
 # GESTIÓ DE COL·LISIONS
@@ -599,6 +616,11 @@ def spawn_objects_from_tiles():
     for loc2_enemy in enemy_spawns:
         spawn_enemies(loc2_enemy, 1)
         tiles.set_tile_at(loc2_enemy, assets.tile("base_floor"))
+    
+    enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_base_floor"))
+    for loc3_enemy in enemy_spawns:
+        spawn_enemies(loc3_enemy, 2)
+        tiles.set_tile_at(loc3_enemy, assets.tile("base_floor"))
 
     # Genera la clau al spawn
     key_spawns = tiles.get_tiles_by_type(assets.tile("access_card_base_floor"))
