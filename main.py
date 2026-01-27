@@ -46,24 +46,7 @@ def setup_player():
     global my_player
 
     # Placeholder temporal per my_player
-    my_player = sprites.create(img("""
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-        """), SpriteKind.player)
+    my_player = sprites.create(assets.animation("cyberdruida_sprite_site1_animation")[0], SpriteKind.player)
 
     # Físiques de moviment
     controller.move_sprite(my_player, 100, 100)
@@ -130,7 +113,8 @@ def on_game_update():
         # Gestió de diagonals (excepció)
         if facing_x !=0 and facing_y !=0:
             pass
-
+    
+    update_player_animation()
 # Vinculem la funció del bucle al joc
 game.on_update(on_game_update)
 
@@ -641,6 +625,9 @@ def spawn_objects_from_tiles():
 def update_player_animation():
     global last_anim_state, my_player, facing_x, facing_y
 
+    # Si no s'ha creat el player, no executem res, retornem
+    if not my_player:
+        return
     # Determinem si el jugador està en moviment
     is_moving = controller.dx() != 0 or controller.dy() != 0
 
@@ -654,8 +641,60 @@ def update_player_animation():
     # Direcció
     # Si no s'està movent, agafem l'última direcció que apuntava
     if facing_y == -1:
-        current_state += "cyberdruid_sprit"
+        current_state += "back"
+    if facing_y == 1:
+        current_state += "front"
+    if facing_x == -1:
+        current_state += "left"
+    if facing_x == 1:
+        current_state += "right"
+    
+    # Executem l'animació només si el player es mou
+    if current_state != last_anim_state:
+        # Sense arma
+        last_anim_state = current_state # actualitzem l'estat
+        if current_state == "front":
+            animation.run_image_animation(my_player, assets.animation("cyberdruida_sprite_front_animation"), 200, True)
+        elif current_state == "back":
+            animation.run_image_animation(my_player, assets.animation("cyberdruida_sprite_back_animation"), 200, True)
+        elif current_state == "left":
+            animation.run_image_animation(my_player, assets.animation("cyberdruida_sprite_site2_animation"), 200, True)
+        elif current_state == "right":
+            animation.run_image_animation(my_player, assets.animation("cyberdruida_sprite_site1_animation"), 200, True)
+        
+        # Amb arma
+        elif current_state == "gun_front":
+            animation.run_image_animation(my_player, assets.animation("gun_cyberdruida_sprite_front_animation"), 200, True)
+        elif current_state == "gun_back":
+            animation.run_image_animation(my_player, assets.animation("gun_cyberdruida_sprite_back_animation"), 200, True)
+        elif current_state == "gun_left":
+            animation.run_image_animation(my_player, assets.animation("gun_cyberdruida_sprite_site2_animation"), 200, True)
+        elif current_state == "gun_right":
+            animation.run_image_animation(my_player, assets.animation("gun_cyberdruida_sprite_site1_animation"), 200, True)
+    
+    # Si no es mou, parem les animacions
+    if not is_moving:
+        animation.stop_animation(animation.AnimationTypes.ALL, my_player)
 
+        # Canviem l'estat a quiet
+        last_anim_state = "not_moving"
+        # Agafem el primer frame de cada animacio per quedarnos mirant cap allà
+        if "front" in current_state:
+            my_player.set_image(assets.animation("cyberdruida_sprite_front_animation")[0])
+        elif "back" in current_state:
+            my_player.set_image(assets.animation("cyberdruida_sprite_back_animation")[0])
+        elif "left" in current_state:
+            my_player.set_image(assets.animation("cyberdruida_sprite_site2_animation")[0])
+        elif "right" in current_state:
+            my_player.set_image(assets.animation("cyberdruida_sprite_site1_animation")[0])
+        elif "gun_front" in current_state:
+            my_player.set_image(assets.animation("cyberdruida_sprite_front_animation")[0])
+        elif "gun_back" in current_state:
+            my_player.set_image(assets.animation("gun_cyberdruida_sprite_back_animation")[0])
+        elif "gun_left" in current_state:
+            my_player.set_image(assets.animation("gun_cyberdruida_sprite_site2_animation")[0])
+        elif "gun_right" in current_state:
+            my_player.set_image(assets.animation("gun_cyberdruida_sprite_site1_animation")[0])
 
 # TRIGGER DEL JOC
 def start_game():

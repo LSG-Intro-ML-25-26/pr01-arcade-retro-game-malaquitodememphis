@@ -39,24 +39,7 @@ function setup_player() {
     /** Crea el sprite del jugador, defineix les seves físiques i estableix vides. */
     
     //  Placeholder temporal per my_player
-    my_player = sprites.create(img`
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . 8 8 8 8 . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-        `, SpriteKind.Player)
+    my_player = sprites.create(assets.animation`cyberdruida_sprite_site1_animation`[0], SpriteKind.Player)
     //  Físiques de moviment
     controller.moveSprite(my_player, 100, 100)
     //  La càmara segueix el jugador
@@ -137,6 +120,7 @@ game.onUpdate(function on_game_update() {
         
     }
     
+    update_player_animation()
 })
 //  SISTEMA DE COMBAT
 //  Vinculem al botó A la funció shoot_projectile
@@ -590,6 +574,11 @@ function spawn_objects_from_tiles() {
 //  ANIMACIÓ DE PLAYER
 function update_player_animation() {
     
+    //  Si no s'ha creat el player, no executem res, retornem
+    if (!my_player) {
+        return
+    }
+    
     //  Determinem si el jugador està en moviment
     let is_moving = controller.dx() != 0 || controller.dy() != 0
     //  Determinem l'estat actual
@@ -602,7 +591,71 @@ function update_player_animation() {
     //  Direcció
     //  Si no s'està movent, agafem l'última direcció que apuntava
     if (facing_y == -1) {
-        current_state += "cyberdruid_sprit"
+        current_state += "back"
+    }
+    
+    if (facing_y == 1) {
+        current_state += "front"
+    }
+    
+    if (facing_x == -1) {
+        current_state += "left"
+    }
+    
+    if (facing_x == 1) {
+        current_state += "right"
+    }
+    
+    //  Executem l'animació només si el player es mou
+    if (current_state != last_anim_state) {
+        //  Sense arma
+        last_anim_state = current_state
+        //  actualitzem l'estat
+        if (current_state == "front") {
+            animation.runImageAnimation(my_player, assets.animation`cyberdruida_sprite_front_animation`, 200, true)
+        } else if (current_state == "back") {
+            animation.runImageAnimation(my_player, assets.animation`cyberdruida_sprite_back_animation`, 200, true)
+        } else if (current_state == "left") {
+            animation.runImageAnimation(my_player, assets.animation`cyberdruida_sprite_site2_animation`, 200, true)
+        } else if (current_state == "right") {
+            animation.runImageAnimation(my_player, assets.animation`cyberdruida_sprite_site1_animation`, 200, true)
+        } else if (current_state == "gun_front") {
+            //  Amb arma
+            animation.runImageAnimation(my_player, assets.animation`gun_cyberdruida_sprite_front_animation`, 200, true)
+        } else if (current_state == "gun_back") {
+            animation.runImageAnimation(my_player, assets.animation`gun_cyberdruida_sprite_back_animation`, 200, true)
+        } else if (current_state == "gun_left") {
+            animation.runImageAnimation(my_player, assets.animation`gun_cyberdruida_sprite_site2_animation`, 200, true)
+        } else if (current_state == "gun_right") {
+            animation.runImageAnimation(my_player, assets.animation`gun_cyberdruida_sprite_site1_animation`, 200, true)
+        }
+        
+    }
+    
+    //  Si no es mou, parem les animacions
+    if (!is_moving) {
+        animation.stopAnimation(animation.AnimationTypes.All, my_player)
+        //  Canviem l'estat a quiet
+        last_anim_state = "not_moving"
+        //  Agafem el primer frame de cada animacio per quedarnos mirant cap allà
+        if (current_state.indexOf("front") >= 0) {
+            my_player.setImage(assets.animation`cyberdruida_sprite_front_animation`[0])
+        } else if (current_state.indexOf("back") >= 0) {
+            my_player.setImage(assets.animation`cyberdruida_sprite_back_animation`[0])
+        } else if (current_state.indexOf("left") >= 0) {
+            my_player.setImage(assets.animation`cyberdruida_sprite_site2_animation`[0])
+        } else if (current_state.indexOf("right") >= 0) {
+            my_player.setImage(assets.animation`cyberdruida_sprite_site1_animation`[0])
+        } else if (current_state.indexOf("gun_front") >= 0) {
+            my_player.setImage(assets.animation`cyberdruida_sprite_front_animation`[0])
+        } else if (current_state.indexOf("gun_back") >= 0) {
+            my_player.setImage(assets.animation`gun_cyberdruida_sprite_back_animation`[0])
+        } else if (current_state.indexOf("gun_left") >= 0) {
+            my_player.setImage(assets.animation`gun_cyberdruida_sprite_site2_animation`[0])
+        } else if (current_state.indexOf("gun_right") >= 0) {
+            my_player.setImage(assets.animation`gun_cyberdruida_sprite_site1_animation`[0])
+        }
+        
     }
     
 }
