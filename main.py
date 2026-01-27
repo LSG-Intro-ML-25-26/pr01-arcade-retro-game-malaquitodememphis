@@ -605,7 +605,7 @@ def show_menu():
     # Temporal
     scene.set_background_color(15)
 
-    game.splash("CYBER-Druid: El Reinici", "Prem A per jugar!")
+    game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
 
     start_game()
 

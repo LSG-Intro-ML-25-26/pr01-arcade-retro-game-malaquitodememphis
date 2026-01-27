@@ -541,7 +541,7 @@ function show_menu() {
     //  scene.set_background_image(assets.image("bg"))
     //  Temporal
     scene.setBackgroundColor(15)
-    game.splash("CYBER-Druid: El Reinici", "Prem A per jugar!")
+    game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
     start_game()
 }
 
