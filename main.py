@@ -496,7 +496,22 @@ def on_hit_door_wall(player, location):
         music.magic_wand.play(100)
         if current_level_num == 1:
             game.show_long_text(
-                "LORE LEVEL 1", DialogLayout.BOTTOM
+                "Cyber Druida! Has respost a la crida.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "GAIA-PRIME, el servidor viu, està sent devorat per una plaga de codi corrupte.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Els sistemes convencionals han fallat. Només tu, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Dins d'aquest cofre hi reposa la CYBER GUN.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Agafa'l. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "", DialogLayout.BOTTOM
             )
         elif current_level_num == 2:
             game.show_long_text(

@@ -447,7 +447,12 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
     } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {
         music.magicWand.play(100)
         if (current_level_num == 1) {
-            game.showLongText("LORE LEVEL 1", DialogLayout.Bottom)
+            game.showLongText("Cyber Druida! Has respost a la crida.", DialogLayout.Bottom)
+            game.showLongText("GAIA-PRIME, el servidor viu, està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
+            game.showLongText("Els sistemes convencionals han fallat. Només tu, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
+            game.showLongText("Dins d'aquest cofre hi reposa la CYBER GUN.", DialogLayout.Bottom)
+            game.showLongText("Agafa'l. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.Bottom)
+            game.showLongText("", DialogLayout.Bottom)
         } else if (current_level_num == 2) {
             game.showLongText("LORE LEVEL 2", DialogLayout.Bottom)
         }
