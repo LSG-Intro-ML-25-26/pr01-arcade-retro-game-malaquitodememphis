@@ -3,14 +3,51 @@ namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
         switch(helpers.stringTrim(name)) {
-
+            case "image1":
+            case "cyberdruida_sprite":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e e . . . d . . 
+. . . . . e e f f e e . d 9 d . 
+. . . . . e f b b f e d 9 9 9 d 
+. . . . e e b b b b e e d 9 d . 
+. . . . e b 9 b b 9 b e 7 d . . 
+. . . . e b b b b b b e . 7 . . 
+. . . . e 7 b b b b 7 e . d 7 . 
+. . . e e 6 7 b b 7 6 e 7 d . . 
+. . . e e 6 7 5 5 7 6 e e 7 . . 
+. . e e e 6 e 6 6 e 6 e e d 7 . 
+. . e e e 6 e 6 7 e 6 e 7 d . . 
+. e e 6 6 6 e 7 6 e 6 6 e 7 e . 
+. e e 6 e e e 6 6 e e e e d 7 . 
+. e e e b b e e e e b b 7 d e . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image2":
+            case "myImage":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
         }
         return null;
     })
 
     helpers._registerFactory("animation", function(name: string) {
         switch(helpers.stringTrim(name)) {
-            case "druid_anim":
+            case "druida_anim_right":
             case "anim1":return [img`
 .....55555......................
 ..555555bc5555..................

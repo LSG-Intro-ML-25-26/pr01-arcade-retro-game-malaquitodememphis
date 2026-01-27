@@ -51,10 +51,10 @@ def setup_player():
             . . . . . . . . . . . . . . . .
             . . . . . . . . . . . . . . . .
         """), SpriteKind.player)
-    
+
     # Físiques de moviment
     controller.move_sprite(my_player, 100, 100)
-
+    
     # La càmara segueix el jugador
     scene.camera_follow_sprite(my_player)
 
