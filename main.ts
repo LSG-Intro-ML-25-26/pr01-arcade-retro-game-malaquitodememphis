@@ -173,35 +173,53 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     
 })
 //  GENERACIÓ D'ENEMICS
-function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
+function spawn_enemies(location: tiles.Location, type_of_enemy: number) {
     let enemy: Sprite;
-    /** Genera una llista d'enemics en posicions escollides segons tiles */
-    //  Bucle per generar 'n' enemics
-    for (let i = 0; i < number_of_enemies; i++) {
-        //  Creem l'enemic
+    /** Genera un enemic en posicions escollides segons tiles */
+    if (type_of_enemy == 1) {
         enemy = sprites.create(img`
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . 2 2 2 2 2 2 . . . . .
-        . . . . . . 2 2 2 2 . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . 2 2 2 2 . . . . . .
+            . . . . . 2 2 2 2 2 2 . . . . .
+            . . . . . 2 2 2 2 2 2 . . . . .
+            . . . . . 2 2 2 2 2 2 . . . . .
+            . . . . . . 2 2 2 2 . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
         `, SpriteKind.Enemy)
-        //  Els mostrem als tiles corresponents
-        tiles.placeOnTile(enemy, location)
-        //  Comencen dormits
-        enemy.startEffect(effects.bubbles)
+    } else {
+        enemy = sprites.create(img`
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . 3 3 3 3 . . . . . .
+            . . . . . 3 3 3 3 3 3 . . . . .
+            . . . . . 3 3 3 3 3 3 . . . . .
+            . . . . . 3 3 3 3 3 3 . . . . .
+            . . . . . . 3 3 3 3 . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+        `, SpriteKind.Enemy)
     }
+    
+    //  El mostrem al tile corresponent
+    tiles.placeOnTile(enemy, location)
+    //  Comencen dormits
+    enemy.startEffect(effects.bubbles)
 }
 
 //  GESTIÓ DE COL·LISIONS
@@ -548,6 +566,11 @@ function spawn_objects_from_tiles() {
     for (let loc2_enemy of enemy_spawns) {
         spawn_enemies(loc2_enemy, 1)
         tiles.setTileAt(loc2_enemy, assets.tile`base_floor`)
+    }
+    enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_base_floor`)
+    for (let loc3_enemy of enemy_spawns) {
+        spawn_enemies(loc3_enemy, 2)
+        tiles.setTileAt(loc3_enemy, assets.tile`base_floor`)
     }
     //  Genera la clau al spawn
     let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
