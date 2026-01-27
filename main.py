@@ -458,14 +458,16 @@ def on_hit_door_wall(player, location):
             game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
             tiles.set_tile_at(location, assets.tile("open_chest"))
     elif tiles.tile_at_location_equals(location, assets.tile("spawn_npc_base_floor")):
+        music.magic_wand.play(100)
         game.show_long_text(
-                "LORE", DialogLayout.BOTTOM
-            )
+            "LORE", DialogLayout.BOTTOM
+        )
 
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
 # GENERACIÓN DE SPRITES
 def on_player_step_on_lore(player, location):
+    music.magic_wand.play(100)
     game.show_long_text("LORE", DialogLayout.BOTTOM)
     
     all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))

@@ -424,12 +424,14 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
         }
         
     } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {
+        music.magicWand.play(100)
         game.showLongText("LORE", DialogLayout.Bottom)
     }
     
 })
 //  GENERACIÓN DE SPRITES
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
+    music.magicWand.play(100)
     game.showLongText("LORE", DialogLayout.Bottom)
     let all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
     for (let loc of all_lore_locations) {
