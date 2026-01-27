@@ -25,6 +25,11 @@ let enemy_speed = 50
 game.setGameOverMessage(false, "☠️HAS PERDUT!☠️")
 game.setGameOverMessage(true, "🏆SERVIDOR RESTAURAT!🏆")
 //  FUNCIÓ DE CONFIGURACIÓ
+function on_start() {
+    music.play(music.stringPlayable("C5 B C5 A C5 G C5 C C5 B C5 A C5 G C5 C B A B G# B F B E B A B G# B F B E A G A F A E A D A G A F A E A D G# F G# E G# D G# C G# F G# E G# D G# C", 240), music.PlaybackMode.LoopingInBackground)
+}
+
+on_start()
 function setup_player() {
     /** Crea el sprite del jugador, defineix les seves físiques i estableix vides. */
     
@@ -260,14 +265,16 @@ sprites.onOverlap(SpriteKind.Player, Boss, function on_boss_hit_player(player: S
 statusbars.onZero(StatusBarKind.EnemyHealth, function on_boss_death(status: StatusBarSprite) {
     /** Quan el boss mori (statusbar = 0) */
     if (boss_sprite) {
-        music.powerUp.play(100)
         boss_sprite.destroy(effects.disintegrate, 1000)
+        music.stopAllSounds()
+        music.powerUp.play(100)
         game.over(true)
     }
     
 })
 info.onLifeZero(function on_life_zero() {
     /** Quan ens quedem sense vides */
+    music.stopAllSounds()
     music.wawawawaa.play()
     game.gameOver(false)
 })

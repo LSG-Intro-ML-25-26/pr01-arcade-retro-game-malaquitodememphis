@@ -31,6 +31,9 @@ game.set_game_over_message(False, "☠️HAS PERDUT!☠️")
 game.set_game_over_message(True, "🏆SERVIDOR RESTAURAT!🏆")
 
 # FUNCIÓ DE CONFIGURACIÓ
+def on_start():
+    music.play(music.string_playable("C5 B C5 A C5 G C5 C C5 B C5 A C5 G C5 C B A B G# B F B E B A B G# B F B E A G A F A E A D A G A F A E A D G# F G# E G# D G# C G# F G# E G# D G# C", 240), music.PlaybackMode.LOOPING_IN_BACKGROUND)
+on_start()
 def setup_player():
     """
     Crea el sprite del jugador, defineix les seves físiques i estableix vides.
@@ -300,8 +303,9 @@ def on_boss_death(status):
     Quan el boss mori (statusbar = 0)
     """
     if boss_sprite:
-        music.power_up.play(100)
         boss_sprite.destroy(effects.disintegrate, 1000)
+        music.stop_all_sounds()
+        music.power_up.play(100)
         game.over(True)
 
 # Registrem l'esdeveniment
@@ -324,6 +328,7 @@ def on_life_zero():
     """
     Quan ens quedem sense vides
     """
+    music.stop_all_sounds()
     music.wawawawaa.play()
     game.gameOver(False)
 info.on_life_zero(on_life_zero)
