@@ -594,9 +594,19 @@ function update_player_animation() {
     let is_moving = controller.dx() != 0 || controller.dy() != 0
     //  Determinem l'estat actual
     let current_state = ""
+    //  Canviem l'estat segons si té arma
+    if (has_weapon) {
+        current_state += "gun_"
+    }
+    
+    //  Direcció
+    //  Si no s'està movent, agafem l'última direcció que apuntava
+    if (facing_y == -1) {
+        current_state += "cyberdruid_sprit"
+    }
+    
 }
 
-//  
 //  TRIGGER DEL JOC
 function start_game() {
     /** inicia el joc setejant el jugador i el nivell que pertoqui */

@@ -647,7 +647,14 @@ def update_player_animation():
     # Determinem l'estat actual
     current_state = ""
 
-    # 
+    # Canviem l'estat segons si té arma
+    if has_weapon:
+        current_state += "gun_"
+    
+    # Direcció
+    # Si no s'està movent, agafem l'última direcció que apuntava
+    if facing_y == -1:
+        current_state += "cyberdruid_sprit"
 
 
 # TRIGGER DEL JOC

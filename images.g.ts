@@ -870,7 +870,7 @@ fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbb
 . . . . . . e e e e e e e e e . 
 . . . . . . . . . . . . . . . . 
 `];
-            case "gun_cyberdruida_sprite_back_animation0":
+            case "gun_cyberdruida_sprite_back_animation":
             case "anim12":return [img`
 . . . . . . . . . . . . . . . . 
 . . . . . . e e e e . . . d . . 
