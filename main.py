@@ -2,6 +2,7 @@
 # ERIC LORENZO
 # FRANCIS MORETA
 # ===============================
+
 # VARIABLES GLOBALS
 # Sprites
 Boss = SpriteKind.create()
