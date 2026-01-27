@@ -174,7 +174,7 @@ function spawn_enemies(location: tiles.Location, type_of_enemy: number) {
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
     /** Gestiona quan un projectil xoca contra un enemic */
     //  Destruïm el projectil
-    projectile.destroy(effects.fire)
+    projectile.destroy()
     //  Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
     music.smallCrash.play(100)

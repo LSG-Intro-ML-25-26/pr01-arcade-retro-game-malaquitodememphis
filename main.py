@@ -175,7 +175,7 @@ def on_projectile_hit_enemy(projectile, enemy):
     Gestiona quan un projectil xoca contra un enemic
     """
     # Destruïm el projectil
-    projectile.destroy(effects.fire)
+    projectile.destroy()
 
     # Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
