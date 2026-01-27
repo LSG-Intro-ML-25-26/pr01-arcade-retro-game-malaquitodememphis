@@ -41,6 +41,63 @@ namespace myImages {
 . . 3 . . 1 . . . . . . . . 3 . 
 . . . . . . . . . . . . . . . . 
 `;
+            case "image3":
+            case "myImage":return img`
+. . . . . . . . . . . . . . . . 
+. d d d d d d d d d d d d d d . 
+. d 8 8 8 8 8 8 8 8 8 8 8 8 d . 
+. d 8 2 4 c c c c c c 4 2 8 d . 
+. d 8 4 2 4 c c c c 4 2 4 8 d . 
+. d 8 8 4 2 4 c c 4 2 4 8 8 d . 
+. d 8 8 8 4 2 b b 2 4 8 8 8 d . 
+. d 8 8 8 8 4 2 2 4 8 8 8 8 d . 
+. d 8 8 8 8 4 2 2 4 8 8 8 8 d . 
+. d 8 8 8 4 2 4 4 2 4 8 8 8 d . 
+. d 8 8 4 2 4 c c 4 2 4 8 8 d . 
+. d 8 4 2 4 c c c c 4 2 4 8 d . 
+. d 8 2 4 c c c c c c 4 2 8 d . 
+. d 8 8 8 8 8 8 8 8 8 8 8 8 d . 
+. d d d d d d d d d d d d d d . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image4":
+            case "myImage1":return img`
+. . . . . . . . . . . . . . . . 
+. 6 6 6 6 6 6 6 6 6 6 6 6 6 6 . 
+. 6 b b b b b b b b b b b b 6 . 
+. 6 b b d d d d d d d 2 b b 6 . 
+. 6 b d d d d d d 4 2 2 2 b 6 . 
+. 6 b d d d 2 4 2 2 2 4 d b 6 . 
+. 6 b d d d 2 1 2 1 2 d d b 6 . 
+. 6 b d d d 4 1 2 1 2 d d b 6 . 
+. 6 b d d 4 2 2 2 2 4 d d b 6 . 
+. 6 b d 2 2 2 4 d d d d d b 6 . 
+. 6 b 2 2 4 d d d d d d d b 6 . 
+. 6 b b 2 d d d d d d d b b 6 . 
+. 6 b b b b b b b b b b b b 6 . 
+. 6 6 6 6 6 6 6 6 6 6 6 6 6 6 . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`;
+            case "image5":
+            case "tank_virus_sprite":return img`
+. . . . . . . . . . . . . . . . 
+. . . . f 6 f f f f 6 . . . . . 
+. . . f c c c c c c f . . . . . 
+. . . 6 c c c c c c f 6 . . . . 
+. . . 6 4 c c c c c c f f . . . 
+. . f f c 2 c c c c c 2 f f . . 
+. . 6 c c c 4 c c c 4 c c 6 . . 
+. . f c c c c 4 2 4 c c c f . . 
+. . f c c 2 2 2 2 2 2 2 c f f . 
+. . f c c c c 4 2 4 c c c c f . 
+. . 6 c c c 4 c c c 4 c c c 6 . 
+. . f c c 2 c c c c c 2 c c 6 . 
+. . f c 4 c c c c c c c 4 c f . 
+. . f 6 c c c c c c c c f f f . 
+. . . f f f f f 6 f f f 6 . . . 
+. . . . . . . . . . . . . . . . 
+`;
         }
         return null;
     })

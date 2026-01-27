@@ -9,6 +9,21 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "inse-glitch_sprite"
     },
+    "image3": {
+        "data": "hwQQABAAAAAAAAAAAAAAANDd3d3d3d0N0IiIiIiIiA3QKISIiEiCDdBIQoiIJIQN0MgkhEhCjA3QyExCJMSMDdDIzCtCzIwN0MjMK0LMjA3QyExCJMSMDdDIJIRIQowN0EhCiIgkhA3QKISIiEiCDdCIiIiIiIgN0N3d3d3d3Q0AAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAAAAAAAAGBmZmZmZmYAYLu7u7u7awBgu93d3bJrAGDb3d0tImsAYNvd3STUawBg2y1CIt1rAGDbTRFC3WsAYNstItLdawBg2yQR0t1rAGDbIiLU3WsAYCtC3d3dawBgu9Ld3b1rAGC7u7u7u2sAYGZmZmZmZgAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "myImage1"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAADw9v/2/wAAb/bMzMxsD/DMxMzMzMQPYMwszMIszA/wzMzEwsTMD/DMzExCzMwP8MzMLCLMzAbwzMxMQszMD2D/zMTCxMwPAGAvzMIszA8AAP/MzMz0BgAA8PbPzPwAAAAAAP9m/wAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "tank_virus_sprite"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
