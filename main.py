@@ -24,9 +24,10 @@ score_start_level_2 = 0
 level2_doors_opened = False
 lorepoint_counter = 0
 
-# Variables d'estat de d'apuntament (dreta per defecte)
+# Variables d'estat
 facing_x: number = 1
 facing_y: number = 0
+last_anim_state = ""
 
 # Constants
 projectile_speed = 200
@@ -144,13 +145,7 @@ def shoot_projectile():
     # Només disparem si el jugador existeix
     if my_player and has_weapon:
         # Creem el projectil (placeholder momentani)
-        projectile = sprites.create_projectile_from_sprite(img("""
-        . . . . .
-        . . 5 . .
-        . 5 5 5 .
-        . . 5 . .
-        . . . . .
-        """), my_player, 0, 0) # Velocitat inicial: 0
+        projectile = sprites.create_projectile_from_sprite(assets.image("shoot_player_sprite"), my_player, 0, 0)
 
         # Lògica per disparar cap on mirem
         if facing_x == 0 and facing_y == 0:
@@ -641,6 +636,19 @@ def spawn_objects_from_tiles():
     # Genera el lorepoint al spawn
     lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
     lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor2"))
+
+# ANIMACIÓ DE PLAYER
+def update_player_animation():
+    global last_anim_state, my_player, facing_x, facing_y
+
+    # Determinem si el jugador està en moviment
+    is_moving = controller.dx() != 0 or controller.dy() != 0
+
+    # Determinem l'estat actual
+    current_state = ""
+
+    # 
+
 
 # TRIGGER DEL JOC
 def start_game():

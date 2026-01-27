@@ -20,9 +20,10 @@ let loading_level = false
 let score_start_level_2 = 0
 let level2_doors_opened = false
 let lorepoint_counter = 0
-//  Variables d'estat de d'apuntament (dreta per defecte)
+//  Variables d'estat
 let facing_x = 1
 let facing_y = 0
+let last_anim_state = ""
 //  Constants
 let projectile_speed = 200
 let enemy_speed = 50
@@ -146,14 +147,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
     //  Només disparem si el jugador existeix
     if (my_player && has_weapon) {
         //  Creem el projectil (placeholder momentani)
-        projectile = sprites.createProjectileFromSprite(img`
-        . . . . .
-        . . 5 . .
-        . 5 5 5 .
-        . . 5 . .
-        . . . . .
-        `, my_player, 0, 0)
-        //  Velocitat inicial: 0
+        projectile = sprites.createProjectileFromSprite(assets.image`shoot_player_sprite`, my_player, 0, 0)
         //  Lògica per disparar cap on mirem
         if (facing_x == 0 && facing_y == 0) {
             projectile.vx = projectile_speed
@@ -593,6 +587,16 @@ function spawn_objects_from_tiles() {
     lorepoint_spawn = tiles.getTilesByType(assets.tile`lore_point_base_floor2`)
 }
 
+//  ANIMACIÓ DE PLAYER
+function update_player_animation() {
+    
+    //  Determinem si el jugador està en moviment
+    let is_moving = controller.dx() != 0 || controller.dy() != 0
+    //  Determinem l'estat actual
+    let current_state = ""
+}
+
+//  
 //  TRIGGER DEL JOC
 function start_game() {
     /** inicia el joc setejant el jugador i el nivell que pertoqui */
