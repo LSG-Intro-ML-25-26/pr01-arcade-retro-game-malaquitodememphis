@@ -17,7 +17,7 @@ boss_statusbar: StatusBarSprite = None
 # Variables
 inventory_list: List[str] = []
 has_weapon: bool = False
-current_level_num = 1
+current_level_num = 3
 has_key = False
 loading_level = False
 score_start_level_2 = 0
@@ -437,10 +437,10 @@ def load_level(level: number):
     elif level == 2:
         score_start_level_2 = info.score()
         tiles.set_tilemap(assets.tilemap("level6"))
-        game.splash("NIVELL 2", "Zona Corrupta")
+        game.splash("NIVELL 2", "Zona Corrupte")
     elif level == 3:
         tiles.set_tilemap(assets.tilemap("level5"))
-        game.splash("NIVELL 3", "Boss Final")
+        game.splash("NIVELL 3", "Kernel Corrupte")
         spawn_boss(175, 200)
 
     # Spawn del jugador

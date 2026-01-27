@@ -14,7 +14,7 @@ let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
 let has_weapon = false
-let current_level_num = 1
+let current_level_num = 3
 let has_key = false
 let loading_level = false
 let score_start_level_2 = 0
@@ -375,10 +375,10 @@ function load_level(level: number) {
     } else if (level == 2) {
         score_start_level_2 = info.score()
         tiles.setTilemap(assets.tilemap`level6`)
-        game.splash("NIVELL 2", "Zona Corrupta")
+        game.splash("NIVELL 2", "Zona Corrupte")
     } else if (level == 3) {
         tiles.setTilemap(assets.tilemap`level5`)
-        game.splash("NIVELL 3", "Boss Final")
+        game.splash("NIVELL 3", "Kernel Corrupte")
         spawn_boss(175, 200)
     }
     
