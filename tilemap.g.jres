@@ -130,6 +130,12 @@
         "tilemapTile": true,
         "displayName": "laser_block_wall"
     },
+    "tile22": {
+        "data": "hwQQABAAAAC7y7u8u7vLu8vMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzMzMzMy8y8zMzMzMzLzMzMzMzMzMzMvMzFzFzMy8y8zMXMXMzLzLzMzMzMzMvMvMzMzMzMy8zMzMzMzMzMzLzMzMzMzMvMvMzMzMzMy8y8zMzMzMzLy7u8u7u8u7uw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "lore_point_base_floor2"
+    },
     "lev_fix1": {
         "id": "lev_fix1",
         "mimeType": "application/mkcd-tilemap",
