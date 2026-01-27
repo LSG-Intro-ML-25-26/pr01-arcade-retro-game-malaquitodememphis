@@ -82,7 +82,7 @@ def on_game_update():
 
     if not level2_doors_opened and current_level_num == 2 and info.score() - score_start_level_2 >= 400:
         scene.camera_shake(3, 1000)
-        music.thump.play(100)
+        music.spooky.play(200)
         my_player.say_text("Les portes s'obren!")
 
     # Obtenim tots els enemics del mapa
@@ -510,7 +510,7 @@ def on_hit_door_wall(player, location):
         if has_key and not loading_level:
             loading_level = True
 
-            music.spooky.play(100)
+            music.spooky.play(200)
             pause(500)
 
                 
@@ -522,7 +522,7 @@ def on_hit_door_wall(player, location):
         #Sense la clau, xoca amb la porta i rebota
         else:
             player.say_text("Tancat!", 500)
-            music.thump.play(150)
+            music.thump.play(200)
             scene.camera_shake(2, 200)
             #Rebot del jugador
             if player.vx > 0: player.x -= 5
@@ -544,8 +544,8 @@ def on_hit_door_wall(player, location):
         )
     elif tiles.tile_at_location_equals(location, assets.tile("laser_block_wall")):
         player.say_text("Tancat! Mata a tots els virus!", 500)
+        music.thump.play(200)
         scene.camera_shake(1, 100)
-        #Rebote del jugador
         player.x -= 5
 
 

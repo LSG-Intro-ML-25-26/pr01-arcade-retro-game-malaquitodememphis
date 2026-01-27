@@ -73,7 +73,7 @@ game.onUpdate(function on_game_update() {
     
     if (!level2_doors_opened && current_level_num == 2 && info.score() - score_start_level_2 >= 400) {
         scene.cameraShake(3, 1000)
-        music.thump.play(100)
+        music.spooky.play(200)
         my_player.sayText("Les portes s'obren!")
     }
     
@@ -447,7 +447,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
         // Passa de nivell si té la clau
         if (has_key && !loading_level) {
             loading_level = true
-            music.spooky.play(100)
+            music.spooky.play(200)
             pause(500)
             current_level_num += 1
             load_level(current_level_num)
@@ -455,7 +455,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
         } else {
             // Sense la clau, xoca amb la porta i rebota
             player.sayText("Tancat!", 500)
-            music.thump.play(150)
+            music.thump.play(200)
             scene.cameraShake(2, 200)
             // Rebot del jugador
             if (player.vx > 0) {
@@ -492,8 +492,8 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
         game.showLongText("LORE", DialogLayout.Bottom)
     } else if (tiles.tileAtLocationEquals(location, assets.tile`laser_block_wall`)) {
         player.sayText("Tancat! Mata a tots els virus!", 500)
+        music.thump.play(200)
         scene.cameraShake(1, 100)
-        // Rebote del jugador
         player.x -= 5
     }
     
