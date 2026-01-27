@@ -442,42 +442,6 @@ fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbb
 . . . . b b e e e e b b . . . . 
 . . . . . . . . . . . . . . . . 
 `];
-            case "cyberdruida_sprite_front_gun_animation":
-            case "anim4":return [img`
-. . . . . . . . . . . . . . . . 
-. . . . . . e e e e . . . d . . 
-. . . . . e e f f e e . d 9 d . 
-. . . . . e f b b f e d 9 9 9 d 
-. . . . e e b b b b e e d 9 d . 
-. . . . e b 9 b b 9 b e 7 d . . 
-. . . . e b b b b b b e . 7 . . 
-. . . . e 7 b b b b 7 e . d 7 . 
-. . . e e 6 7 b b 7 6 e 7 d . . 
-. . . e e 6 7 5 5 7 6 e e 7 . . 
-. . e e e 6 e 6 6 e 6 e e d 7 . 
-. . e e e 6 e 6 7 e 6 e 7 d . . 
-. e e 6 6 6 e 7 6 e 6 6 e 7 e . 
-. e e 6 e e e 6 6 e e e e d 7 . 
-. e e e b b e e e e b b 7 d e . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. . . . . . . . . . . . . . . . 
-. . . . . . e e e e . . . d . . 
-. . . . . . e f f e . . d 9 d . 
-. . . . . e f b b f e d 9 9 9 d 
-. . . . e e b b b b e e d 9 d . 
-. . . . e b 9 b b 9 b e 7 d . . 
-. . . . e b b b b b b e . 7 . . 
-. . . . e 7 b b b b 7 e . d 7 . 
-. . . e e 6 7 b b 7 6 e 7 d . . 
-. . . e e 6 7 5 5 7 6 e e 7 . . 
-. . e e e 6 e 6 6 e 6 e e d 7 . 
-. . e e e 6 e 6 7 e 6 e 7 d . . 
-. . e 6 6 6 e 7 6 e 6 6 e 7 . . 
-. . e 6 e e e 6 6 e e e e d . . 
-. . . . b b e e e e b b . . . . 
-. . . . . . . . . . . . . . . . 
-`];
             case "inse-glitch_sprite_animation":
             case "anim3":return [img`
 . . . . . . 1 . . . . . 1 . . . 
@@ -654,42 +618,6 @@ fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbb
 . . e e e e e e e e e . . . . . 
 . . . . . . . . . . . . . . . . 
 `];
-            case "cyberdruida_sprite_site1_gun_animation":
-            case "anim8":return [img`
-. . . . . . . . . . . . . . . . 
-. . . . . . e e e . . . d . . . 
-. . . . . e e e f . . d 9 d . . 
-. . . . . e e e b f d 9 9 9 d . 
-. . . . e e e e b b . d 9 d . . 
-. . . . e e e e b 9 . 7 d . . . 
-. . . . e e e e b b b . 7 . . . 
-. . . . e e e e b b . . d 7 . . 
-. . . e e e e e b 7 . 7 d . . . 
-. . . e e e e e 5 7 . . 7 . . . 
-. . e e e e e e 6 e e b d 7 . . 
-. . e e e e e e 7 e . 7 d . . . 
-. e e e e e e e 6 e . . 7 . . . 
-. e e e e e e e 6 e e . d 7 . . 
-. e e e e e e e e e b 7 d . . . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. . . . . . . . . . . . . . . . 
-. . . . . . e e e . . . d . . . 
-. . . . . e e e f . . d 9 d . . 
-. . . . . e e e b f d 9 9 9 d . 
-. . . . . e e e b b . d 9 d . . 
-. . . . . e e e b 9 . 7 d . . . 
-. . . . . e e e b b b . 7 . . . 
-. . . . . e e e b b . . d 7 . . 
-. . . . e e e e b 7 . 7 d . . . 
-. . . . e e e e 5 7 . . 7 . . . 
-. . . . e e e e 6 e e b d 7 . . 
-. . . e e e e e 7 e . 7 d . . . 
-. e e e e e e e 6 e . . 7 . . . 
-. e e e e e e e 6 e . . . . . . 
-. e e e e e e e e e . . . . . . 
-. . . . . . . . . . . . . . . . 
-`];
             case "cyberdruida_sprite_site2_animation":
             case "anim9":return [img`
 . . . . . . . . . . . . . . . . 
@@ -726,42 +654,6 @@ fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbb
 . . . . . e e e e e e e e e . . 
 . . . . . . . . . . . . . . . . 
 `];
-            case "cyberdruida_sprite_site2_gun_animation":
-            case "anim10":return [img`
-. . . . . . . . . . . . . . . . 
-. . . d . . . e e e . . . . . . 
-. . d 9 d . . f e e e . . . . . 
-. d 9 9 9 d f b e e e . . . . . 
-. . d 9 d . b b e e e e . . . . 
-. . . d 7 . 9 b e e e e . . . . 
-. . . 7 . b b b e e e e . . . . 
-. . 7 d . . b b e e e e . . . . 
-. . . d 7 . 7 b e e e e e . . . 
-. . . 7 . . 7 5 e e e e e . . . 
-. . 7 d b e e 6 e e e e e e . . 
-. . . d 7 . e 7 e e e e e e . . 
-. . . 7 . . e 6 e e e e e e e . 
-. . 7 d . e e 6 e e e e e e e . 
-. . . d 7 b e e e e e e e e e . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. . . . . . . . . . . . . . . . 
-. . . d . . . e e e . . . . . . 
-. . d 9 d . . f e e e . . . . . 
-. d 9 9 9 d f b e e e . . . . . 
-. . d 9 d . b b e e e . . . . . 
-. . . d 7 . 9 b e e e . . . . . 
-. . . 7 . b b b e e e . . . . . 
-. . 7 d . . b b e e e . . . . . 
-. . . d 7 . 7 b e e e e . . . . 
-. . . 7 . . 7 5 e e e e . . . . 
-. . 7 d b e e 6 e e e e . . . . 
-. . . d 7 . e 7 e e e e e . . . 
-. . . 7 . . e 6 e e e e e e e . 
-. . . . . . e 6 e e e e e e e . 
-. . . . . . e e e e e e e e e . 
-. . . . . . . . . . . . . . . . 
-`];
             case "cyberdruida_sprite_back_animation":
             case "anim11":return [img`
 . . . . . . . . . . . . . . . . 
@@ -793,42 +685,6 @@ fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbb
 . . . e e e e e e e e e e . . . 
 . . e e e e e e e e e e e . . . 
 . . e e e e e e e e e e e e . . 
-. . e e e e e e e e e e e e . . 
-. . e e e e e e e e e e e e . . 
-. . . . b b e e e e b b . . . . 
-. . . . . . . . . . . . . . . . 
-`];
-            case "cyberdruida_sprite_back_gun_animation0":
-            case "anim12":return [img`
-. . . . . . . . . . . . . . . . 
-. . . . . . e e e e . . . d . . 
-. . . . . e e e e e e . d 9 d . 
-. . . . . e e e e e e d 9 9 9 d 
-. . . . e e e e e e e e d 9 d . 
-. . . . e e e e e e e e 7 d . . 
-. . . . e e e e e e e e . 7 . . 
-. . . . e e e e e e e e . d 7 . 
-. . . e e e e e e e e e 7 d . . 
-. . . e e e e e e e e e e 7 . . 
-. . e e e e e e e e e e e d 7 . 
-. . e e e e e e e e e e e d . . 
-. e e e e e e e e e e e e e e . 
-. e e e e e e e e e e e e e e . 
-. e e e e e e e e e e e e e e . 
-. . . . . . . . . . . . . . . . 
-`, img`
-. . . . . . . . . . . . . . . . 
-. . . . . . e e e e . . . d . . 
-. . . . . . e e e e . . d 9 d . 
-. . . . . e e e e e e d 9 9 9 d 
-. . . . e e e e e e e e d 9 d . 
-. . . . e e e e e e e e 7 d . . 
-. . . . e e e e e e e e . 7 . . 
-. . . . e e e e e e e e . d 7 . 
-. . . e e e e e e e e e 7 d . . 
-. . . e e e e e e e e e e 7 . . 
-. . e e e e e e e e e e e d 7 . 
-. . e e e e e e e e e e e d . . 
 . . e e e e e e e e e e e e . . 
 . . e e e e e e e e e e e e . . 
 . . . . b b e e e e b b . . . . 
@@ -904,6 +760,150 @@ fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbb
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`];
+            case "gun_cyberdruida_sprite_front_animation":
+            case "anim4":return [img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e e . . . d . . 
+. . . . . e e f f e e . d 9 d . 
+. . . . . e f b b f e d 9 9 9 d 
+. . . . e e b b b b e e d 9 d . 
+. . . . e b 9 b b 9 b e 7 d . . 
+. . . . e b b b b b b e . 7 . . 
+. . . . e 7 b b b b 7 e . d 7 . 
+. . . e e 6 7 b b 7 6 e 7 d . . 
+. . . e e 6 7 5 5 7 6 e e 7 . . 
+. . e e e 6 e 6 6 e 6 e e d 7 . 
+. . e e e 6 e 6 7 e 6 e 7 d . . 
+. e e 6 6 6 e 7 6 e 6 6 e 7 e . 
+. e e 6 e e e 6 6 e e e e d 7 . 
+. e e e b b e e e e b b 7 d e . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e e . . . d . . 
+. . . . . . e f f e . . d 9 d . 
+. . . . . e f b b f e d 9 9 9 d 
+. . . . e e b b b b e e d 9 d . 
+. . . . e b 9 b b 9 b e 7 d . . 
+. . . . e b b b b b b e . 7 . . 
+. . . . e 7 b b b b 7 e . d 7 . 
+. . . e e 6 7 b b 7 6 e 7 d . . 
+. . . e e 6 7 5 5 7 6 e e 7 . . 
+. . e e e 6 e 6 6 e 6 e e d 7 . 
+. . e e e 6 e 6 7 e 6 e 7 d . . 
+. . e 6 6 6 e 7 6 e 6 6 e 7 . . 
+. . e 6 e e e 6 6 e e e e d . . 
+. . . . b b e e e e b b . . . . 
+. . . . . . . . . . . . . . . . 
+`];
+            case "gun_cyberdruida_sprite_site1_animation":
+            case "anim8":return [img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e . . . d . . . 
+. . . . . e e e f . . d 9 d . . 
+. . . . . e e e b f d 9 9 9 d . 
+. . . . e e e e b b . d 9 d . . 
+. . . . e e e e b 9 . 7 d . . . 
+. . . . e e e e b b b . 7 . . . 
+. . . . e e e e b b . . d 7 . . 
+. . . e e e e e b 7 . 7 d . . . 
+. . . e e e e e 5 7 . . 7 . . . 
+. . e e e e e e 6 e e b d 7 . . 
+. . e e e e e e 7 e . 7 d . . . 
+. e e e e e e e 6 e . . 7 . . . 
+. e e e e e e e 6 e e . d 7 . . 
+. e e e e e e e e e b 7 d . . . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e . . . d . . . 
+. . . . . e e e f . . d 9 d . . 
+. . . . . e e e b f d 9 9 9 d . 
+. . . . . e e e b b . d 9 d . . 
+. . . . . e e e b 9 . 7 d . . . 
+. . . . . e e e b b b . 7 . . . 
+. . . . . e e e b b . . d 7 . . 
+. . . . e e e e b 7 . 7 d . . . 
+. . . . e e e e 5 7 . . 7 . . . 
+. . . . e e e e 6 e e b d 7 . . 
+. . . e e e e e 7 e . 7 d . . . 
+. e e e e e e e 6 e . . 7 . . . 
+. e e e e e e e 6 e . . . . . . 
+. e e e e e e e e e . . . . . . 
+. . . . . . . . . . . . . . . . 
+`];
+            case "gun_cyberdruida_sprite_site2_animation":
+            case "anim10":return [img`
+. . . . . . . . . . . . . . . . 
+. . . d . . . e e e . . . . . . 
+. . d 9 d . . f e e e . . . . . 
+. d 9 9 9 d f b e e e . . . . . 
+. . d 9 d . b b e e e e . . . . 
+. . . d 7 . 9 b e e e e . . . . 
+. . . 7 . b b b e e e e . . . . 
+. . 7 d . . b b e e e e . . . . 
+. . . d 7 . 7 b e e e e e . . . 
+. . . 7 . . 7 5 e e e e e . . . 
+. . 7 d b e e 6 e e e e e e . . 
+. . . d 7 . e 7 e e e e e e . . 
+. . . 7 . . e 6 e e e e e e e . 
+. . 7 d . e e 6 e e e e e e e . 
+. . . d 7 b e e e e e e e e e . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. . . . . . . . . . . . . . . . 
+. . . d . . . e e e . . . . . . 
+. . d 9 d . . f e e e . . . . . 
+. d 9 9 9 d f b e e e . . . . . 
+. . d 9 d . b b e e e . . . . . 
+. . . d 7 . 9 b e e e . . . . . 
+. . . 7 . b b b e e e . . . . . 
+. . 7 d . . b b e e e . . . . . 
+. . . d 7 . 7 b e e e e . . . . 
+. . . 7 . . 7 5 e e e e . . . . 
+. . 7 d b e e 6 e e e e . . . . 
+. . . d 7 . e 7 e e e e e . . . 
+. . . 7 . . e 6 e e e e e e e . 
+. . . . . . e 6 e e e e e e e . 
+. . . . . . e e e e e e e e e . 
+. . . . . . . . . . . . . . . . 
+`];
+            case "gun_cyberdruida_sprite_back_animation0":
+            case "anim12":return [img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e e . . . d . . 
+. . . . . e e e e e e . d 9 d . 
+. . . . . e e e e e e d 9 9 9 d 
+. . . . e e e e e e e e d 9 d . 
+. . . . e e e e e e e e 7 d . . 
+. . . . e e e e e e e e . 7 . . 
+. . . . e e e e e e e e . d 7 . 
+. . . e e e e e e e e e 7 d . . 
+. . . e e e e e e e e e e 7 . . 
+. . e e e e e e e e e e e d 7 . 
+. . e e e e e e e e e e e d . . 
+. e e e e e e e e e e e e e e . 
+. e e e e e e e e e e e e e e . 
+. e e e e e e e e e e e e e e . 
+. . . . . . . . . . . . . . . . 
+`, img`
+. . . . . . . . . . . . . . . . 
+. . . . . . e e e e . . . d . . 
+. . . . . . e e e e . . d 9 d . 
+. . . . . e e e e e e d 9 9 9 d 
+. . . . e e e e e e e e d 9 d . 
+. . . . e e e e e e e e 7 d . . 
+. . . . e e e e e e e e . 7 . . 
+. . . . e e e e e e e e . d 7 . 
+. . . e e e e e e e e e 7 d . . 
+. . . e e e e e e e e e e 7 . . 
+. . e e e e e e e e e e e d 7 . 
+. . e e e e e e e e e e e d . . 
+. . e e e e e e e e e e e e . . 
+. . e e e e e e e e e e e e . . 
+. . . . b b e e e e b b . . . . 
 . . . . . . . . . . . . . . . . 
 `];
         }
