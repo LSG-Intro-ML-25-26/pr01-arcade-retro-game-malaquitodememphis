@@ -211,24 +211,8 @@ def spawn_boss(x_pos, y_pos):
     """
     global boss_sprite, boss_statusbar
 
-    boss_sprite = sprites.create(img("""
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . f f f f f f f f . . . .
-    . . . f f 2 2 2 2 2 2 f f . . .
-    . . . f 2 2 7 7 7 7 2 2 f . . .
-    . . . f 2 7 f f f f 7 2 f . . .
-    . . . f 2 7 f 2 2 f 7 2 f . . .
-    . . . f 2 7 f 2 2 f 7 2 f . . .
-    . . . f 2 7 f f f f 7 2 f . . .
-    . . . f 2 2 7 7 7 7 2 2 f . . .
-    . . . f f 2 2 2 2 2 2 f f . . .
-    . . . . f f f f f f f f . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    """), Boss)
+    boss_sprite = sprites.create(assets.animation("kernel_corrupt_sprite_animation")[0], Boss)
+    animation.run_image_animation(boss_sprite, assets.animation("kernel_corrupt_sprite_animation"), 200, True)
 
     # El col·loquem
     boss_sprite.x = x_pos

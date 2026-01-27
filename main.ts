@@ -196,24 +196,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_enemy_hit_pla
 function spawn_boss(x_pos: number, y_pos: number) {
     /** Invoca el "Kernel Corrupte" */
     
-    boss_sprite = sprites.create(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . f f f f f f f f . . . .
-    . . . f f 2 2 2 2 2 2 f f . . .
-    . . . f 2 2 7 7 7 7 2 2 f . . .
-    . . . f 2 7 f f f f 7 2 f . . .
-    . . . f 2 7 f 2 2 f 7 2 f . . .
-    . . . f 2 7 f 2 2 f 7 2 f . . .
-    . . . f 2 7 f f f f 7 2 f . . .
-    . . . f 2 2 7 7 7 7 2 2 f . . .
-    . . . f f 2 2 2 2 2 2 f f . . .
-    . . . . f f f f f f f f . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    `, Boss)
+    boss_sprite = sprites.create(assets.animation`kernel_corrupt_sprite_animation`[0], Boss)
+    animation.runImageAnimation(boss_sprite, assets.animation`kernel_corrupt_sprite_animation`, 200, true)
     //  El col·loquem
     boss_sprite.x = x_pos
     boss_sprite.y = y_pos
