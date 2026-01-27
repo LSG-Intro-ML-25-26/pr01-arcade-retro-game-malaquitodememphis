@@ -509,8 +509,7 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
     }
     
 })
-//  Crida de la funció
-scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
+function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
     /** Gestiona els missatges de lore en trepitjar punts concrets */
     music.magicWand.play(100)
     game.showLongText("LORE", DialogLayout.Bottom)
@@ -518,7 +517,11 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, funct
     for (let loc of all_lore_locations) {
         tiles.setTileAt(loc, assets.tile`base_floor`)
     }
-})
+}
+
+//  Crida de la funció
+scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, on_player_step_on_lore)
+scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor2`, on_player_step_on_lore)
 //  GENERACIÓ DE SPRITES
 function spawn_objects_from_tiles() {
     /** Crea enemics i objectes segons les tiles del mapa actual */
@@ -551,6 +554,7 @@ function spawn_objects_from_tiles() {
     }
     //  Genera el lorepoint al spawn
     let lorepoint_spawn = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
+    lorepoint_spawn = tiles.getTilesByType(assets.tile`lore_point_base_floor2`)
 }
 
 //  TRIGGER DEL JOC

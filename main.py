@@ -572,6 +572,8 @@ def on_player_step_on_lore(player, location):
         tiles.set_tile_at(loc, assets.tile("base_floor"))
 # Crida de la funció
 scene.on_overlap_tile(SpriteKind.player, assets.tile("lore_point_base_floor"), on_player_step_on_lore)
+scene.on_overlap_tile(SpriteKind.player, assets.tile("lore_point_base_floor2"), on_player_step_on_lore)
+
 
 # GENERACIÓ DE SPRITES
 def spawn_objects_from_tiles():
@@ -607,6 +609,7 @@ def spawn_objects_from_tiles():
 
     # Genera el lorepoint al spawn
     lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
+    lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor2"))
 
 # TRIGGER DEL JOC
 def start_game():
