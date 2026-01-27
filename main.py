@@ -22,7 +22,8 @@ facing_y: number = 0
 # Constants
 projectile_speed = 200
 enemy_speed = 50
-
+game.set_game_over_message(False, "☠️HAS PERDUT! NO HAS POGUT SALVAR EL SERVIDOR☠️")
+game.set_game_over_message(True, "🏆SERVIDOR RESTAURAT! HAS GUANYAT🏆")
 
 # FUNCIÓ DE CONFIGURACIÓ
 def setup_player():
@@ -220,7 +221,7 @@ def spawn_boss(x_pos, y_pos):
     . . . . . . . . . . . . . . . .
     """), Boss)
 
-    # El col·loquem al centre
+    # El col·loquem
     boss_sprite.x = x_pos
     boss_sprite.y = y_pos
 
@@ -261,11 +262,15 @@ def boss_shooting_pattern():
 
 # COL·LISIONS DEL "FINAL BOSS"
 def on_projectile_hit_boss(projectile, boss_sprite):
+    """
+    Gestiona quan un projectil de player xoca contra el final boss
+    """
     projectile.destroy()
     
     # Si hi ha statusbar, li restem 1
     if boss_statusbar:
         boss_statusbar.value -= 1
+        music.small_crash.play(100)
 
     # FX
     boss_sprite.start_effect(effects.ashes, 200)
@@ -274,6 +279,9 @@ def on_projectile_hit_boss(projectile, boss_sprite):
 sprites.on_overlap(SpriteKind.projectile, Boss, on_projectile_hit_boss)
 
 def on_boss_hit_player(player, boss):
+    """
+    Si el player xoca contra el boss
+    """
     info.change_life_by(-1)
     scene.camera_shake(4, 500)
     # Empenyem el jugador cap enrere
@@ -283,15 +291,21 @@ def on_boss_hit_player(player, boss):
 sprites.on_overlap(SpriteKind.player, Boss, on_boss_hit_player)
 
 def on_boss_death(status):
+    """
+    Quan el boss mori (statusbar = 0)
+    """
     if boss_sprite:
+        music.power_up.play(100)
         boss_sprite.destroy(effects.disintegrate, 1000)
-        game.show_long_text("SERVIDOR RESTAURAT! HAS GUANYAT!", DialogLayout.BOTTOM)
         game.over(True)
 
 # Registrem l'esdeveniment
 statusbars.on_zero(StatusBarKind.enemy_health, on_boss_death)
 
 def on_enemy_projectile_hit_player(player, projectile):
+    """
+    Quan els projectils del bos xocan contra el player
+    """
     # Restem vida al jugador
     info.change_life_by(-1)
 
@@ -300,6 +314,14 @@ def on_enemy_projectile_hit_player(player, projectile):
 
     # Efecte visual
     scene.camera_shake(4, 200)
+
+def on_life_zero():
+    """
+    Quan ens quedem sense vides
+    """
+    music.wawawawaa.play()
+    game.gameOver(False)
+info.on_life_zero(on_life_zero)
 
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_player)
@@ -435,7 +457,7 @@ def on_hit_door_wall(player, location):
     if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
         #Pasa de nivel si tiene llave
         if has_key:
-            music.power_up.play(100)
+            music.spooky.play(100)
             player.say_text("¡Abriendo!", 1000)
             pause(1000)
             current_level_num += 1

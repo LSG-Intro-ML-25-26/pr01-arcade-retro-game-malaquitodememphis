@@ -18,6 +18,8 @@ let facing_y = 0
 //  Constants
 let projectile_speed = 200
 let enemy_speed = 50
+game.setGameOverMessage(false, "☠️HAS PERDUT! NO HAS POGUT SALVAR EL SERVIDOR☠️")
+game.setGameOverMessage(true, "🏆SERVIDOR RESTAURAT! HAS GUANYAT🏆")
 //  FUNCIÓ DE CONFIGURACIÓ
 function setup_player() {
     /** Crea el sprite del jugador, defineix les seves físiques i estableix vides. */
@@ -194,7 +196,7 @@ function spawn_boss(x_pos: number, y_pos: number) {
     . . . . . . . . . . . . . . . .
     . . . . . . . . . . . . . . . .
     `, Boss)
-    //  El col·loquem al centre
+    //  El col·loquem
     boss_sprite.x = x_pos
     boss_sprite.y = y_pos
     //  Li donem vida (extensió de "status-bar")
@@ -231,10 +233,12 @@ function spawn_boss(x_pos: number, y_pos: number) {
 //  COL·LISIONS DEL "FINAL BOSS"
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, Boss, function on_projectile_hit_boss(projectile: Sprite, boss_sprite: Sprite) {
+    /** Gestiona quan un projectil de player xoca contra el final boss */
     projectile.destroy()
     //  Si hi ha statusbar, li restem 1
     if (boss_statusbar) {
         boss_statusbar.value -= 1
+        music.smallCrash.play(100)
     }
     
     //  FX
@@ -242,6 +246,7 @@ sprites.onOverlap(SpriteKind.Projectile, Boss, function on_projectile_hit_boss(p
 })
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Player, Boss, function on_boss_hit_player(player: Sprite, boss: Sprite) {
+    /** Si el player xoca contra el boss */
     info.changeLifeBy(-1)
     scene.cameraShake(4, 500)
     //  Empenyem el jugador cap enrere
@@ -249,15 +254,22 @@ sprites.onOverlap(SpriteKind.Player, Boss, function on_boss_hit_player(player: S
 })
 //  Registrem l'esdeveniment
 statusbars.onZero(StatusBarKind.EnemyHealth, function on_boss_death(status: StatusBarSprite) {
+    /** Quan el boss mori (statusbar = 0) */
     if (boss_sprite) {
+        music.powerUp.play(100)
         boss_sprite.destroy(effects.disintegrate, 1000)
-        game.showLongText("SERVIDOR RESTAURAT! HAS GUANYAT!", DialogLayout.Bottom)
         game.over(true)
     }
     
 })
+info.onLifeZero(function on_life_zero() {
+    /** Quan ens quedem sense vides */
+    music.wawawawaa.play()
+    game.gameOver(false)
+})
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projectile_hit_player(player: Sprite, projectile: Sprite) {
+    /** Quan els projectils del bos xocan contra el player */
     //  Restem vida al jugador
     info.changeLifeBy(-1)
     //  Destruïm el projectil
@@ -384,7 +396,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
     if (tiles.tileAtLocationEquals(location, assets.tile`acces_doors`)) {
         // Pasa de nivel si tiene llave
         if (has_key) {
-            music.powerUp.play(100)
+            music.spooky.play(100)
             player.sayText("¡Abriendo!", 1000)
             pause(1000)
             current_level_num += 1
