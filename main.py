@@ -515,7 +515,22 @@ def on_hit_door_wall(player, location):
             )
         elif current_level_num == 2:
             game.show_long_text(
-                "LORE LEVEL 2", DialogLayout.BOTTOM
+                "Benvingut a la Zona Corrupte.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Abans era una zona de processament estable, on GAIA-PRIME regulava la vida digital.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Però el Kernel Corrupte hi va arrelar, reescrivint el codi com una infecció sense control.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Les dades van començar a fallar, els camins es van trencar,i el sector va ser aïllat.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Ara és un guantlet de supervivència.", DialogLayout.BOTTOM
+            )
+            game.show_long_text(
+                "Si vols avançar, hauràs d'afrontar la corrupció de front.", DialogLayout.BOTTOM
             )
     elif tiles.tile_at_location_equals(location, assets.tile("laser_block_wall")):
         player.say_text("Tancat! Mata a tots els virus!", 500)
@@ -535,12 +550,25 @@ def on_player_step_on_lore(player, location):
     lorepoint_counter += 1
     music.magic_wand.play(100)
     if lorepoint_counter == 1:
-        game.show_long_text("LOREPOINT 1", DialogLayout.BOTTOM)
+        game.show_long_text("ALERTA: Entitats Inse-Glitch detectades.", DialogLayout.BOTTOM)
+        game.show_long_text("Són fragments de malware primitiu.", DialogLayout.BOTTOM)
+        game.show_long_text("Ràpids. Inestables. Es mouen com un eixam de dades trencades", DialogLayout.BOTTOM)
+        game.show_long_text("No pensen. Només infecten.", DialogLayout.BOTTOM)
+        game.show_long_text("La sala romandrà segellada fins que totes les anomalies siguin purificades.", DialogLayout.BOTTOM)
+        game.show_long_text("Elimina cada Inse-Glitch per desbloquejar l'accés a la següent zona.", DialogLayout.BOTTOM)
     elif lorepoint_counter == 2:
-        game.show_long_text("LOREPOINT 2", DialogLayout.BOTTOM)
+        game.show_long_text("Entitat detectada: EL TROYÀ.", DialogLayout.BOTTOM)
+        game.show_long_text("Creat per ocultar corrupció dins d'estructures aparentment sòlides.", DialogLayout.BOTTOM)
+        game.show_long_text("Funciona com una barrera viva, bloquejant camins i protegint el nucli del malware", DialogLayout.BOTTOM)
+        game.show_long_text("No el subestimis.", DialogLayout.BOTTOM)
+        game.show_long_text("La paciència i la precisió seran claus per reescriure'l.", DialogLayout.BOTTOM)
     elif lorepoint_counter == 3:
-        game.show_long_text("LOREPOINT 3", DialogLayout.BOTTOM)
-    
+        game.show_long_text("Has arribat al Nucli.", DialogLayout.BOTTOM)
+        game.show_long_text("Davant teu es troba el Kernel Corrupte.", DialogLayout.BOTTOM)
+        game.show_long_text("El cor de GAIA-PRIME, ara dominat per ell.", DialogLayout.BOTTOM)
+        game.show_long_text("Cada pulsació del seu ull és una ordre de destrucció.", DialogLayout.BOTTOM)
+        game.show_long_text("Si cau el Kernel, el sistema serà restaurat.", DialogLayout.BOTTOM)
+        game.show_long_text("Si caus tu, GAIA-PRIME serà esborrada per sempre.", DialogLayout.BOTTOM)
     if lorepoint_counter % 2 != 0:
         all_lore_locations = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))    
         for loc in all_lore_locations:

@@ -454,7 +454,12 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
             game.showLongText("Agafa'l. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.Bottom)
             game.showLongText("", DialogLayout.Bottom)
         } else if (current_level_num == 2) {
-            game.showLongText("LORE LEVEL 2", DialogLayout.Bottom)
+            game.showLongText("Benvingut a la Zona Corrupte.", DialogLayout.Bottom)
+            game.showLongText("Abans era una zona de processament estable, on GAIA-PRIME regulava la vida digital.", DialogLayout.Bottom)
+            game.showLongText("Però el Kernel Corrupte hi va arrelar, reescrivint el codi com una infecció sense control.", DialogLayout.Bottom)
+            game.showLongText("Les dades van començar a fallar, els camins es van trencar,i el sector va ser aïllat.", DialogLayout.Bottom)
+            game.showLongText("Ara és un guantlet de supervivència.", DialogLayout.Bottom)
+            game.showLongText("Si vols avançar, hauràs d'afrontar la corrupció de front.", DialogLayout.Bottom)
         }
         
     } else if (tiles.tileAtLocationEquals(location, assets.tile`laser_block_wall`)) {
@@ -473,11 +478,25 @@ function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
     lorepoint_counter += 1
     music.magicWand.play(100)
     if (lorepoint_counter == 1) {
-        game.showLongText("LOREPOINT 1", DialogLayout.Bottom)
+        game.showLongText("ALERTA: Entitats Inse-Glitch detectades.", DialogLayout.Bottom)
+        game.showLongText("Són fragments de malware primitiu.", DialogLayout.Bottom)
+        game.showLongText("Ràpids. Inestables. Es mouen com un eixam de dades trencades", DialogLayout.Bottom)
+        game.showLongText("No pensen. Només infecten.", DialogLayout.Bottom)
+        game.showLongText("La sala romandrà segellada fins que totes les anomalies siguin purificades.", DialogLayout.Bottom)
+        game.showLongText("Elimina cada Inse-Glitch per desbloquejar l'accés a la següent zona.", DialogLayout.Bottom)
     } else if (lorepoint_counter == 2) {
-        game.showLongText("LOREPOINT 2", DialogLayout.Bottom)
+        game.showLongText("Entitat detectada: EL TROYÀ.", DialogLayout.Bottom)
+        game.showLongText("Creat per ocultar corrupció dins d'estructures aparentment sòlides.", DialogLayout.Bottom)
+        game.showLongText("Funciona com una barrera viva, bloquejant camins i protegint el nucli del malware", DialogLayout.Bottom)
+        game.showLongText("No el subestimis.", DialogLayout.Bottom)
+        game.showLongText("La paciència i la precisió seran claus per reescriure'l.", DialogLayout.Bottom)
     } else if (lorepoint_counter == 3) {
-        game.showLongText("LOREPOINT 3", DialogLayout.Bottom)
+        game.showLongText("Has arribat al Nucli.", DialogLayout.Bottom)
+        game.showLongText("Davant teu es troba el Kernel Corrupte.", DialogLayout.Bottom)
+        game.showLongText("El cor de GAIA-PRIME, ara dominat per ell.", DialogLayout.Bottom)
+        game.showLongText("Cada pulsació del seu ull és una ordre de destrucció.", DialogLayout.Bottom)
+        game.showLongText("Si cau el Kernel, el sistema serà restaurat.", DialogLayout.Bottom)
+        game.showLongText("Si caus tu, GAIA-PRIME serà esborrada per sempre.", DialogLayout.Bottom)
     }
     
     if (lorepoint_counter % 2 != 0) {
