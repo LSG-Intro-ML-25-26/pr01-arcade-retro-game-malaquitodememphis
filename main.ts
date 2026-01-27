@@ -16,6 +16,7 @@ let inventory_list : string[] = []
 let has_weapon = false
 let current_level_num = 1
 let has_key = false
+let loading_level = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -430,16 +431,19 @@ function load_level(level: number) {
 //  GESTIÓ DE COL·LISIONS
 //  Trigger que activa la funció
 scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, location: tiles.Location) {
+    let loading_level: boolean;
     /** Gestiona si s'ha de fer alguna cosa en xocar amb tiles concrets */
     
     if (tiles.tileAtLocationEquals(location, assets.tile`acces_doors`)) {
         // Passa de nivell si té la clau
-        if (has_key) {
+        if (has_key && !loading_level) {
+            loading_level = true
             music.spooky.play(100)
-            player.sayText("Obrint!", 1000)
-            pause(1000)
+            color.startFade(color.originalPalette, color.Black, 2000)
+            pause(2000)
             current_level_num += 1
             load_level(current_level_num)
+            loading_level = false
         } else {
             // Sense la clau, xoca amb la porta i rebota
             player.sayText("Tancat!", 500)
@@ -524,11 +528,25 @@ function spawn_objects_from_tiles() {
     let lorepoint_spawn = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
 }
 
-//  EXECUCIÓ
-//  Funció per a iniciar el joc
+//  TRIGGER DEL JOC
 function start_game() {
+    /** inicia el joc setejant el jugador i el nivell que pertoqui */
     setup_player()
     load_level(current_level_num)
 }
 
-start_game()
+//  MENÚ PRINCIPAL:
+function show_menu() {
+    /** Pantalla d'inici del joc */
+    //  Fons del menú
+    //  scene.set_background_image(assets.image("bg"))
+    //  Temporal
+    scene.setBackgroundColor(15)
+    game.splash("CYBER-Druid: El Reinici", "Prem A per jugar!")
+    start_game()
+}
+
+//  EXECUCIÓ
+//  Generació del "final boss"(x,y)
+//  spawn_boss(100, 50)
+show_menu()

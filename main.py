@@ -19,6 +19,7 @@ inventory_list: List[str] = []
 has_weapon: bool = False
 current_level_num = 1
 has_key = False
+loading_level = False
 
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
@@ -498,12 +499,19 @@ def on_hit_door_wall(player, location):
     
     if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
         #Passa de nivell si té la clau
-        if has_key:
+        if has_key and not loading_level:
+            loading_level = True
+
             music.spooky.play(100)
-            player.say_text("Obrint!", 1000)
-            pause(1000)
+
+            color.start_fade(color.original_palette, color.Black, 2000)
+
+            pause(2000)
+            
             current_level_num += 1
             load_level(current_level_num)
+
+            loading_level = False
         #Sense la clau, xoca amb la porta i rebota
         else:
             player.say_text("Tancat!", 500)
@@ -579,13 +587,33 @@ def spawn_objects_from_tiles():
     # Genera el lorepoint al spawn
     lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
 
-# EXECUCIÓ
-# Funció per a iniciar el joc
+# TRIGGER DEL JOC
 def start_game():
+    """
+    inicia el joc setejant el jugador i el nivell que pertoqui
+    """
     setup_player()
     load_level(current_level_num)
-    
-start_game()
+
+# MENÚ PRINCIPAL:
+def show_menu():
+    """
+    Pantalla d'inici del joc
+    """
+    # Fons del menú
+    # scene.set_background_image(assets.image("bg"))
+
+    # Temporal
+    scene.set_background_color(15)
+
+    game.splash("CYBER-Druid: El Reinici", "Prem A per jugar!")
+
+    start_game()
+
+# EXECUCIÓ
 
 # Generació del "final boss"(x,y)
 # spawn_boss(100, 50)
+
+show_menu()
+
