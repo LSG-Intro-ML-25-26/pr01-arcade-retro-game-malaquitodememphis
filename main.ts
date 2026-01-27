@@ -483,7 +483,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
             inventory_list.push("Cyber Gun")
             music.baDing.play(100)
             tiles.setTileAt(location, assets.tile`open_chest`)
-            game.showLongText(`Has trobat l'ARMA DE PLASMA!
+            game.showLongText(`Has trobat l'arme CYBER GUN!
 Ara prem A per disparar.`, DialogLayout.Bottom)
         }
         

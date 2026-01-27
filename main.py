@@ -536,7 +536,7 @@ def on_hit_door_wall(player, location):
             inventory_list.append("Cyber Gun")
             music.ba_ding.play(100)
             tiles.set_tile_at(location, assets.tile("open_chest"))
-            game.show_long_text("Has trobat l'ARMA DE PLASMA!\nAra prem A per disparar.", DialogLayout.BOTTOM)
+            game.show_long_text("Has trobat l'arme CYBER GUN!\nAra prem A per disparar.", DialogLayout.BOTTOM)
     elif tiles.tile_at_location_equals(location, assets.tile("spawn_npc_base_floor")):
         music.magic_wand.play(100)
         game.show_long_text(
