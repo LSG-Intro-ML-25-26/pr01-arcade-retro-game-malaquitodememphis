@@ -1,3 +1,7 @@
+//  ===============================
+//  ERIC LORENZO
+//  FRANCIS MORETA
+//  ===============================
 //  VARIABLES GLOBALS
 //  Sprites
 let Boss = SpriteKind.create()
@@ -18,8 +22,8 @@ let facing_y = 0
 //  Constants
 let projectile_speed = 200
 let enemy_speed = 50
-game.setGameOverMessage(false, "☠️HAS PERDUT! NO HAS POGUT SALVAR EL SERVIDOR☠️")
-game.setGameOverMessage(true, "🏆SERVIDOR RESTAURAT! HAS GUANYAT🏆")
+game.setGameOverMessage(false, "☠️HAS PERDUT!☠️")
+game.setGameOverMessage(true, "🏆SERVIDOR RESTAURAT!🏆")
 //  FUNCIÓ DE CONFIGURACIÓ
 function setup_player() {
     /** Crea el sprite del jugador, defineix les seves físiques i estableix vides. */
@@ -169,6 +173,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_enemy_hit_pla
     /** Gestiona quan un enemic xoca contra el jugador */
     //  Restem una vida
     info.changeLifeBy(-1)
+    music.zapped.play(100)
     //  Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
     //  Feedback visual (sacsejar càmera)
@@ -248,9 +253,8 @@ sprites.onOverlap(SpriteKind.Projectile, Boss, function on_projectile_hit_boss(p
 sprites.onOverlap(SpriteKind.Player, Boss, function on_boss_hit_player(player: Sprite, boss: Sprite) {
     /** Si el player xoca contra el boss */
     info.changeLifeBy(-1)
+    music.zapped.play(100)
     scene.cameraShake(4, 500)
-    //  Empenyem el jugador cap enrere
-    player.y += 10
 })
 //  Registrem l'esdeveniment
 statusbars.onZero(StatusBarKind.EnemyHealth, function on_boss_death(status: StatusBarSprite) {
@@ -279,6 +283,7 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
 })
 //  SISTEMA D'INVENTARI
 function spawn_key(location: tiles.Location) {
+    /** Mostra les claus a les localitzacions assignades segons tiles */
     let key_sprite = sprites.create(assets.tile`access_card_base_floor`, SpriteKind.Food)
     tiles.placeOnTile(key_sprite, location)
     //  FX
@@ -287,6 +292,7 @@ function spawn_key(location: tiles.Location) {
 
 //  Funcion para recoger la llave
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(player: Sprite, item: Sprite) {
+    /** Funció per recollir la clau */
     
     has_key = true
     //  Añade la llave al inventario
@@ -314,7 +320,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
         }
         
     }
-    game.showLongText("INVENTARI:\n" + "- Arma: " + weapon + "\n" + "- Targetes d'Accés: " + ("" + keys_count) + "/3", DialogLayout.Center)
+    game.showLongText("===============" + "INVENTARI:\n" + "===============" + "- Arma: " + weapon + "\n" + "- Targetes: " + ("" + keys_count) + "/3", DialogLayout.Center)
 })
 //  FUNCIÓ D'OBJECTE: COFRE
 function spawn_chest(location: any) {
@@ -357,11 +363,11 @@ function spawn_lore_monitor(location: any) {
     tiles.placeOnTile(monitor, location)
 }
 
-//  GESTIÓN DE NIVELES
-//  Función para gestionar niveles
+//  GESTIÓ DE NIVELLS
 function load_level(level: number) {
+    /** Gestiona el canvi de nivells */
     
-    //  Reiniciar el nivel entero
+    //  Reiniciar el nivell
     has_key = false
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.Food)
@@ -369,41 +375,43 @@ function load_level(level: number) {
     //  Selecciona el mapa
     if (level == 1) {
         tiles.setTilemap(assets.tilemap`level1`)
-        game.splash("NIVEL 1", "Entrenamiento")
+        game.splash("NIVELL 1", "Entrenament")
     } else if (level == 2) {
         tiles.setTilemap(assets.tilemap`level4`)
-        game.splash("NIVEL 2", "Zona Corrupta")
+        game.splash("NIVELL 2", "Zona Corrupta")
     } else if (level == 3) {
         tiles.setTilemap(assets.tilemap`level5`)
-        game.splash("NIVEL 3", "Boss Final")
+        game.splash("NIVELL 3", "Boss Final")
     }
     
     //  Spawn del jugador
     let player_spawns = tiles.getTilesByType(assets.tile`spawn_player_base_floor`)
-    //  Devuelve el tile a la normalidad (borra el spawn)
+    //  Retorna el tile a la normalitat (borra el spawn)
     if (player_spawns.length > 0) {
         tiles.placeOnTile(my_player, player_spawns[0])
         tiles.setTileAt(player_spawns[0], assets.tile`base_floor`)
     }
     
-    // Hacemos spawnear todos los objetos y enemigos
+    // Crida de funció
     spawn_objects_from_tiles()
 }
 
-//  Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+//  GESTIÓ DE COL·LISIONS
+//  Trigger que activa la funció
 scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, location: tiles.Location) {
+    /** Gestiona si s'ha de fer alguna cosa en xocar amb tiles concrets */
     
     if (tiles.tileAtLocationEquals(location, assets.tile`acces_doors`)) {
-        // Pasa de nivel si tiene llave
+        // Passa de nivell si té la clau
         if (has_key) {
             music.spooky.play(100)
-            player.sayText("¡Abriendo!", 1000)
+            player.sayText("Obrint!", 1000)
             pause(1000)
             current_level_num += 1
             load_level(current_level_num)
         } else {
-            // Sin llave choca con la puerta y rebota
-            player.sayText("¡Cerrado!", 500)
+            // Sense la clau, xoca amb la porta i rebota
+            player.sayText("Tancat!", 500)
             scene.cameraShake(2, 200)
             // Rebote del jugador
             if (player.vx > 0) {
@@ -441,8 +449,9 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
     }
     
 })
-//  GENERACIÓN DE SPRITES
+//  Crida de la funció
 scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, function on_player_step_on_lore(player: Sprite, location: tiles.Location) {
+    /** Gestiona els missatges de lore en trepitjar punts concrets */
     music.magicWand.play(100)
     game.showLongText("LORE", DialogLayout.Bottom)
     let all_lore_locations = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
@@ -450,9 +459,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`lore_point_base_floor`, funct
         tiles.setTileAt(loc, assets.tile`base_floor`)
     }
 })
-//  Función para generar objetos y enemigos
+//  GENERACIÓ DE SPRITES
 function spawn_objects_from_tiles() {
-    //  Genera enemigos en el spawn
+    /** Crea enemics i objectes segons les tiles del mapa actual */
+    //  Genera enemics al spawn
     let enemy_spawns = tiles.getTilesByType(assets.tile`spawn_enemy_way_floor`)
     for (let loc_enemy of enemy_spawns) {
         spawn_enemies(loc_enemy, 1)
@@ -463,25 +473,28 @@ function spawn_objects_from_tiles() {
         spawn_enemies(loc2_enemy, 1)
         tiles.setTileAt(loc2_enemy, assets.tile`base_floor`)
     }
-    //  Genera la llave en su spawn
+    //  Genera la clau al spawn
     let key_spawns = tiles.getTilesByType(assets.tile`access_card_base_floor`)
     for (let loc_key of key_spawns) {
         spawn_key(loc_key)
         tiles.setTileAt(loc_key, assets.tile`base_floor`)
     }
+    //  Genera el chest al spawn
     let chest_spawn = tiles.getTilesByType(assets.tile`close_chest`)
     for (let loc_chest of chest_spawn) {
         spawn_chest(loc_chest)
     }
+    //  Genera el NPC al spawn
     let monitor_spawn = tiles.getTilesByType(assets.tile`spawn_npc_base_floor`)
     for (let loc_monitor of monitor_spawn) {
         spawn_lore_monitor(loc_monitor)
     }
+    //  Genera el lorepoint al spawn
     let lorepoint_spawn = tiles.getTilesByType(assets.tile`lore_point_base_floor`)
 }
 
 //  EXECUCIÓ
-//  Función para iniciar el juego
+//  Funció per a iniciar el joc
 function start_game() {
     setup_player()
     load_level(current_level_num)

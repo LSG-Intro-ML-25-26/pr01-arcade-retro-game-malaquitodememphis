@@ -1,3 +1,7 @@
+# ===============================
+# ERIC LORENZO
+# FRANCIS MORETA
+# ===============================
 # VARIABLES GLOBALS
 # Sprites
 Boss = SpriteKind.create()
@@ -22,8 +26,8 @@ facing_y: number = 0
 # Constants
 projectile_speed = 200
 enemy_speed = 50
-game.set_game_over_message(False, "☠️HAS PERDUT! NO HAS POGUT SALVAR EL SERVIDOR☠️")
-game.set_game_over_message(True, "🏆SERVIDOR RESTAURAT! HAS GUANYAT🏆")
+game.set_game_over_message(False, "☠️HAS PERDUT!☠️")
+game.set_game_over_message(True, "🏆SERVIDOR RESTAURAT!🏆")
 
 # FUNCIÓ DE CONFIGURACIÓ
 def setup_player():
@@ -185,6 +189,7 @@ def on_enemy_hit_player(player, enemy):
     """
     # Restem una vida
     info.change_life_by(-1)
+    music.zapped.play(100)
 
     # Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
@@ -283,9 +288,8 @@ def on_boss_hit_player(player, boss):
     Si el player xoca contra el boss
     """
     info.change_life_by(-1)
+    music.zapped.play(100)
     scene.camera_shake(4, 500)
-    # Empenyem el jugador cap enrere
-    player.y += 10
 
 # Registrem l'esdeveniment
 sprites.on_overlap(SpriteKind.player, Boss, on_boss_hit_player)
@@ -328,6 +332,9 @@ sprites.on_overlap(SpriteKind.player, EnemyProjectile, on_enemy_projectile_hit_p
 
 # SISTEMA D'INVENTARI
 def spawn_key(location: tiles.Location):
+    """
+    Mostra les claus a les localitzacions assignades segons tiles
+    """
     key_sprite = sprites.create(assets.tile("access_card_base_floor"), SpriteKind.food)
     
     tiles.place_on_tile(key_sprite, location)
@@ -337,6 +344,9 @@ def spawn_key(location: tiles.Location):
 
 # Funcion para recoger la llave
 def on_collect_key(player, item):
+    """
+    Funció per recollir la clau
+    """
     global has_key
     has_key = True
     # Añade la llave al inventario
@@ -367,9 +377,11 @@ def show_inventory():
             keys_count += 1
     
     game.show_long_text(
+            "===============" +
             "INVENTARI:\n" +
+            "===============" +
             "- Arma: " + weapon + "\n" +
-            "- Targetes d'Accés: " + str(keys_count) + "/3",
+            "- Targetes: " + str(keys_count) + "/3",
             DialogLayout.CENTER
         )
 
@@ -417,13 +429,14 @@ def spawn_lore_monitor(location):
     """), NPC)
     tiles.place_on_tile(monitor, location)
 
-# GESTIÓN DE NIVELES
-
-# Función para gestionar niveles
+# GESTIÓ DE NIVELLS
 def load_level(level: number):
+    """
+    Gestiona el canvi de nivells
+    """
     global my_player, has_key
     
-    # Reiniciar el nivel entero
+    # Reiniciar el nivell
     has_key = False
     sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
     sprites.destroy_all_sprites_of_kind(SpriteKind.food)
@@ -432,39 +445,42 @@ def load_level(level: number):
     # Selecciona el mapa
     if level == 1:
         tiles.set_tilemap(assets.tilemap("level1"))
-        game.splash("NIVEL 1", "Entrenamiento")
+        game.splash("NIVELL 1", "Entrenament")
     elif level == 2:
         tiles.set_tilemap(assets.tilemap("level4"))
-        game.splash("NIVEL 2", "Zona Corrupta")
+        game.splash("NIVELL 2", "Zona Corrupta")
     elif level == 3:
         tiles.set_tilemap(assets.tilemap("level5"))
-        game.splash("NIVEL 3", "Boss Final")
+        game.splash("NIVELL 3", "Boss Final")
 
     # Spawn del jugador
     player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))
-    # Devuelve el tile a la normalidad (borra el spawn)
+    # Retorna el tile a la normalitat (borra el spawn)
     if len(player_spawns) > 0:
         tiles.place_on_tile(my_player, player_spawns[0])
         tiles.set_tile_at(player_spawns[0], assets.tile("base_floor"))
     
-    #Hacemos spawnear todos los objetos y enemigos
+    #Crida de funció
     spawn_objects_from_tiles()
 
-# Función para pasar de nivel al tocar la puerta con la llave o chocar con ella sin llave
+# GESTIÓ DE COL·LISIONS
 def on_hit_door_wall(player, location):
+    """
+    Gestiona si s'ha de fer alguna cosa en xocar amb tiles concrets
+    """
     global current_level_num
     
     if tiles.tile_at_location_equals(location, assets.tile("acces_doors")):
-        #Pasa de nivel si tiene llave
+        #Passa de nivell si té la clau
         if has_key:
             music.spooky.play(100)
-            player.say_text("¡Abriendo!", 1000)
+            player.say_text("Obrint!", 1000)
             pause(1000)
             current_level_num += 1
             load_level(current_level_num)
-        #Sin llave choca con la puerta y rebota
+        #Sense la clau, xoca amb la porta i rebota
         else:
-            player.say_text("¡Cerrado!", 500)
+            player.say_text("Tancat!", 500)
             scene.camera_shake(2, 200)
             #Rebote del jugador
             if player.vx > 0: player.x -= 5
@@ -485,10 +501,13 @@ def on_hit_door_wall(player, location):
             "LORE", DialogLayout.BOTTOM
         )
 
+# Trigger que activa la funció
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)
 
-# GENERACIÓN DE SPRITES
 def on_player_step_on_lore(player, location):
+    """
+    Gestiona els missatges de lore en trepitjar punts concrets
+    """
     music.magic_wand.play(100)
     game.show_long_text("LORE", DialogLayout.BOTTOM)
     
@@ -496,11 +515,15 @@ def on_player_step_on_lore(player, location):
     
     for loc in all_lore_locations:
         tiles.set_tile_at(loc, assets.tile("base_floor"))
+# Crida de la funció
 scene.on_overlap_tile(SpriteKind.player, assets.tile("lore_point_base_floor"), on_player_step_on_lore)
 
-# Función para generar objetos y enemigos
+# GENERACIÓ DE SPRITES
 def spawn_objects_from_tiles():
-    # Genera enemigos en el spawn
+    """
+    Crea enemics i objectes segons les tiles del mapa actual
+    """
+    # Genera enemics al spawn
     enemy_spawns = tiles.get_tiles_by_type(assets.tile("spawn_enemy_way_floor"))
     for loc_enemy in enemy_spawns:
         spawn_enemies(loc_enemy, 1)
@@ -511,35 +534,32 @@ def spawn_objects_from_tiles():
         spawn_enemies(loc2_enemy, 1)
         tiles.set_tile_at(loc2_enemy, assets.tile("base_floor"))
 
-    # Genera la llave en su spawn
+    # Genera la clau al spawn
     key_spawns = tiles.get_tiles_by_type(assets.tile("access_card_base_floor"))
     for loc_key in key_spawns:
         spawn_key(loc_key)
         tiles.set_tile_at(loc_key, assets.tile("base_floor"))
 
+    # Genera el chest al spawn
     chest_spawn = tiles.get_tiles_by_type(assets.tile("close_chest"))
     for loc_chest in chest_spawn:
         spawn_chest(loc_chest)
 
+    # Genera el NPC al spawn
     monitor_spawn = tiles.get_tiles_by_type(assets.tile("spawn_npc_base_floor"))
     for loc_monitor in monitor_spawn:
         spawn_lore_monitor(loc_monitor)
 
+    # Genera el lorepoint al spawn
     lorepoint_spawn = tiles.get_tiles_by_type(assets.tile("lore_point_base_floor"))
 
 # EXECUCIÓ
-# Función para iniciar el juego
+# Funció per a iniciar el joc
 def start_game():
     setup_player()
     load_level(current_level_num)
     
 start_game()
-
-# Mostrem cofre(x,y)
-# spawn_chest(120, 60)
-
-# Mostrem monitor(x,y)
-# spawn_lore_monitor(40, 60)
 
 # Generació del "final boss"(x,y)
 # spawn_boss(100, 50)
