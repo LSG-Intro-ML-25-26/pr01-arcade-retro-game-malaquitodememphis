@@ -192,7 +192,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectil
     //  Destruïm el projectil
     projectile.destroy()
     //  Destruïm l'enemic
-    enemy.destroy(effects.disintegrate, 500)
+    enemy.destroy(effects.fire, 500)
     music.smallCrash.play(100)
     //  Sumem punts
     info.changeScoreBy(100)
@@ -289,7 +289,7 @@ sprites.onOverlap(SpriteKind.Player, Boss, function on_boss_hit_player(player: S
 statusbars.onZero(StatusBarKind.EnemyHealth, function on_boss_death(status: StatusBarSprite) {
     /** Quan el boss mori (statusbar = 0) */
     if (boss_sprite) {
-        boss_sprite.destroy(effects.disintegrate, 1000)
+        boss_sprite.destroy(effects.fire, 1000)
         music.stopAllSounds()
         music.powerUp.play(100)
         game.over(true)
@@ -318,7 +318,7 @@ function spawn_key(location: tiles.Location) {
     let key_sprite = sprites.create(assets.tile`access_card_base_floor`, SpriteKind.Food)
     tiles.placeOnTile(key_sprite, location)
     //  FX
-    key_sprite.startEffect(effects.halo, 2000)
+    key_sprite.startEffect(effects.halo)
 }
 
 //  Funcion para recoger la llave
@@ -329,9 +329,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(pl
     //  Añade la llave al inventario
     
     inventory_list.push("Key Card")
-    item.destroy(effects.fire, 500)
+    item.destroy()
     music.baDing.play(100)
-    player.sayText("¡Tengo la llave!", 1000)
+    player.sayText("Tinc la clau!", 1000)
 })
 //  Registrem l'esdeveniment al botó "B"
 controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {

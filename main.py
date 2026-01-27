@@ -198,7 +198,7 @@ def on_projectile_hit_enemy(projectile, enemy):
     projectile.destroy()
 
     # Destruïm l'enemic
-    enemy.destroy(effects.disintegrate, 500)
+    enemy.destroy(effects.fire, 500)
     music.small_crash.play(100)
 
     # Sumem punts
@@ -323,7 +323,7 @@ def on_boss_death(status):
     Quan el boss mori (statusbar = 0)
     """
     if boss_sprite:
-        boss_sprite.destroy(effects.disintegrate, 1000)
+        boss_sprite.destroy(effects.fire, 1000)
         music.stop_all_sounds()
         music.power_up.play(100)
         game.over(True)
@@ -366,7 +366,7 @@ def spawn_key(location: tiles.Location):
     tiles.place_on_tile(key_sprite, location)
 
     # FX
-    key_sprite.start_effect(effects.halo, 2000)
+    key_sprite.start_effect(effects.halo)
 
 # Funcion para recoger la llave
 def on_collect_key(player, item):
@@ -379,9 +379,9 @@ def on_collect_key(player, item):
     global inventory_list
     inventory_list.append("Key Card")
 
-    item.destroy(effects.fire, 500)
+    item.destroy()
     music.ba_ding.play(100)
-    player.say_text("¡Tengo la llave!", 1000)
+    player.say_text("Tinc la clau!", 1000)
 
 sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_collect_key)
 
