@@ -20,6 +20,8 @@ has_weapon: bool = False
 current_level_num = 1
 has_key = False
 loading_level = False
+score_start_level_2 = 0
+level2_doors_opened = False
 
 # Variables d'estat de d'apuntament (dreta per defecte)
 facing_x: number = 1
@@ -76,7 +78,12 @@ def on_game_update():
     """
     Aquesta funció s'executa a cada frame del joc
     """
-    global facing_x, facing_y, my_player
+    global facing_x, facing_y, my_player, score_start_level_2
+
+    if not level2_doors_opened and current_level_num == 2 and info.score() - score_start_level_2 >= 400:
+        scene.camera_shake(3, 1000)
+        music.thump.play(100)
+        my_player.say_text("Les portes s'obren!")
 
     # Obtenim tots els enemics del mapa
     all_enemies = sprites.all_of_kind(SpriteKind.enemy)
@@ -461,7 +468,7 @@ def load_level(level: number):
     """
     Gestiona el canvi de nivells
     """
-    global my_player, has_key
+    global my_player, has_key, score_start_level_2
     
     # Reiniciar el nivell
     has_key = False
@@ -474,6 +481,7 @@ def load_level(level: number):
         tiles.set_tilemap(assets.tilemap("level1"))
         game.splash("NIVELL 1", "Entrenament")
     elif level == 2:
+        score_start_level_2 = info.score()
         tiles.set_tilemap(assets.tilemap("level4"))
         game.splash("NIVELL 2", "Zona Corrupta")
     elif level == 3:
@@ -514,8 +522,9 @@ def on_hit_door_wall(player, location):
         #Sense la clau, xoca amb la porta i rebota
         else:
             player.say_text("Tancat!", 500)
+            music.thump.play(150)
             scene.camera_shake(2, 200)
-            #Rebote del jugador
+            #Rebot del jugador
             if player.vx > 0: player.x -= 5
             if player.vx < 0: player.x += 5
             if player.vy > 0: player.y -= 5
@@ -533,6 +542,12 @@ def on_hit_door_wall(player, location):
         game.show_long_text(
             "LORE", DialogLayout.BOTTOM
         )
+    elif tiles.tile_at_location_equals(location, assets.tile("laser_block_wall")):
+        player.say_text("Tancat! Mata a tots els virus!", 500)
+        scene.camera_shake(1, 100)
+        #Rebote del jugador
+        player.x -= 5
+
 
 # Trigger que activa la funció
 scene.on_hit_wall(SpriteKind.player, on_hit_door_wall)

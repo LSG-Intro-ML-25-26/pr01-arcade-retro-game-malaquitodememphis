@@ -17,6 +17,8 @@ let has_weapon = false
 let current_level_num = 1
 let has_key = false
 let loading_level = false
+let score_start_level_2 = 0
+let level2_doors_opened = false
 //  Variables d'estat de d'apuntament (dreta per defecte)
 let facing_x = 1
 let facing_y = 0
@@ -68,6 +70,12 @@ game.onUpdate(function on_game_update() {
     let dy: number;
     let distance: number;
     /** Aquesta funció s'executa a cada frame del joc */
+    
+    if (!level2_doors_opened && current_level_num == 2 && info.score() - score_start_level_2 >= 400) {
+        scene.cameraShake(3, 1000)
+        music.thump.play(100)
+        my_player.sayText("Les portes s'obren!")
+    }
     
     //  Obtenim tots els enemics del mapa
     let all_enemies = sprites.allOfKind(SpriteKind.Enemy)
@@ -409,6 +417,7 @@ function load_level(level: number) {
         tiles.setTilemap(assets.tilemap`level1`)
         game.splash("NIVELL 1", "Entrenament")
     } else if (level == 2) {
+        score_start_level_2 = info.score()
         tiles.setTilemap(assets.tilemap`level4`)
         game.splash("NIVELL 2", "Zona Corrupta")
     } else if (level == 3) {
@@ -446,8 +455,9 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
         } else {
             // Sense la clau, xoca amb la porta i rebota
             player.sayText("Tancat!", 500)
+            music.thump.play(150)
             scene.cameraShake(2, 200)
-            // Rebote del jugador
+            // Rebot del jugador
             if (player.vx > 0) {
                 player.x -= 5
             }
@@ -480,6 +490,11 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
     } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {
         music.magicWand.play(100)
         game.showLongText("LORE", DialogLayout.Bottom)
+    } else if (tiles.tileAtLocationEquals(location, assets.tile`laser_block_wall`)) {
+        player.sayText("Tancat! Mata a tots els virus!", 500)
+        scene.cameraShake(1, 100)
+        // Rebote del jugador
+        player.x -= 5
     }
     
 })
