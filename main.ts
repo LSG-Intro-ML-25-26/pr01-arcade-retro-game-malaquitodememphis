@@ -63,8 +63,32 @@ function setup_player() {
 //  BUCLE D'ACTUALITZACIÓ
 //  Vinculem la funció del bucle al joc
 game.onUpdate(function on_game_update() {
+    let dx: number;
+    let dy: number;
+    let distance: number;
     /** Aquesta funció s'executa a cada frame del joc */
     
+    //  Obtenim tots els enemics del mapa
+    let all_enemies = sprites.allOfKind(SpriteKind.Enemy)
+    for (let enemy of all_enemies) {
+        //  Calculem la distància entre jugador i enemic
+        dx = enemy.x - my_player.x
+        dy = enemy.y - my_player.y
+        //  Fórmula hipotenusa
+        distance = Math.sqrt(dx * dx + dy * dy)
+        //  Si enemic i player estan a menys de 100 pixels, l'enemic s'activa
+        if (distance < 60) {
+            //  Si l'enemic no s'esta movent (primera vegada que detecta el player)
+            if (enemy.vx == 0 && enemy.vy == 0) {
+                music.beamUp.play(100)
+                enemy.sayText("!", 1000)
+                effects.clearParticles(enemy)
+            }
+            
+            enemy.follow(my_player, 50)
+        }
+        
+    }
     //  Detectem si el jugador s'està movent
     if (controller.dx() != 0 || controller.dy() != 0) {
         //  Si ens movem, actualitzem la direcció on mirem.
@@ -156,8 +180,8 @@ function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
         `, SpriteKind.Enemy)
         //  Els mostrem als tiles corresponents
         tiles.placeOnTile(enemy, location)
-        //  Perseguim el jugador
-        enemy.follow(my_player, 30)
+        //  Comencen dormits
+        enemy.startEffect(effects.bubbles)
     }
 }
 

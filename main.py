@@ -75,7 +75,27 @@ def on_game_update():
     """
     Aquesta funció s'executa a cada frame del joc
     """
-    global facing_x, facing_y
+    global facing_x, facing_y, my_player
+
+    # Obtenim tots els enemics del mapa
+    all_enemies = sprites.all_of_kind(SpriteKind.enemy)
+
+    for enemy in all_enemies:
+        # Calculem la distància entre jugador i enemic
+        dx = enemy.x - my_player.x
+        dy = enemy.y - my_player.y
+        # Fórmula hipotenusa
+        distance = Math.sqrt(dx * dx + dy * dy)
+
+        # Si enemic i player estan a menys de 100 pixels, l'enemic s'activa
+        if distance < 60:
+            # Si l'enemic no s'esta movent (primera vegada que detecta el player)
+            if enemy.vx == 0 and enemy.vy == 0:
+                music.beam_up.play(100)
+                enemy.say_text("!", 1000)
+                effects.clear_particles(enemy)
+
+            enemy.follow(my_player, 50)
 
     # Detectem si el jugador s'està movent
     if controller.dx() != 0 or controller.dy() != 0:
@@ -165,8 +185,8 @@ def spawn_enemies(location: tiles.Location, number_of_enemies: number):
         # Els mostrem als tiles corresponents
         tiles.place_on_tile(enemy, location)
 
-        # Perseguim el jugador
-        enemy.follow(my_player, 30)
+        # Comencen dormits
+        enemy.start_effect(effects.bubbles)
 
 
 # GESTIÓ DE COL·LISIONS
