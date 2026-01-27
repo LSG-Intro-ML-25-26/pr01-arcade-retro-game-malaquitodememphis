@@ -446,7 +446,12 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
         
     } else if (tiles.tileAtLocationEquals(location, assets.tile`spawn_npc_base_floor`)) {
         music.magicWand.play(100)
-        game.showLongText("LORE", DialogLayout.Bottom)
+        if (current_level_num == 1) {
+            game.showLongText("LORE LEVEL 1", DialogLayout.Bottom)
+        } else if (current_level_num == 2) {
+            game.showLongText("LORE LEVEL 2", DialogLayout.Bottom)
+        }
+        
     } else if (tiles.tileAtLocationEquals(location, assets.tile`laser_block_wall`)) {
         player.sayText("Tancat! Mata a tots els virus!", 500)
         music.thump.play(200)

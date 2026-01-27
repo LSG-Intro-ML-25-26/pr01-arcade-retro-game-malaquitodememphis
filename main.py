@@ -494,9 +494,14 @@ def on_hit_door_wall(player, location):
             game.show_long_text("Has trobat l'arme CYBER GUN!\nAra prem A per disparar.", DialogLayout.BOTTOM)
     elif tiles.tile_at_location_equals(location, assets.tile("spawn_npc_base_floor")):
         music.magic_wand.play(100)
-        game.show_long_text(
-            "LORE", DialogLayout.BOTTOM
-        )
+        if current_level_num == 1:
+            game.show_long_text(
+                "LORE LEVEL 1", DialogLayout.BOTTOM
+            )
+        elif current_level_num == 2:
+            game.show_long_text(
+                "LORE LEVEL 2", DialogLayout.BOTTOM
+            )
     elif tiles.tile_at_location_equals(location, assets.tile("laser_block_wall")):
         player.say_text("Tancat! Mata a tots els virus!", 500)
         music.thump.play(200)
