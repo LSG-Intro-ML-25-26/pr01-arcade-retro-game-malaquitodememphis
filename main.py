@@ -84,6 +84,11 @@ def on_game_update():
         scene.camera_shake(3, 1000)
         music.spooky.play(200)
         my_player.say_text("Les portes s'obren!")
+        # Agafem els tiles laser
+        laser_loc = tiles.get_tiles_by_type(assets.tile("laser_block_wall"))
+        for loc in laser_loc:
+            tiles.set_tile_at(loc, assets.tile("way_floor"))
+            tiles.set_wall_at(loc, False) # Esborrem els murs
 
     # Obtenim tots els enemics del mapa
     all_enemies = sprites.all_of_kind(SpriteKind.enemy)
@@ -627,7 +632,7 @@ def show_menu():
 # EXECUCIÓ
 
 # Generació del "final boss"(x,y)
-# spawn_boss(100, 50)
+# spawn_boss(15, 10)
 
 show_menu()
 

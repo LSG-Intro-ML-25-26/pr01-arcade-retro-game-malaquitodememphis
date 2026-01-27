@@ -66,6 +66,7 @@ function setup_player() {
 //  BUCLE D'ACTUALITZACIÓ
 //  Vinculem la funció del bucle al joc
 game.onUpdate(function on_game_update() {
+    let laser_loc: tiles.Location[];
     let dx: number;
     let dy: number;
     let distance: number;
@@ -75,8 +76,15 @@ game.onUpdate(function on_game_update() {
         scene.cameraShake(3, 1000)
         music.spooky.play(200)
         my_player.sayText("Les portes s'obren!")
+        //  Agafem els tiles laser
+        laser_loc = tiles.getTilesByType(assets.tile`laser_block_wall`)
+        for (let loc of laser_loc) {
+            tiles.setTileAt(loc, assets.tile`way_floor`)
+            tiles.setWallAt(loc, false)
+        }
     }
     
+    //  Esborrem els murs
     //  Obtenim tots els enemics del mapa
     let all_enemies = sprites.allOfKind(SpriteKind.Enemy)
     for (let enemy of all_enemies) {
@@ -562,5 +570,5 @@ function show_menu() {
 
 //  EXECUCIÓ
 //  Generació del "final boss"(x,y)
-//  spawn_boss(100, 50)
+//  spawn_boss(15, 10)
 show_menu()
