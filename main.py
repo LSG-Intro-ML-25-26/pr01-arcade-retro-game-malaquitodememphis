@@ -487,7 +487,7 @@ def load_level(level: number):
         game.splash("NIVELL 1", "Entrenament")
     elif level == 2:
         score_start_level_2 = info.score()
-        tiles.set_tilemap(assets.tilemap("level4"))
+        tiles.set_tilemap(assets.tilemap("level6"))
         game.splash("NIVELL 2", "Zona Corrupta")
     elif level == 3:
         tiles.set_tilemap(assets.tilemap("level5"))

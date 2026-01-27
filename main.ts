@@ -426,7 +426,7 @@ function load_level(level: number) {
         game.splash("NIVELL 1", "Entrenament")
     } else if (level == 2) {
         score_start_level_2 = info.score()
-        tiles.setTilemap(assets.tilemap`level4`)
+        tiles.setTilemap(assets.tilemap`level6`)
         game.splash("NIVELL 2", "Zona Corrupta")
     } else if (level == 3) {
         tiles.setTilemap(assets.tilemap`level5`)
