@@ -14,7 +14,7 @@ let boss_statusbar : StatusBarSprite = null
 //  Variables
 let inventory_list : string[] = []
 let has_weapon = false
-let current_level_num = 1
+let current_level_num = 0
 let has_key = false
 let loading_level = false
 let score_start_level_2 = 0
@@ -209,7 +209,7 @@ function spawn_enemies(location: tiles.Location, number_of_enemies: number) {
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
     /** Gestiona quan un projectil xoca contra un enemic */
     //  Destruïm el projectil
-    projectile.destroy()
+    projectile.destroy(effects.fire)
     //  Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
     music.smallCrash.play(100)
@@ -288,7 +288,7 @@ function spawn_boss(x_pos: number, y_pos: number) {
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, Boss, function on_projectile_hit_boss(projectile: Sprite, boss_sprite: Sprite) {
     /** Gestiona quan un projectil de player xoca contra el final boss */
-    projectile.destroy()
+    projectile.destroy(effects.fire)
     //  Si hi ha statusbar, li restem 1
     if (boss_statusbar) {
         boss_statusbar.value -= 1
@@ -328,7 +328,7 @@ sprites.onOverlap(SpriteKind.Player, EnemyProjectile, function on_enemy_projecti
     //  Restem vida al jugador
     info.changeLifeBy(-1)
     //  Destruïm el projectil
-    projectile.destroy()
+    projectile.destroy(effects.fire)
     //  Efecte visual
     scene.cameraShake(4, 200)
 })
@@ -434,7 +434,7 @@ function load_level(level: number) {
     } else if (level == 3) {
         tiles.setTilemap(assets.tilemap`level5`)
         game.splash("NIVELL 3", "Boss Final")
-        spawn_boss(1500, 1000)
+        spawn_boss(175, 200)
     }
     
     //  Spawn del jugador

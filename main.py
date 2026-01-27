@@ -17,7 +17,7 @@ boss_statusbar: StatusBarSprite = None
 # Variables
 inventory_list: List[str] = []
 has_weapon: bool = False
-current_level_num = 1
+current_level_num = 0
 has_key = False
 loading_level = False
 score_start_level_2 = 0
@@ -210,7 +210,7 @@ def on_projectile_hit_enemy(projectile, enemy):
     Gestiona quan un projectil xoca contra un enemic
     """
     # Destruïm el projectil
-    projectile.destroy()
+    projectile.destroy(effects.fire)
 
     # Destruïm l'enemic
     enemy.destroy(effects.fire, 500)
@@ -310,7 +310,7 @@ def on_projectile_hit_boss(projectile, boss_sprite):
     """
     Gestiona quan un projectil de player xoca contra el final boss
     """
-    projectile.destroy()
+    projectile.destroy(effects.fire)
     
     # Si hi ha statusbar, li restem 1
     if boss_statusbar:
@@ -355,7 +355,7 @@ def on_enemy_projectile_hit_player(player, projectile):
     info.change_life_by(-1)
 
     # Destruïm el projectil
-    projectile.destroy()
+    projectile.destroy(effects.fire)
 
     # Efecte visual
     scene.camera_shake(4, 200)
@@ -495,7 +495,7 @@ def load_level(level: number):
     elif level == 3:
         tiles.set_tilemap(assets.tilemap("level5"))
         game.splash("NIVELL 3", "Boss Final")
-        spawn_boss(1500, 1000)
+        spawn_boss(175, 200)
 
     # Spawn del jugador
     player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))
