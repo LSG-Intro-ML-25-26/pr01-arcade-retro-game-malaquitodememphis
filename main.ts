@@ -216,9 +216,10 @@ function spawn_boss(x_pos: number, y_pos: number) {
         //  Només disparem si ambdós sprites existeixen
         if (boss_sprite && my_player) {
             //  Creem el projectil enemic
-            boss_projectile = sprites.createProjectileFromSprite(assets.animation`shoot_finalboss_sprite_animation`[0], boss_sprite, 0, 0)
+            boss_projectile = sprites.create(assets.animation`shoot_finalboss_sprite_animation`[0], EnemyProjectile)
+            boss_projectile.x = boss_sprite.x
+            boss_projectile.y = boss_sprite.y
             animation.runImageAnimation(boss_projectile, assets.animation`shoot_finalboss_sprite_animation`, 50, true)
-            boss_projectile.setKind(EnemyProjectile)
             //  Apunta el projectil cap el jugador
             boss_projectile.follow(my_player, 80)
             //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret

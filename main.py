@@ -238,10 +238,12 @@ def boss_shooting_pattern():
     # Només disparem si ambdós sprites existeixen
     if boss_sprite and my_player:
         # Creem el projectil enemic
-        boss_projectile = sprites.create_projectile_from_sprite(assets.animation("shoot_finalboss_sprite_animation")[0], boss_sprite, 0, 0)
+        boss_projectile = sprites.create(assets.animation("shoot_finalboss_sprite_animation")[0], EnemyProjectile)
+        
+        boss_projectile.x = boss_sprite.x
+        boss_projectile.y = boss_sprite.y
+        
         animation.run_image_animation(boss_projectile, assets.animation("shoot_finalboss_sprite_animation"), 50, True)
-
-        boss_projectile.set_kind(EnemyProjectile)
 
         # Apunta el projectil cap el jugador
         boss_projectile.follow(my_player, 80)
