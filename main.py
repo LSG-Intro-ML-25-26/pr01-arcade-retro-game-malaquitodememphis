@@ -78,7 +78,7 @@ def on_game_update():
     """
     Aquesta funció s'executa a cada frame del joc
     """
-    global facing_x, facing_y, my_player, score_start_level_2
+    global facing_x, facing_y, my_player, score_start_level_2, level2_doors_opened
 
     if not level2_doors_opened and current_level_num == 2 and info.score() - score_start_level_2 >= 600:
         level2_doors_opened = True
@@ -625,10 +625,7 @@ def show_menu():
     Pantalla d'inici del joc
     """
     # Fons del menú
-    # scene.set_background_image(assets.image("bg"))
-
-    # Temporal
-    scene.set_background_color(15)
+    scene.set_background_image(assets.image("bg"))
 
     game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
 

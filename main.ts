@@ -66,7 +66,6 @@ function setup_player() {
 //  BUCLE D'ACTUALITZACIÓ
 //  Vinculem la funció del bucle al joc
 game.onUpdate(function on_game_update() {
-    let level2_doors_opened: boolean;
     let laser_loc: tiles.Location[];
     let dx: number;
     let dy: number;
@@ -568,9 +567,7 @@ function start_game() {
 function show_menu() {
     /** Pantalla d'inici del joc */
     //  Fons del menú
-    //  scene.set_background_image(assets.image("bg"))
-    //  Temporal
-    scene.setBackgroundColor(15)
+    scene.setBackgroundImage(assets.image`bg`)
     game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
     start_game()
 }
