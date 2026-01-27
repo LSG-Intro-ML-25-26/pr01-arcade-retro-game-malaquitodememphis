@@ -495,7 +495,7 @@ def load_level(level: number):
     elif level == 3:
         tiles.set_tilemap(assets.tilemap("level5"))
         game.splash("NIVELL 3", "Boss Final")
-        spawn_boss(15, 10)
+        spawn_boss(1500, 1000)
 
     # Spawn del jugador
     player_spawns = tiles.get_tiles_by_type(assets.tile("spawn_player_base_floor"))

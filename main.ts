@@ -434,7 +434,7 @@ function load_level(level: number) {
     } else if (level == 3) {
         tiles.setTilemap(assets.tilemap`level5`)
         game.splash("NIVELL 3", "Boss Final")
-        spawn_boss(15, 10)
+        spawn_boss(1500, 1000)
     }
     
     //  Spawn del jugador
