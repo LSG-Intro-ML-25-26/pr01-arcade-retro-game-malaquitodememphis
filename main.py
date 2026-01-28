@@ -369,7 +369,7 @@ def show_inventory():
             "INVENTARI:\n" +
             "==============\n" +
             "- Arma: " + weapon + "\n" +
-            "- Targetes: " + str(keys_count) + "/3",
+            "- Targetes: " + str(keys_count) + "/2",
             DialogLayout.CENTER
         )
 

@@ -316,7 +316,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
         }
         
     }
-    game.showLongText("==============\n" + "INVENTARI:\n" + "==============\n" + "- Arma: " + weapon + "\n" + "- Targetes: " + ("" + keys_count) + "/3", DialogLayout.Center)
+    game.showLongText("==============\n" + "INVENTARI:\n" + "==============\n" + "- Arma: " + weapon + "\n" + "- Targetes: " + ("" + keys_count) + "/2", DialogLayout.Center)
 })
 //  FUNCIÓ D'OBJECTE: COFRE
 function spawn_chest(location: any) {
