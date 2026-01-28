@@ -17,7 +17,7 @@ El jugador encarna el **Cyber Druida**, l’última defensa del sistema.
 
 Aquest projecte ha estat desenvolupat per:
 
-- **Francis Moreta** *(Designer maps and UI)*  
+- **Francis Moreta** *(Maps designer and UI)*  
 - **Eric Lorenzo** *(Logic developer)*
 
 ---
