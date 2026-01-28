@@ -42,7 +42,17 @@ El jugador controla el **Cyber Druida**, un antivirus ancestral oblidat que desp
 
 Asset Cyber Druida: 
 
-![Uploading image.png…](LSG-Intro-ML-25-26/pr01-arcade-retro-game-malaquitodememphis/Cyber-Druida_Assets/cyberdruid.png)
+![Cyber Druida](Cyber-Druida_Assets/cyberdruid.png)
+
+![Cyber Druida con arma](Cyber-Druida_Assets/cyberdruid_with_gun.png)
+
+![Cyber Druida por detrás](Cyber-Druida_Assets/cyberdruid_back_side.png)
+
+![Cyber Druida lado derecho](Cyber-Druida_Assets/cyberdruid_right_side.png)
+
+![Cyber Druida lado izquierda](Cyber-Druida_Assets/cyberdruid_left_side.png)
+
+![Cyber Druida disparo](Cyber-Druida_Assets/cyberdruid_shoot.png)
 
 ## 👾 Enemics: La Plaga Carmesí
 
@@ -55,7 +65,7 @@ Aquest enemics son petites entitats erràtiques semblants a insectes digitals.
 
 Asset Inse-Glitch:
 
-![Uploading image.png…]()
+![Inse-Glitch](Cyber-Druida_Assets/inseglitch.png)
 
 ### El Troyà
 
@@ -66,7 +76,7 @@ Es una massa corrupta i resistent, creada per bloquejar l’avanç del jugador.
 
 Asset El Troyà:
 
-![Uploading image.png…]()
+![El Troyà](Cyber-Druida_Assets/troyanvirus.png)
 
 ### Boss Final: El Kernel Corrupte
 
@@ -78,7 +88,9 @@ El Kernel Corrupte és una entitat gegantina:
 
 Asset Kernel Corrupte:
 
-![Uploading image.png…]()
+![Kernel Corrupte](Cyber-Druida_Assets/kernelcorrupte.png)
+
+![Kernel Corrupte disparo](Cyber-Druida_Assets/boss_shoot.png)
 
 ## Nivells
 
@@ -88,7 +100,7 @@ Tutorial de iniciació: moviment, dispar i obtenció del bastó.
 
 Tilemap:
 
-![Uploading image.png…]()
+![Nivell 1](Cyber-Druida_Assets/level1_map.png)
 
 ### Nivell 2: Zona Corrupte
 
@@ -99,7 +111,7 @@ Zona de combat dividida en dues parts:
 
 Tilemap:
 
-![Uploading image.png…]()
+![UNivell 2](Cyber-Druida_Assets/level2_map.png)
 
 ### Nivell 3: Arena del Kernel Corrupte
 
@@ -107,11 +119,48 @@ Combats contra el Kernel Corrupte per salvar a tota la GAIA-PRIME.
 
 Tilemap:
 
-![Uploading image.png…]()
+![Nivell 3](Cyber-Druida_Assets/level3_map.png)
+
+Tiles dels nivells:
+
+### Suelo de salas
+
+![Suelo de salas](Cyber-Druida_Assets/base_floor.png)
+
+### Suelo de caminos
+
+![Suelo de caminos](Cyber-Druida_Assets/way_floor.png)
+
+### Muro
+
+![Muro](Cyber-Druida_Assets/walls.png)
+
+### Muros esquineros
+
+![Muros esquineros](Cyber-Druida_Assets/corner_walls.png)
+
+### Cofre
+
+![Cofre](Cyber-Druida_Assets/chest.png)
+
+### Tarjeta de acceso
+
+![Tarjeta de acceso](Cyber-Druida_Assets/acces_card.png)
+
+### Puertas de acceso
+
+![Puertas de acceso](Cyber-Druida_Assets/acces_doors.png)
+
+### Muro bloqueado
+
+![Muro bloqueado](Cyber-Druida_Assets/block_wall.png)
 
 ## Demo Speed-Run del Joc
 
 A continuació es pot veure un vídeo demostratiu del gameplay en format speed-run:
 
 Video demo:
+
+<video controls src="Demo_SpeedRun.webm" title="SpeedRun Demo"></video>
+
 
