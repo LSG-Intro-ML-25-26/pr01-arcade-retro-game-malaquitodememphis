@@ -736,21 +736,24 @@ def mostrar_lore():
     scene.set_background_image(assets.image("bg"))
     
     music.magic_wand.play()
-    
+    scene.set_background_image(assets.image("lore_bg1"))
     game.show_long_text(
         "ACCÉS A ARXIUS DE GAIA-PRIME...\n" +
         "El servidor viu està sent devorat per una plaga de codi corrupte.",
         DialogLayout.BOTTOM
     )
+    scene.set_background_image(assets.image("lore_bg2"))
     game.show_long_text(
         "Els sistemes convencionals han fallat.\n" +
         "El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.",
         DialogLayout.BOTTOM
     )
+    scene.set_background_image(assets.image("lore_bg3"))
     game.show_long_text(
         "Només tu, CYBER-DRUIDA, un antivirus antic i oblidat, pots restaurar l'equilibri.",
         DialogLayout.BOTTOM
     )
+    scene.set_background_image(assets.image("lore_bg4"))
     game.show_long_text(
         "OBJECTIU:\n" +
         "- Troba les tarjetes d'accés.\n" +

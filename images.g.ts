@@ -333,7 +333,7 @@ fcccccccccccccccccccccccccccccccccccccccccccccccffcebbbbbbbbeeebbeeeeebbbbbbbbbb
 fffffffffffffffffffffffffffffffffffffffffffffffffcebbbbbbbeeeeeeeeeeeeebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcffffffffffffffffffffffffffffffffffffffffffffffffff.
 `;
             case "image12":
-            case "lore_bg1":return img`
+            case "lore_bg2":return img`
 ffffffffffffffffcfccfcccffccfcccccccccfffffceeeeeccc22222ffccccccccccccc66cc966666666666666666666cccccccccccccccfcfccccffccccccccc222cccceeeffefffffffffffcffff.
 fffffffffffcfffccfccfccfe2fccccffcccffffffeeeecccc22222ffcc22eccccccc66666cc969966666666666669666866ccccccccccccfcfccccccccccccccc222cccceeeffeffffffffffcfffff.
 ffffffffffffffccffcccffe2ccccfcecccfffffeeeeeccce222ffccccccccccccc66666698c986111111111996886969666666cccccccccfcfcccffc6fcccccccf22cccceeeffeffffffffffcfffff.

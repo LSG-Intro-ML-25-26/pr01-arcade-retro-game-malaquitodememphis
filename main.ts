@@ -687,11 +687,15 @@ function mostrar_lore() {
     //  Posem un fons fosc o diferent si voleu, o mantenim l'actual
     scene.setBackgroundImage(assets.image`bg`)
     music.magicWand.play()
+    scene.setBackgroundImage(assets.image`lore_bg1`)
     game.showLongText(`ACCÉS A ARXIUS DE GAIA-PRIME...
 ` + "El servidor viu està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
+    scene.setBackgroundImage(assets.image`lore_bg2`)
     game.showLongText(`Els sistemes convencionals han fallat.
 ` + "El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.", DialogLayout.Bottom)
+    scene.setBackgroundImage(assets.image`lore_bg3`)
     game.showLongText("Només tu, CYBER-DRUIDA, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
+    scene.setBackgroundImage(assets.image`lore_bg4`)
     game.showLongText("OBJECTIU:\n" + `- Troba les tarjetes d'accés.
 ` + `- Elimina els virus.
 ` + "- Destrueix el Kernel Corrupte.", DialogLayout.Bottom)
