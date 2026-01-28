@@ -37,10 +37,10 @@ Ara, tot el sistema està a punt de col·lapsar.
 
 El jugador controla el **Cyber Druida**, un antivirus ancestral oblidat que desperta com a última mesura de seguretat davant del Kernel Corrupte.
 
-- Aparença: túnica antiga amb circuits brillants
-- Arma: la **Cyber Gun**
+- Te una túnica antiga amb circuits brillants
+- L'arma es la **Cyber Gun**
 
-🖼️ Asset del Cyber-Druida:  
+Asset:  
 *(Afegeix aquí una imatge del sprite del protagonista)*  
 
 ![Uploading image.png…]()
@@ -49,8 +49,55 @@ El jugador controla el **Cyber Druida**, un antivirus ancestral oblidat que desp
 
 ### Inse-Glitch
 
-###
+Aquest enemics son petites entitats erràtiques semblants a insectes digitals.
 
-###
+- Molt ràpids
+- Fràgilsç
 
+Asset Inse-Glitch:
+
+
+### El Troyà
+
+Es una massa corrupta i resistent, creada per bloquejar l’avanç del jugador.
+
+- Lent
+- Més vida
+
+Asset El Troyà:
+
+
+### Boss Final: El Kernel Corrupte
+
+El Kernel Corrupte és una entitat gegantina:
+
+- Representa el cor del sistema i la última defensa de la plaga carmesí.
+- Te forma de una caixa fort amb una aparença perillosa.
+- El seu atac és una bola de foc que et persegueix fins que xocar amb alguna cosa.
+
+Asset Kernel Corrupte:
+
+
+## Nivells
+
+### Nivell 1: Entrenament
+
+Tutorial de iniciació: moviment, dispar i obtenció del bastó.
+
+### Nivell 2: Zona Corrupte
+
+Zona de combat dividida en dues parts:
+
+- Arena amb emboscada d’Inse-Glitch.
+- Laberint amb la clau y porta, patrullat per Troyans
+
+### Nivell 3: Arena del Kernel Corrupte
+
+Combats contra el Kernel Corrupte per salvar a tota la GAIA-PRIME.
+
+## Demo Speed-Run del Joc
+
+A continuació es pot veure un vídeo demostratiu del gameplay en format speed-run:
+
+Video demo:
 
