@@ -23,6 +23,7 @@ loading_level = False
 score_start_level_2 = 0
 level2_doors_opened = False
 lorepoint_counter = 0
+game_started = False
 
 # Variables d'estat
 facing_x: number = 1
@@ -370,7 +371,9 @@ def show_inventory():
     """
     Mostra una finestra amb l'inventari
     """
-    global inventory_list, has_weapon
+    global inventory_list, has_weapon, game_started
+    if not game_started:
+        return
     # Variables amb valors per defecte
     weapon = "No"
     keys_count = 0
@@ -723,6 +726,8 @@ def start_game():
     """
     inicia el joc setejant el jugador i el nivell que pertoqui
     """
+    global game_started
+    game_started = True
     scene.set_background_image(None)
     setup_player()
     load_level(current_level_num)
@@ -732,10 +737,8 @@ def mostrar_lore():
     """
     Mostra les pantalles d'història i després torna al menú.
     """
-    # Posem un fons fosc o diferent si voleu, o mantenim l'actual
-    scene.set_background_image(assets.image("bg"))
-    
-    music.magic_wand.play()
+    global game_started
+    game_started = False
     scene.set_background_image(assets.image("lore_bg1"))
     game.show_long_text(
         "ACCÉS A ARXIUS DE GAIA-PRIME...\n" +
@@ -775,17 +778,28 @@ def show_menu():
     sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
 
     # Fons del menú
+    scene.set_background_image(None)
     scene.set_background_color(15)
     scene.set_background_image(assets.image("bg"))
 
-    pause(1)
+    pause(200)
 
-    seleccio = game.ask("CYBER-DRUID: El Reinici", "A: JUGAR   B: LORE")
-
-    if seleccio:
-        start_game()
-    elif not seleccio:
-        mostrar_lore()
+    waiting_for_input = True
+    
+    while waiting_for_input:
+        # Opció A: Jugar
+        if controller.A.is_pressed():
+            waiting_for_input = False
+            music.power_up.play()
+            start_game()
+            
+        # Opció B: Lore
+        elif controller.B.is_pressed():
+            waiting_for_input = False
+            music.magic_wand.play()
+            mostrar_lore()
+            
+        pause(50)
 
 # EXECUCIÓ
 

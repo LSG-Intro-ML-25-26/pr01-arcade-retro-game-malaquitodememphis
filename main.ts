@@ -20,6 +20,7 @@ let loading_level = false
 let score_start_level_2 = 0
 let level2_doors_opened = false
 let lorepoint_counter = 0
+let game_started = false
 //  Variables d'estat
 let facing_x = 1
 let facing_y = 0
@@ -329,6 +330,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_collect_key(pl
 //  Registrem l'esdeveniment al botó "B"
 controller.B.onEvent(ControllerButtonEvent.Pressed, function show_inventory() {
     /** Mostra una finestra amb l'inventari */
+    
+    if (!game_started) {
+        return
+    }
     
     //  Variables amb valors per defecte
     let weapon = "No"
@@ -676,6 +681,8 @@ function update_player_animation() {
 //  TRIGGER DEL JOC
 function start_game() {
     /** inicia el joc setejant el jugador i el nivell que pertoqui */
+    
+    game_started = true
     scene.setBackgroundImage(null)
     setup_player()
     load_level(current_level_num)
@@ -684,9 +691,8 @@ function start_game() {
 //  PANTALLES DE LORE
 function mostrar_lore() {
     /** Mostra les pantalles d'història i després torna al menú. */
-    //  Posem un fons fosc o diferent si voleu, o mantenim l'actual
-    scene.setBackgroundImage(assets.image`bg`)
-    music.magicWand.play()
+    
+    game_started = false
     scene.setBackgroundImage(assets.image`lore_bg1`)
     game.showLongText(`ACCÉS A ARXIUS DE GAIA-PRIME...
 ` + "El servidor viu està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
@@ -710,16 +716,26 @@ function show_menu() {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     //  Fons del menú
+    scene.setBackgroundImage(null)
     scene.setBackgroundColor(15)
     scene.setBackgroundImage(assets.image`bg`)
-    pause(1)
-    let seleccio = game.ask("CYBER-DRUID: El Reinici", "A: JUGAR   B: LORE")
-    if (seleccio) {
-        start_game()
-    } else if (!seleccio) {
-        mostrar_lore()
+    pause(200)
+    let waiting_for_input = true
+    while (waiting_for_input) {
+        //  Opció A: Jugar
+        if (controller.A.isPressed()) {
+            waiting_for_input = false
+            music.powerUp.play()
+            start_game()
+        } else if (controller.B.isPressed()) {
+            //  Opció B: Lore
+            waiting_for_input = false
+            music.magicWand.play()
+            mostrar_lore()
+        }
+        
+        pause(50)
     }
-    
 }
 
 //  EXECUCIÓ
