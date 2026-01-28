@@ -452,7 +452,6 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
             game.showLongText("Els sistemes convencionals han fallat. Només tu, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
             game.showLongText("Dins d'aquest cofre hi reposa la CYBER GUN.", DialogLayout.Bottom)
             game.showLongText("Agafa'l. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.Bottom)
-            game.showLongText("", DialogLayout.Bottom)
         } else if (current_level_num == 2) {
             game.showLongText("Benvingut a la Zona Corrupte.", DialogLayout.Bottom)
             game.showLongText("Abans era una zona de processament estable, on GAIA-PRIME regulava la vida digital.", DialogLayout.Bottom)

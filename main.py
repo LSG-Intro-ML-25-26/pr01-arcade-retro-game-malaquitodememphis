@@ -510,9 +510,6 @@ def on_hit_door_wall(player, location):
             game.show_long_text(
                 "Agafa'l. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.BOTTOM
             )
-            game.show_long_text(
-                "", DialogLayout.BOTTOM
-            )
         elif current_level_num == 2:
             game.show_long_text(
                 "Benvingut a la Zona Corrupte.", DialogLayout.BOTTOM
