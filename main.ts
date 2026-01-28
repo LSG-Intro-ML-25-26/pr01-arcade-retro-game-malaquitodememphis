@@ -681,14 +681,41 @@ function start_game() {
     load_level(current_level_num)
 }
 
+//  PANTALLES DE LORE
+function mostrar_lore() {
+    /** Mostra les pantalles d'història i després torna al menú. */
+    //  Posem un fons fosc o diferent si voleu, o mantenim l'actual
+    scene.setBackgroundImage(assets.image`bg`)
+    music.magicWand.play()
+    game.showLongText(`ACCÉS A ARXIUS DE GAIA-PRIME...
+` + "El servidor viu està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
+    game.showLongText(`Els sistemes convencionals han fallat.
+` + "El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.", DialogLayout.Bottom)
+    game.showLongText("Només tu, CYBER-DRUIDA, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
+    game.showLongText("OBJECTIU:\n" + `- Troba les tarjetes d'accés.
+` + `- Elimina els virus.
+` + "- Destrueix el Kernel Corrupte.", DialogLayout.Bottom)
+    //  Tornem a cridar el menú principal
+    show_menu()
+}
+
 //  MENÚ PRINCIPAL:
 function show_menu() {
     /** Pantalla d'inici del joc */
+    //  Assegurem que no hi ha sprites d'altres partides si tornem enrere
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     //  Fons del menú
     scene.setBackgroundColor(15)
     scene.setBackgroundImage(assets.image`bg`)
-    game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
-    start_game()
+    pause(1)
+    let seleccio = game.ask("CYBER-DRUID: El Reinici", "A: JUGAR   B: LORE")
+    if (seleccio) {
+        start_game()
+    } else if (!seleccio) {
+        mostrar_lore()
+    }
+    
 }
 
 //  EXECUCIÓ

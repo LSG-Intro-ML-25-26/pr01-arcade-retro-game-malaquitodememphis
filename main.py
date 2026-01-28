@@ -727,18 +727,62 @@ def start_game():
     setup_player()
     load_level(current_level_num)
 
+# PANTALLES DE LORE
+def mostrar_lore():
+    """
+    Mostra les pantalles d'història i després torna al menú.
+    """
+    # Posem un fons fosc o diferent si voleu, o mantenim l'actual
+    scene.set_background_image(assets.image("bg"))
+    
+    music.magic_wand.play()
+    
+    game.show_long_text(
+        "ACCÉS A ARXIUS DE GAIA-PRIME...\n" +
+        "El servidor viu està sent devorat per una plaga de codi corrupte.",
+        DialogLayout.BOTTOM
+    )
+    game.show_long_text(
+        "Els sistemes convencionals han fallat.\n" +
+        "El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.",
+        DialogLayout.BOTTOM
+    )
+    game.show_long_text(
+        "Només tu, CYBER-DRUIDA, un antivirus antic i oblidat, pots restaurar l'equilibri.",
+        DialogLayout.BOTTOM
+    )
+    game.show_long_text(
+        "OBJECTIU:\n" +
+        "- Troba les tarjetes d'accés.\n" +
+        "- Elimina els virus.\n" +
+        "- Destrueix el Kernel Corrupte.",
+        DialogLayout.BOTTOM
+    )
+    
+    # Tornem a cridar el menú principal
+    show_menu()
+
 # MENÚ PRINCIPAL:
 def show_menu():
     """
     Pantalla d'inici del joc
     """
+    # Assegurem que no hi ha sprites d'altres partides si tornem enrere
+    sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+
     # Fons del menú
     scene.set_background_color(15)
     scene.set_background_image(assets.image("bg"))
 
-    game.splash("CYBER-DRUID: El Reinici", "Prem A per jugar!")
+    pause(1)
 
-    start_game()
+    seleccio = game.ask("CYBER-DRUID: El Reinici", "A: JUGAR   B: LORE")
+
+    if seleccio:
+        start_game()
+    elif not seleccio:
+        mostrar_lore()
 
 # EXECUCIÓ
 
