@@ -35,10 +35,10 @@ Ara, tot el sistema està a punt de col·lapsar.
 
 ## 🧙 El Protagonista: El Cyber-Druida
 
-El jugador controla el **Cyber Druida**, un antivirus ancestral oblidat que desperta com a última mesura de seguretat ante la plaga Carmesí.
+El jugador controla el **Cyber Druida**, un antivirus ancestral oblidat que desperta com a última mesura de seguretat davant del Kernel Corrupte.
 
 - Aparença: túnica antiga amb circuits brillants
-- Arma: el **Cyber Gun**
+- Arma: la **Cyber Gun**
 
 🖼️ Asset del Cyber-Druida:  
 *(Afegeix aquí una imatge del sprite del protagonista)*  
