@@ -222,6 +222,7 @@ function spawn_boss(x_pos: number, y_pos: number) {
             animation.runImageAnimation(boss_projectile, assets.animation`shoot_finalboss_sprite_animation`, 50, true)
             //  Apunta el projectil cap el jugador
             boss_projectile.follow(my_player, 80)
+            music.zapped.play(100)
             //  Destruïm el projectil un cop surt de la pantalla o xoca contra una paret
             boss_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
         }
@@ -440,7 +441,7 @@ scene.onHitWall(SpriteKind.Player, function on_hit_door_wall(player: Sprite, loc
             inventory_list.push("Cyber Gun")
             music.baDing.play(100)
             tiles.setTileAt(location, assets.tile`open_chest`)
-            game.showLongText(`Has trobat l'arme CYBER GUN!
+            game.showLongText(`Has trobat l'arma CYBER GUN!
 Ara prem A per disparar.`, DialogLayout.Bottom)
         }
         
@@ -449,13 +450,14 @@ Ara prem A per disparar.`, DialogLayout.Bottom)
         if (current_level_num == 1) {
             game.showLongText("Cyber Druida! Has respost a la crida.", DialogLayout.Bottom)
             game.showLongText("GAIA-PRIME, el servidor viu, està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
-            game.showLongText("Els sistemes convencionals han fallat. Només tu, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
+            game.showLongText("Els sistemes convencionals han fallat.", DialogLayout.Bottom)
+            game.showLongText("Només tu, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
             game.showLongText("Dins d'aquest cofre hi reposa la CYBER GUN.", DialogLayout.Bottom)
-            game.showLongText("Agafa'l. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.Bottom)
+            game.showLongText("Agafa-la. Les teves runes de dades no destrueixen, purifiquen.", DialogLayout.Bottom)
         } else if (current_level_num == 2) {
             game.showLongText("Benvingut a la Zona Corrupte.", DialogLayout.Bottom)
-            game.showLongText("Abans era una zona de processament estable, on GAIA-PRIME regulava la vida digital.", DialogLayout.Bottom)
-            game.showLongText("Però el Kernel Corrupte hi va arrelar, reescrivint el codi com una infecció sense control.", DialogLayout.Bottom)
+            game.showLongText("Abans era una zona de processament estable, on GAIA-PRIME regulava la vida.", DialogLayout.Bottom)
+            game.showLongText("Però el Kernel Corrupte hi va arrelar, reescrivint el codi com una infecció.", DialogLayout.Bottom)
             game.showLongText("Les dades van començar a fallar, els camins es van trencar,i el sector va ser aïllat.", DialogLayout.Bottom)
             game.showLongText("Ara és un guantlet de supervivència.", DialogLayout.Bottom)
             game.showLongText("Si vols avançar, hauràs d'afrontar la corrupció de front.", DialogLayout.Bottom)
