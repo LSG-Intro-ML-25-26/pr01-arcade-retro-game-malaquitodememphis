@@ -694,15 +694,15 @@ function mostrar_lore() {
     
     game_started = false
     scene.setBackgroundImage(assets.image`lore_bg1`)
-    game.showLongText(`ACCÉS A ARXIUS DE GAIA-PRIME...
-` + "El servidor viu està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
+    game.showLongText("ACCEDINT ALS ARXIUS DE GAIA-PRIME...", DialogLayout.Bottom)
+    game.showLongText("El servidor viu està sent devorat per una plaga de codi corrupte.", DialogLayout.Bottom)
     scene.setBackgroundImage(assets.image`lore_bg2`)
-    game.showLongText(`Els sistemes convencionals han fallat.
-` + "El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.", DialogLayout.Bottom)
+    game.showLongText("Els sistemes convencionals han fallat.", DialogLayout.Bottom)
+    game.showLongText("El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.", DialogLayout.Bottom)
     scene.setBackgroundImage(assets.image`lore_bg3`)
-    game.showLongText("Només tu, CYBER-DRUIDA, un antivirus antic i oblidat, pots restaurar l'equilibri.", DialogLayout.Bottom)
+    game.showLongText("Només tu, CYBER-DRUIDA, pots restaurar l'equilibri.", DialogLayout.Bottom)
     scene.setBackgroundImage(assets.image`lore_bg4`)
-    game.showLongText("OBJECTIU:\n" + `- Troba les tarjetes d'accés.
+    game.showLongText("OBJECTIUS:\n" + `- Troba les tarjetes d'accés.
 ` + `- Elimina els virus.
 ` + "- Destrueix el Kernel Corrupte.", DialogLayout.Bottom)
     //  Tornem a cridar el menú principal

@@ -741,24 +741,30 @@ def mostrar_lore():
     game_started = False
     scene.set_background_image(assets.image("lore_bg1"))
     game.show_long_text(
-        "ACCÉS A ARXIUS DE GAIA-PRIME...\n" +
+        "ACCEDINT ALS ARXIUS DE GAIA-PRIME...",
+        DialogLayout.BOTTOM
+    )
+    game.show_long_text(
         "El servidor viu està sent devorat per una plaga de codi corrupte.",
         DialogLayout.BOTTOM
     )
     scene.set_background_image(assets.image("lore_bg2"))
     game.show_long_text(
-        "Els sistemes convencionals han fallat.\n" +
+        "Els sistemes convencionals han fallat.",
+        DialogLayout.BOTTOM
+    )
+    game.show_long_text(
         "El Kernel Corrupte ha arrelat, reescrivint el codi com una infecció.",
         DialogLayout.BOTTOM
     )
     scene.set_background_image(assets.image("lore_bg3"))
     game.show_long_text(
-        "Només tu, CYBER-DRUIDA, un antivirus antic i oblidat, pots restaurar l'equilibri.",
+        "Només tu, CYBER-DRUIDA, pots restaurar l'equilibri.",
         DialogLayout.BOTTOM
     )
     scene.set_background_image(assets.image("lore_bg4"))
     game.show_long_text(
-        "OBJECTIU:\n" +
+        "OBJECTIUS:\n" +
         "- Troba les tarjetes d'accés.\n" +
         "- Elimina els virus.\n" +
         "- Destrueix el Kernel Corrupte.",
