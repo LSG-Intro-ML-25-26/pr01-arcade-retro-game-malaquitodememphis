@@ -161,4 +161,4 @@ A continuació es pot veure un vídeo demostratiu del gameplay en format speed-r
 
 Video demo:
 
-![Video demo]([Cyber-Druida_Assets/block_wall.png](https://drive.google.com/file/d/1idtc3FrPD2_AqFefaHTCwHDYCbklDNfv/view?usp=sharing))
+[![Video demo]([Cyber-Druida_Assets/block_wall.png](https://drive.google.com/file/d/1idtc3FrPD2_AqFefaHTCwHDYCbklDNfv/view?usp=sharing))](https://drive.google.com/file/d/1jwPNfTUsxoF_6A2rEdAcZ30HEMAXbPfM/view?usp=sharing)
