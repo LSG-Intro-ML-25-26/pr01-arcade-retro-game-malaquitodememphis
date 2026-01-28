@@ -164,6 +164,11 @@ def spawn_enemies(location: tiles.Location, type_of_enemy: number):
     else:
         enemy = sprites.create(assets.animation("tank_virus_sprite_animation")[0], SpriteKind.enemy)
         animation.run_image_animation(enemy, assets.animation("tank_virus_sprite_animation"), 200, True)
+        statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+        statusbar.attach_to_sprite(enemy)
+        statusbar.max = 2
+        statusbar.value = 2
+        statusbar.set_flag(SpriteFlag.INVISIBLE, True)
 
     # El mostrem al tile corresponent
     tiles.place_on_tile(enemy, location)
@@ -177,11 +182,21 @@ def on_projectile_hit_enemy(projectile, enemy):
     """
     Gestiona quan un projectil xoca contra un enemic
     """
+    global level2_doors_opened
     # Destruïm el projectil
     projectile.destroy()
 
     # Destruïm l'enemic
-    enemy.destroy(effects.fire, 500)
+    if not level2_doors_opened:
+        enemy.destroy(effects.fire, 500)
+    else:
+        bar = statusbars.get_status_bar_attached_to(StatusBarKind.EnemyHealth, enemy)
+        if bar:
+            bar.value -= 1
+            enemy.start_effect(effects.fire)
+
+        if bar.value <=0:
+            enemy.destroy(effects.fire, 500)
     music.small_crash.play(100)
 
     # Sumem punts

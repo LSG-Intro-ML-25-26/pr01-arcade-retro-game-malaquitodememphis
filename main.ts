@@ -159,6 +159,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function shoot_projectile() 
 //  GENERACIÓ D'ENEMICS
 function spawn_enemies(location: tiles.Location, type_of_enemy: number) {
     let enemy: Sprite;
+    let statusbar: StatusBarSprite;
     /** Genera un enemic en posicions escollides segons tiles */
     if (type_of_enemy == 1) {
         enemy = sprites.create(assets.animation`inse-glitch_sprite_animation`[0], SpriteKind.Enemy)
@@ -166,6 +167,11 @@ function spawn_enemies(location: tiles.Location, type_of_enemy: number) {
     } else {
         enemy = sprites.create(assets.animation`tank_virus_sprite_animation`[0], SpriteKind.Enemy)
         animation.runImageAnimation(enemy, assets.animation`tank_virus_sprite_animation`, 200, true)
+        statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+        statusbar.attachToSprite(enemy)
+        statusbar.max = 2
+        statusbar.value = 2
+        statusbar.setFlag(SpriteFlag.Invisible, true)
     }
     
     //  El mostrem al tile corresponent
@@ -177,11 +183,27 @@ function spawn_enemies(location: tiles.Location, type_of_enemy: number) {
 //  GESTIÓ DE COL·LISIONS
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_projectile_hit_enemy(projectile: Sprite, enemy: Sprite) {
+    let bar: StatusBarSprite;
     /** Gestiona quan un projectil xoca contra un enemic */
+    
     //  Destruïm el projectil
     projectile.destroy()
     //  Destruïm l'enemic
-    enemy.destroy(effects.fire, 500)
+    if (!level2_doors_opened) {
+        enemy.destroy(effects.fire, 500)
+    } else {
+        bar = statusbars.getStatusBarAttachedTo(StatusBarKind.EnemyHealth, enemy)
+        if (bar) {
+            bar.value -= 1
+            enemy.startEffect(effects.fire)
+        }
+        
+        if (bar.value <= 0) {
+            enemy.destroy(effects.fire, 500)
+        }
+        
+    }
+    
     music.smallCrash.play(100)
     //  Sumem punts
     info.changeScoreBy(100)
