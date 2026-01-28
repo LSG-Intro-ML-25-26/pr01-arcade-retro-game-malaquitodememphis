@@ -161,5 +161,5 @@ A continuació es pot veure un vídeo demostratiu del gameplay en format speed-r
 
 Video demo:
 
-<video controls src="Cyber-Druida_Assets/Demo_SpeedRun.mp4" title="SpeedRun"></video>
+<video controls src="./Cyber-Druida_Assets/Demo_SpeedRun.mp4" title="SpeedRun"></video>
 
