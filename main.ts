@@ -261,7 +261,7 @@ function spawn_boss(x_pos: number, y_pos: number) {
 //  Registrem l'esdeveniment
 sprites.onOverlap(SpriteKind.Projectile, Boss, function on_projectile_hit_boss(projectile: Sprite, boss_sprite: Sprite) {
     /** Gestiona quan un projectil de player xoca contra el final boss */
-    projectile.destroy(effects.fire)
+    projectile.destroy()
     //  Si hi ha statusbar, li restem 1
     if (boss_statusbar) {
         boss_statusbar.value -= 1

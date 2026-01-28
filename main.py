@@ -275,7 +275,7 @@ def on_projectile_hit_boss(projectile, boss_sprite):
     """
     Gestiona quan un projectil de player xoca contra el final boss
     """
-    projectile.destroy(effects.fire)
+    projectile.destroy()
     
     # Si hi ha statusbar, li restem 1
     if boss_statusbar:
