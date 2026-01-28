@@ -44,15 +44,15 @@ Asset Cyber Druida:
 
 ![Cyber Druida](Cyber-Druida_Assets/cyberdruid.png)
 
-![Cyber Druida con arma](Cyber-Druida_Assets/cyberdruid_with_gun.png)
+![Cyber Druida amb arma](Cyber-Druida_Assets/cyberdruid_with_gun.png)
 
-![Cyber Druida por detrás](Cyber-Druida_Assets/cyberdruid_back_side.png)
+![Cyber Druida_esquena](Cyber-Druida_Assets/cyberdruid_back_side.png)
 
-![Cyber Druida lado derecho](Cyber-Druida_Assets/cyberdruid_right_side.png)
+![Cyber Druida dreta](Cyber-Druida_Assets/cyberdruid_right_side.png)
 
-![Cyber Druida lado izquierda](Cyber-Druida_Assets/cyberdruid_left_side.png)
+![Cyber Druida esquerra](Cyber-Druida_Assets/cyberdruid_left_side.png)
 
-![Cyber Druida disparo](Cyber-Druida_Assets/cyberdruid_shoot.png)
+![Cyber Druida projectil](Cyber-Druida_Assets/cyberdruid_shoot.png)
 
 ## 👾 Enemics: La Plaga Carmesí
 
@@ -90,7 +90,7 @@ Asset Kernel Corrupte:
 
 ![Kernel Corrupte](Cyber-Druida_Assets/kernelcorrupte.png)
 
-![Kernel Corrupte disparo](Cyber-Druida_Assets/boss_shoot.png)
+![Kernel Corrupte projectil](Cyber-Druida_Assets/boss_shoot.png)
 
 ## Nivells
 
@@ -123,19 +123,19 @@ Tilemap:
 
 Tiles dels nivells:
 
-### Suelo de salas
+### Terra de sales
 
-![Suelo de salas](Cyber-Druida_Assets/base_floor.png)
+![Terra de sales](Cyber-Druida_Assets/base_floor.png)
 
-### Suelo de caminos
+### Terra de camins
 
-![Suelo de caminos](Cyber-Druida_Assets/way_floor.png)
+![Terra de camins](Cyber-Druida_Assets/way_floor.png)
 
-### Muro
+### Mur
 
-![Muro](Cyber-Druida_Assets/walls.png)
+![Mur](Cyber-Druida_Assets/walls.png)
 
-### Muros esquineros
+### Mur cantonada
 
 ![Muros esquineros](Cyber-Druida_Assets/corner_walls.png)
 
@@ -143,15 +143,15 @@ Tiles dels nivells:
 
 ![Cofre](Cyber-Druida_Assets/chest.png)
 
-### Tarjeta de acceso
+### Tarjeta d'accés
 
 ![Tarjeta de acceso](Cyber-Druida_Assets/acces_card.png)
 
-### Puertas de acceso
+### Portes d'accés
 
 ![Puertas de acceso](Cyber-Druida_Assets/acces_doors.png)
 
-### Muro bloqueado
+### Mur bloquejat
 
 ![Muro bloqueado](Cyber-Druida_Assets/block_wall.png)
 
