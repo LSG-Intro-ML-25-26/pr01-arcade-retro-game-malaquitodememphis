@@ -79,8 +79,8 @@ game.onUpdate(function on_game_update() {
         dy = enemy.y - my_player.y
         //  Fórmula hipotenusa
         distance = Math.sqrt(dx * dx + dy * dy)
-        //  Si enemic i player estan a menys de 100 pixels, l'enemic s'activa
-        if (distance < 75) {
+        //  Si enemic i player estan a menys de x pixels, l'enemic s'activa
+        if (distance < 72) {
             //  Si l'enemic no s'esta movent (primera vegada que detecta el player)
             if (enemy.vx == 0 && enemy.vy == 0) {
                 music.beamUp.play(100)
@@ -88,7 +88,12 @@ game.onUpdate(function on_game_update() {
                 effects.clearParticles(enemy)
             }
             
-            enemy.follow(my_player, 50)
+            if (!level2_doors_opened) {
+                enemy.follow(my_player, 70)
+            } else {
+                enemy.follow(my_player, 30)
+            }
+            
         }
         
     }

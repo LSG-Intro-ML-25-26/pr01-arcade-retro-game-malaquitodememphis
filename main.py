@@ -86,15 +86,18 @@ def on_game_update():
         # Fórmula hipotenusa
         distance = Math.sqrt(dx * dx + dy * dy)
 
-        # Si enemic i player estan a menys de 100 pixels, l'enemic s'activa
-        if distance < 75:
+        # Si enemic i player estan a menys de x pixels, l'enemic s'activa
+        if distance < 72:
             # Si l'enemic no s'esta movent (primera vegada que detecta el player)
             if enemy.vx == 0 and enemy.vy == 0:
                 music.beam_up.play(100)
                 enemy.say_text("!", 1000)
                 effects.clear_particles(enemy)
 
-            enemy.follow(my_player, 50)
+            if not level2_doors_opened:
+                enemy.follow(my_player, 70)
+            else:
+                enemy.follow(my_player, 30)
 
     # Detectem si el jugador s'està movent
     if controller.dx() != 0 or controller.dy() != 0:
