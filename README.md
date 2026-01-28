@@ -40,10 +40,9 @@ El jugador controla el **Cyber Druida**, un antivirus ancestral oblidat que desp
 - Te una túnica antiga amb circuits brillants
 - L'arma es la **Cyber Gun**
 
-Asset:  
-*(Afegeix aquí una imatge del sprite del protagonista)*  
+Asset Cyber Druida: 
 
-![Uploading image.png…]()
+![Uploading image.png…](LSG-Intro-ML-25-26/pr01-arcade-retro-game-malaquitodememphis/Cyber-Druida_Assets/cyberdruid.png)
 
 ## 👾 Enemics: La Plaga Carmesí
 
@@ -56,6 +55,7 @@ Aquest enemics son petites entitats erràtiques semblants a insectes digitals.
 
 Asset Inse-Glitch:
 
+![Uploading image.png…]()
 
 ### El Troyà
 
@@ -66,6 +66,7 @@ Es una massa corrupta i resistent, creada per bloquejar l’avanç del jugador.
 
 Asset El Troyà:
 
+![Uploading image.png…]()
 
 ### Boss Final: El Kernel Corrupte
 
@@ -77,12 +78,17 @@ El Kernel Corrupte és una entitat gegantina:
 
 Asset Kernel Corrupte:
 
+![Uploading image.png…]()
 
 ## Nivells
 
 ### Nivell 1: Entrenament
 
 Tutorial de iniciació: moviment, dispar i obtenció del bastó.
+
+Tilemap:
+
+![Uploading image.png…]()
 
 ### Nivell 2: Zona Corrupte
 
@@ -91,9 +97,17 @@ Zona de combat dividida en dues parts:
 - Arena amb emboscada d’Inse-Glitch.
 - Laberint amb la clau y porta, patrullat per Troyans
 
+Tilemap:
+
+![Uploading image.png…]()
+
 ### Nivell 3: Arena del Kernel Corrupte
 
 Combats contra el Kernel Corrupte per salvar a tota la GAIA-PRIME.
+
+Tilemap:
+
+![Uploading image.png…]()
 
 ## Demo Speed-Run del Joc
 
