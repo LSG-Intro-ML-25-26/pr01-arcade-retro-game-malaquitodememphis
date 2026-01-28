@@ -27,7 +27,7 @@ Aquest projecte ha estat desenvolupat per:
 ### 🌍 GAIA-PRIME: El món prefecte digital
 
 GAIA-PRIME és un servidor massiu dissenyat per mantenir un equilibri perfecte entre vida artificial i natura simulada.  
-Però una infecció coneguda com **La Plaga Carmesí** ha corromput el seu codi intern.
+Però una infecció propagada pel **Kernel Corrupte** ha corromput el seu codi intern.
 
 Ara, tot el sistema està a punt de col·lapsar.
 
